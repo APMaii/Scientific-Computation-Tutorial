@@ -79,6 +79,20 @@ np.zeros(10, dtype=int)
 np.ones((3, 5), dtype=float)
 np.full((3, 5), 3.14)
 np.eye(3) #identity
+np.diag([1,2,3]) # a diagonal matrix
+np.diag([1,2,3],k=1) # a diagonal matrix with offset
+
+data = np.genfromtxt('stockholm_td_adj.dat') #from dat and csv
+
+
+np.savetxt("random-matrix.csv", our_array)
+np.load("random-matrix.npy")
+
+
+
+
+
+
 
 #betweeen 0 and 1
 np.random.random((3, 3))
@@ -90,6 +104,9 @@ np.random.uniform(0,10,(3,3))
 #integer
 np.random.randint(0, 10, (3, 3))
 
+x, y =  np.mgrid[0:5, 0:5] # similar to meshgrid in MATLAB
+# x--> [000000/111111/..../555555]
+#y---> [0 1 2 3 4 / 
 
 '''
 DTYPE------
@@ -119,7 +136,48 @@ complex128
 
 
 
+#-------------------MAGIC FUNCTIONS-------------------
+#---fancy indexing
+row_indices = [1, 2, 3]
+A[row_indices]
 
+
+#mask
+row_mask = np.array([True, False, True, False, False])
+#Or
+row_mask = np.array([1,0,1,0,0], dtype=bool)
+
+B[row_mask]
+
+
+#more professional
+#or
+row_mask = (5 < x) * (x < 7.5)
+x[row_mask]
+
+
+#where-->it get us the index
+indices = np.where(mask)
+#wec an also get the elemnts simply
+x[indices] 
+
+
+#extract the diagonal
+np.diag(A)
+
+
+#-----reshaping
+grid = np.arange(1, 10).reshape((3, 3))
+
+#------type casting
+M.dtype
+M2 = M.astype(float)
+M3 = M.astype(bool)
+
+
+
+
+#-----Iterating over array elements-------
 
 
 
