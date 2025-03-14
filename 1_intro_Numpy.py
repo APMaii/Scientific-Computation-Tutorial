@@ -160,8 +160,11 @@ M.dtype
 M2 = M.astype(float)
 M3 = M.astype(bool)
 
+#---flatten
+B = A.flatten()
 
 
+#----copy and view
 arr2=arr.view()
 arr2=arr.copy()
 
@@ -184,6 +187,23 @@ row_mask = (5 < x) * (x < 7.5)
 x[row_mask]
 
 
+
+x = np.array([1, 2, 3, 4, 5])
+x < 3 # less than
+#Out[5]: array([ True, True, False, False, False], dtype=bool)
+x > 3 # greater than
+#Out[6]: array([False, False, False, True, True], dtype=bool)
+x <= 3 # less than or equal
+#Out[7]: array([ True, True, True, False, False], dtype=bool)
+x >= 3 # greater than or equal
+#Out[8]: array([False, False, True, True, True], dtype=bool)
+x != 3 # not equal
+#Out[9]: array([ True, True, False, True, True], dtype=bool)
+x == 3 # equal
+#Out[10]: array([False, False, True, False, False], dtype=bool)
+
+
+
 #where-->it get us the index
 indices = np.where(mask)
 new=np.where(a==2)
@@ -191,6 +211,23 @@ new=np.where(a==5)
 new=np.where(a>30)
 #wec an also get the elemnts simply
 x[indices] 
+
+
+
+
+#----counting--------
+np.count_nonzero(x < 6)
+np.sum(x < 6)
+np.sum(x < 6, axis=1)
+
+#boolean operators
+np.sum((inches > 0.5) & (inches < 1))
+np.sum(~( (inches <= 0.5) | (inches >= 1) ))
+
+
+
+
+
 
 
 
@@ -303,6 +340,307 @@ np.hsplit(grid, [2])
 #-------------------------------------------------------
 #-------------Iterating over array elements------------
 #-------------------------------------------------------
+#first row and then column
+
+
+#---for 1D----
+v = array([1,2,3,4])
+
+for element in v:
+    print(element)
+
+#---for 2D----
+M = array([[1,2], [3,4]])
+
+for row in M:
+    print(("row", row))
+    
+    for element in row:
+        print(element)
+
+
+#----with indexes----
+for row_idx, row in enumerate(M):
+    print(("row_idx", row_idx, "row", row))
+    
+    for col_idx, element in enumerate(row):
+        print(("col_idx", col_idx, "element", element))
+       
+        # update the matrix M: square each element
+        M[row_idx, col_idx] = element ** 2
+
+
+
+'''
+Computation on NumPy arrays can be very fast, or it can be very slow. The key to
+making it fast is to use vectorized operations, generally implemented through Num‐
+Py’s universal functions (ufuncs). This section motivates the need for NumPy’s ufuncs,
+which can be used to make repeated calculations on array elements much more efficient.
+It then introduces many of the most common and useful arithmetic ufuncs
+available in the NumPy package.
+
+
+
+The Slowness of loops
+Python’s default implementation (known as CPython) does some operations very
+slowly. This is in part due to the dynamic, interpreted nature of the language: the fact
+that types are flexible, so that sequences of operations cannot be compiled down to
+efficient machine code as in languages like C and Fortran. Recently there have been
+various attempts to address this weakness: well-known examples are the PyPy project,
+a just-in-time compiled implementation of Python; the Cython project, which converts
+Python code to compilable C code; and the Numba project, which converts
+snippets of Python code to fast LLVM bytecode. Each of these has its strengths and
+weaknesses, but it is safe to say that none of the three approaches has yet surpassed
+the reach and popularity of the standard CPython engine.
+
+
+
+Main Drawback
+The relative sluggishness of Python generally manifests itself in situations where
+many small operations are being repeated—for instance, looping over arrays to operate on each element. For example, imagine we have an array of values and we’d like to
+compute the reciprocal of each. A straightforward approach might look like this:
+
+
+1 loop, best of 3: 2.91 s per loop
+
+It takes several seconds to compute these million operations and to store the result!
+
+but the type-checking
+and function dispatches that CPython must do at each cycle of the loop. Each time
+the reciprocal is computed, Python first examines the object’s type and does a
+dynamic lookup of the correct function to use for that type. If we were working in
+compiled code instead, this type specification would be known before the code executes
+and the result could be computed much more efficiently
+
+
+
+For many types of operations, NumPy provides a convenient interface into just this
+kind of statically typed, compiled routine. This is known as a --vectorized operation--
+You can accomplish this by simply performing an operation on the array, which will
+then be applied to each element. This vectorized approach is designed to push the
+loop into the compiled layer that underlies NumPy, leading to much faster execution.
+
+
+100 loops, best of 3: 4.6 ms per loop
+
+
+so we have Numpy's UFuncs
+that has two flavos
+Unaryufuncs --> operates on a single input
+binary Ufunc --> operate on two inputs
+
+'''
+
+#---Array arithemic
+x = np.arange(4)
+print("x =", x)
+print("x + 5 =", x + 5)
+print("x - 5 =", x - 5)
+print("x * 2 =", x * 2)
+print("x / 2 =", x / 2)
+print("x // 2 =", x // 2) # floor division
+print("-x = ", -x)
+print("x ** 2 = ", x ** 2)
+print("x % 2 = ", x % 2)
+
+np.add() #+
+np.substract() #-
+np.negative() #-
+np.myltiplt() #*
+np.divide() #/
+np.floor_divide() #//
+np.power() #**
+np.mod() #%
+np.absolute()
+#or
+np.abs()
+
+
+#---comparison --> it get us teh boolean one
+np.equal() #==
+np.not_equal() #!=
+np.less() #<
+np.less_equal() #<=
+np.greater() #>
+np.greater_equal() #>=
+
+
+
+#--bolean operators
+np.bitwise_and() #&
+np.bitwise_or() #|
+np.bitwise_xor() #^
+np.bitwise_no() #~
+
+
+
+
+#---Trigonometric functions
+theta = np.linspace(0, np.pi, 3)
+
+print("theta = ", theta)
+print("sin(theta) = ", np.sin(theta))
+print("cos(theta) = ", np.cos(theta))
+print("tan(theta) = ", np.tan(theta))
+
+x = [-1, 0, 1]
+print("x = ", x)
+print("arcsin(x) = ", np.arcsin(x))
+print("arccos(x) = ", np.arccos(x))
+print("arctan(x) = ", np.arctan(x))
+
+#Exponents and logarithms
+x = [1, 2, 3]
+print("x =", x)
+print("e^x =", np.exp(x))
+print("2^x =", np.exp2(x))
+print("3^x =", np.power(3, x))
+
+x = [1, 2, 4, 10]
+print("x =", x)
+print("ln(x) =", np.log(x))
+print("log2(x) =", np.log2(x))
+print("log10(x) =", np.log10(x))
+
+x = [0, 0.001, 0.01, 0.1]
+print("exp(x) - 1 =", np.expm1(x))
+print("log(1 + x) =", np.log1p(x))
+
+
+'''
+NumPy has many more ufuncs available, including hyperbolic trig functions, bitwise
+arithmetic, comparison operators, conversions from radians to degrees, rounding and
+remainders, and much more. A look through the NumPy documentation reveals a lot
+of interesting functionality.
+'''
+new=np.floor(a) #b paeen gerd mikone
+new=np.ceil(a) #b bala
+
+
+
+#Specialized ufuncs
+#from scipy import special
+x = [1, 5, 10]
+print("gamma(x) =", special.gamma(x))
+print("ln|gamma(x)| =", special.gammaln(x))
+print("beta(x, 2) =", special.beta(x, 2))
+x = np.array([0, 0.3, 0.7, 1.0])
+print("erf(x) =", special.erf(x))
+print("erfc(x) =", special.erfc(x))
+print("erfinv(x) =", special.erfinv(x))
+
+
+
+
+#========Advanced Ufunc Features========
+#Specifying output
+'''
+For large calculations, it is sometimes useful to be able to specify the array where the
+result of the calculation will be stored. Rather than creating a temporary array, you
+can use this to write computation results directly to the memory location where you’d
+like them to be. For all ufuncs, you can do this using the out argument of the
+function:
+'''
+x = np.arange(5)
+y = np.empty(5)
+np.multiply(x, 10, out=y)
+print(y)
+
+y = np.zeros(10)
+np.power(2, x, out=y[::2])
+print(y)
+
+#Aggregates
+x = np.arange(1, 6)
+np.add.reduce(x)
+#15
+
+np.multiply.reduce(x)
+#120
+
+#if you want to have all intermediate results
+np.add.accumulate(x)
+##array([ 1, 3, 6, 10, 15])
+
+np.multiply.accumulate(x)
+#array([ 1, 2, 6, 24, 120])
+
+
+#========================
+#-----statistics--------
+#just think that we can get for all of them
+#we can also get for some specific columsn or rows with axis
+L = np.random.random(100)
+
+np.sum(L)
+'''
+it is better sum
+10 loops, best of 3: 104 ms per loop
+1000 loops, best of 3: 442 μs per loop
+
+'''
+
+np.min(big_array)
+np.max(big_array)
+
+#or
+big_array.min(), big_array.max(), big_array.sum()
+
+M.min(axis=0)
+M.max(axis=1)
+
+np.var() #sum of elements
+np.prod() #product of elemnts
+np.std()  # compute standad deviation
+np.var()  #variance
+np.min()
+np.max()
+np.argmin() #find the index of min
+np.argmax() #find the index o max
+np.mean()
+np.median()
+np.percentile()
+np.any()
+np.all()
+
+#also if you want to ignoring missing values so we can handle the Nan just with adding nin
+#Like
+np.nansum()
+np.nanprod()
+np.nanstd()
+#.....
+
+
+#********
+#so we learn how we can use universal functions can be used to vectoriez operations and therby remove
+#slow python loops
+#another means of vectorizing operations is use numpy' broadcasting functionally
+
+'''
+Broadcasting is simply a
+set of rules for applying binary ufuncs (addition, subtraction, multiplication, etc.) on
+arrays of different sizes.
+
+'''
+
+a = np.array([0, 1, 2])
+b = np.array([5, 5, 5])
+a + b
+
+#if it hasnot it get aritifical one
+
+
+'''
+----Rules of Broadcasting-----
+Broadcasting in NumPy follows a strict set of rules to determine the interaction
+between the two arrays:
+
+• Rule 1: If the two arrays differ in their number of dimensions, the shape of the
+one with fewer dimensions is padded with ones on its leading (left) side.
+• Rule 2: If the shape of the two arrays does not match in any dimension, the array
+with shape equal to 1 in that dimension is stretched to match the other shape.
+• Rule 3: If in any dimension the sizes disagree and neither is equal to 1, an error is
+raised.
 
 
 
@@ -310,10 +648,40 @@ np.hsplit(grid, [2])
 
 
 
+'''
+
+np.sort() #fast sorting and get bakc that
+np.argsort() #it get back the index of that
+
+#laos row and others
+np.sort(X, axis=0)
+
+#**
+#Creating Structured Arrays
+
+np.dtype({'names':('name', 'age', 'weight'),
+'formats':('U10', 'i4', 'f8')})
+
+np.dtype({'names':('name', 'age', 'weight'),
+'formats':((np.str_, 10), int, np.float32)})
+
+
+#in np.dtype() here we cna write these types
+'''
+
+b Byte
+i  signed integer == np.int32
+u unsigned ineger == np.unit8
+f floating point == np.int64
+c complex floating point == np.complex128
+S or a  --> string
+U unicode string np.str_
+V raw data (void np.void)
 
 
 
 
+'''
 
 #extract the diagonal
 np.diag(A)
