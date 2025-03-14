@@ -76,6 +76,7 @@ np.arange(0, 20, 2)
 np.linspace(0, 1, 5)
 
 np.zeros(10, dtype=int)
+np.empty((2,3))
 np.ones((3, 5), dtype=float)
 np.full((3, 5), 3.14)
 np.eye(3) #identity
@@ -137,6 +138,17 @@ complex128
 
 
 #-------------------MAGIC FUNCTIONS-------------------
+#-----reshaping
+grid = np.arange(1, 10).reshape((3, 3))
+
+#------type casting
+M.dtype
+M2 = M.astype(float)
+M3 = M.astype(bool)
+
+
+
+
 #---fancy indexing
 row_indices = [1, 2, 3]
 A[row_indices]
@@ -158,21 +170,29 @@ x[row_mask]
 
 #where-->it get us the index
 indices = np.where(mask)
+new=np.where(a==2)
+new=np.where(a==5)
+new=np.where(a>30)
 #wec an also get the elemnts simply
 x[indices] 
 
 
-#extract the diagonal
-np.diag(A)
+
+#----conditions
+if (M > 5).any():
+    print("at least one element in M is larger than 5")
+else:
+    print("no element in M is larger than 5")
 
 
-#-----reshaping
-grid = np.arange(1, 10).reshape((3, 3))
 
-#------type casting
-M.dtype
-M2 = M.astype(float)
-M3 = M.astype(bool)
+
+if (M > 5).all():
+    print("all elements in M are larger than 5")
+else:
+    print("all elements in M are not larger than 5")
+  
+
 
 
 
@@ -187,6 +207,13 @@ M3 = M.astype(bool)
 
 
 
+
+
+
+
+
+#extract the diagonal
+np.diag(A)
 
 
 
