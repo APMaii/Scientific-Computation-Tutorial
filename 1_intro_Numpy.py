@@ -84,6 +84,9 @@ np.array([1, 2, 3, 4], dtype='float32')
 #most of them need size and dtype
 np.arange(0, 20, 2)
 np.linspace(0, 1, 5)
+np.logspace(0, 10, 10, base=e)
+
+
 
 np.zeros(10, dtype=int)
 np.empty((2,3))
@@ -446,7 +449,7 @@ print("x % 2 = ", x % 2)
 np.add() #+
 np.substract() #-
 np.negative() #-
-np.myltiplt() #*
+np.multiply() #*
 np.divide() #/
 np.floor_divide() #//
 np.power() #**
@@ -683,8 +686,122 @@ V raw data (void np.void)
 
 '''
 
+
+
+
+#================================
+#================================
+#================================
+#-----Go on Matrix()--------
+#================================
+#================================
+#================================
+
+#most of them is has row and columns --> ndim is 2D
+#and so the all the artibary addition and all of them can be applied for all of them#
+#FIRST IN ASSIGNED we can use the eye() for identity 
+
+
+#other things
+np.zeros((3,3))
+np.ones((3,3))
+np.eyes((3,3))
+
 #extract the diagonal
-np.diag(A)
+np.diag([1,2,3])
+
+#it getus
+#[1 0 0]
+#[0 2 0 ]
+#[0 0 3]
+
+
+
+#we can use all the + - ,... * and **
+#But bec arefull
+
+A * A # element-wise multiplication
+#or
+np.multiply() 
+
+
+'''
+What about matrix mutiplication? There are two ways. We can either use the dot function,
+which applies a matrix-matrix, matrix-vector, or inner vector multiplication to its two
+arguments:
+
+'''
+
+np.dot(A, A)
+
+#alternatively
+M = matrix(A)
+v = matrix(v1).T # make it a column vector
+
+M * v
+
+# inner product
+v.T * v
+
+
+
+#Above we have used the .T to transpose the matrix object v.
+#We could also have used the transpose function to accomplish the same thing.
+
+
+C = matrix([[1j, 2j], [3j, 4j]])
+#transpose the matrix
+C.T
+
+#conjugate the matrix
+np.conjugate(C)
+
+
+#Hermitian conjugate: transpose + conjugate
+C.H
+
+#we can also extract real and other thigns
+np.real(C) # same as: C.real
+np.imag(C) # same as: C.imag
+
+
+
+#complex argument and absolute value
+np.angle(C+1) #matlab users
+np.abs(C)
+
+
+#----Inverse----
+np.linalg.inv(C) # equivalent to C.I 
+C.I * C
+
+#--Determinant---
+np.linalg.det(C)
+
+np.linalg.det(C.I)
+
+
+
+
+
+
+
+
+
+
+
+
+#--------------------------------------
+#----------more information------------
+
+#http://numpy.scipy.org
+#http://scipy.org/Tentative_NumPy_Tutorial
+#http://scipy.org/NumPy_for_Matlab_Users
+
+
+
+
+
 
 
 
