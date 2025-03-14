@@ -18,6 +18,11 @@ so we need more efficient way
 
 '''
 
+
+#-------------------------------------------------------
+#-------------------INTRODUCTION------------------------
+#-------------------------------------------------------
+
 import numpy as np 
 
 a1=list((1,2,3,4))
@@ -68,8 +73,13 @@ d[0,1,0]
 #aval kodom sfe, bad kodoom radif va....
 
 
-#============================
-#Other assignments-----------
+
+
+
+#-------------------------------------------------------
+#------------------Other assignments----------------
+#-------------------------------------------------------
+
 np.array([1, 2, 3, 4], dtype='float32')
 #most of them need size and dtype
 np.arange(0, 20, 2)
@@ -88,8 +98,6 @@ data = np.genfromtxt('stockholm_td_adj.dat') #from dat and csv
 
 np.savetxt("random-matrix.csv", our_array)
 np.load("random-matrix.npy")
-
-
 
 
 
@@ -137,7 +145,13 @@ complex128
 
 
 
+
+
+
+#-------------------------------------------------------
 #-------------------MAGIC FUNCTIONS-------------------
+#-------------------------------------------------------
+
 #-----reshaping
 grid = np.arange(1, 10).reshape((3, 3))
 
@@ -148,6 +162,8 @@ M3 = M.astype(bool)
 
 
 
+arr2=arr.view()
+arr2=arr.copy()
 
 #---fancy indexing
 row_indices = [1, 2, 3]
@@ -197,9 +213,96 @@ else:
 
 
 
-#-----Iterating over array elements-------
+#-------------------------------------------------------
+#-------------JOINING ANS SPLITTING---------------------
+#-------------------------------------------------------
+
+#*** concatenate --> for all things the all o fthem in the rows ( axis=0 )
+#axis=1 --> in the columns 
 
 
+a=np.array([10,20,30,40])
+b=np.array([100,200,300,400])
+
+c=np.concatenate([a,b])
+#[ 10  20  30  40 100 200 300 400]
+
+
+
+
+#if we have 2D 
+#we can have the all in oen rows
+a=np.array([10,20,30,40]).reshape(-1,1)
+b=np.array([100,200,300,400]).reshape(-1,1)
+c=np.concatenate([a,b])
+
+#[[ 10]
+# [ 20]
+# [ 30]
+# [ 40]
+# [100]
+# [200]
+# [300]
+# [400]]
+
+c=np.concatenate([a,b],axis=1)
+#10 100
+#20  200
+#30  300
+#40  400
+
+
+
+#Or in one column
+a=np.array([10,20,30,40]).reshape(1,-1)
+b=np.array([100,200,300,400]).reshape(1,-1)
+c=np.concatenate([a,b])
+
+#[[ 10  20  30  40]
+# [100 200 300 400]]
+
+c=np.concatenate([a,b],axis=1)
+#[[ 10  20  30  40 100 200 300 400]]
+
+
+#----------------------------
+#For working with arrays of mixed dimensions , clearer to use np.vstack (vertical )
+#and np.hstack (horizontal
+x = np.array([1, 2, 3])
+grid = np.array([[9, 8, 7], [6, 5, 4]])
+np.vstack([x, grid])
+
+
+y = np.array([[99],[99]])
+np.hstack([grid, y])
+
+np.stack()
+np.dstack()
+
+
+#----tile and repeat
+a = np.array([[1, 2], [3, 4]])
+np.repeat(a, 3) #array([1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4])
+np.tile(a, 3) #array([[1, 2, 1, 2, 1, 2], [3, 4, 3, 4, 3, 4]])
+
+
+
+#---splitting arrays-------
+x = [1, 2, 3, 99, 99, 3, 2, 1]
+x1, x2, x3 = np.split(x, [3, 5])
+
+np.split(x,[3,5])
+np.vsplit(grid, [2])
+np.hsplit(grid, [2])
+
+
+
+
+
+
+#-------------------------------------------------------
+#-------------Iterating over array elements------------
+#-------------------------------------------------------
 
 
 
