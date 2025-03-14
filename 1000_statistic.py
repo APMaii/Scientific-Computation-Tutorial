@@ -165,6 +165,240 @@ plt.show()
 
 
 
+#======================================
+#-------Pre Processing the Data-------
+#=====================================
+
+
+#--------------------------------
+#------- Outlier Detection---------
+#--------------------------------
+
+
+'''
+Outliers are extreme values that can skew results.
+
+Approaches to Detect Outliers:
+1️⃣ Z-Score Method
+2️⃣ Interquartile Range (IQR) Method
+3️⃣ Box Plot
+4️⃣ Visual Inspection (Histogram, KDE)
+
+''''
+
+
+#---Z-Score Method----
+#f ∣Z∣>3, the value is an outlier.
+#thios is work well for normal data
+
+z_scores = (data - np.mean(data)) / np.std(data)
+outliers = data[np.abs(z_scores) > 3]
+print("Outliers:", outliers)
+
+
+#IQR (Interquartile Range) Method
+#for skwed data
+Q1 = np.percentile(data, 25)
+Q3 = np.percentile(data, 75)
+IQR = Q3 - Q1
+
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+outliers = data[(data < lower_bound) | (data > upper_bound)]
+print("Outliers:", outliers)
+
+
+
+
+#Box Plot Outlier Detection
+plt.boxplot(data, vert=False)
+plt.title("Box Plot (Outlier Detection)")
+plt.show()
+
+
+#Using Machine Learning for Outlier Detection
+#Isolation Forest
+from sklearn.ensemble import IsolationForest
+
+iso = IsolationForest(contamination=0.05)  # 5% outliers
+outliers = iso.fit_predict(data.reshape(-1,1))
+print("Outliers:", data[outliers == -1])
+
+
+#--dbscan
+from sklearn.cluster import DBSCAN
+
+dbscan = DBSCAN(eps=2, min_samples=5)
+outliers = dbscan.fit_predict(data.reshape(-1,1))
+print("Outliers:", data[outliers == -1])
+
+
+
+#--------------------------------
+#-------Normality Test------------
+#--------------------------------
+
+'''
+Many statistical methods assume normality (e.g., Z-tests, T-tests, ANOVA, regression). 
+If data isn’t normal, we might need non-parametric tests or transformations.
+
+
+Ways to Check Normality:
+
+Qualitative/Visual Methods
+Histogram
+Q-Q Plot
+Box Plot
+KDE (Kernel Density Estimation)
+
+
+
+Quantitative/Statistical Tests
+Shapiro-Wilk Test
+Kolmogorov-Smirnov Test
+Anderson-Darling Test
+D’Agostino’s K² Test
+
+''''
+
+
+#----visual----
+
+#If the histogram looks bell-shaped, the data is likely normal.---
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate normal data
+data = np.random.normal(50, 10, 1000)
+
+# Plot histogram
+plt.hist(data, bins=30, alpha=0.7, color='blue', edgecolor='black')
+plt.title("Histogram of Data")
+plt.xlabel("Value")
+plt.ylabel("Frequency")
+plt.show()
+
+
+
+
+
+
+# A symmetric box plot suggests normality.
+plt.boxplot(data, vert=False)
+plt.title("Box Plot")
+plt.show()
+
+
+#Compares quantiles of data with a normal distribution.
+# If the points fall on a straight line, the data is normal.
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+
+# Q-Q plot
+stats.probplot(data, dist="norm", plot=plt)
+plt.title("Q-Q Plot")
+plt.show()
+
+
+
+
+
+#KDE (Kernel Density Estimation)
+#A smoother version of a histogram.
+# bell-shaped curve indicates normality.
+import seaborn as sns
+
+sns.kdeplot(data, shade=True, color="blue")
+plt.title("KDE Plot")
+plt.show()
+
+
+
+
+
+
+
+#----Statistical Normality Tests-------
+
+
+#Shapiro-Wilk Test---------------
+#Best for small datasets (n<5000).
+
+from scipy.stats import shapiro
+
+stat, p = shapiro(data)
+print(f"Shapiro-Wilk Test: Statistic={stat}, p-value={p}")
+
+if p > 0.05:
+    print("Data is normally distributed (Fail to reject H₀)")
+else:
+    print("Data is NOT normally distributed (Reject H₀)")
+
+# If p>0.05, the data is normal.
+
+
+#***** in nromality test teh hypothesis is we  are nromal
+
+
+
+
+#kolmogorov-Smirnov (K-S) Test---------------
+from scipy.stats import kstest
+
+stat, p = kstest(data, 'norm')
+print(f"K-S Test: Statistic={stat}, p-value={p}")
+
+
+
+
+
+#andersn darling---------------
+from scipy.stats import anderson
+
+result = anderson(data)
+print(f"Anderson-Darling Test Statistic: {result.statistic}")
+
+for i in range(len(result.critical_values)):
+    sig_level = result.significance_level[i]
+    crit_val = result.critical_values[i]
+    if result.statistic < crit_val:
+        print(f"Accept normality at {sig_level}% level")
+    else:
+        print(f"Reject normality at {sig_level}% level")
+
+
+# D’Agostino’s K² Test-------
+#hecks for skewness & kurtosis.
+from scipy.stats import normaltest
+
+stat, p = normaltest(data)
+print(f"D’Agostino’s K² Test: Statistic={stat}, p-value={p}")
+
+''''
+Shapiro-Wilk → Best for small data
+K-S Test → General normality check
+Anderson-Darling → Multi-level decision
+D’Agostino’s K² → Skewness & kurtosis
+
+''''
+  
+
+
+
+#======================================
+#----WHAT CAN WE DO IF TEH DATA IS NOT NORMALL????
+#======================================
+
+
+
+
+
+
+
+
+
 
 #======================================
 #-------inferential Statistics--------
