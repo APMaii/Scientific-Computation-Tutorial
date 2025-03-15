@@ -747,16 +747,155 @@ print(f"Mann-Whitney U Test: Statistic={stat}, P-Value={p_value}")
 #==================================
 #==================================
 #==================================
+'''     CORRELATION TEST      '''
 #==================================
 #==================================
 #==================================
 #==================================
 
+'''
+When analyzing the relationship between two variables,
+we use correlation tests. The most common one is Pearson correlation,
+but if the relationship is non-linear, we need alternative methods like Spearman or Kendall tests.
+'''
+
+#Linearity: The relationship must be linear (Check using a scatter plot).
+# Normality: Both variables should be normally distributed (Check using Shapiro-Wilk test).
+#Homoscedasticity: The variance of  Y should be similar across all X values (Check using Levene’s test).
+#Independence: Observations must be independent of each other.
+import numpy as np
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+
+# Generate data
+np.random.seed(42)
+x = np.random.normal(50, 10, 100)  # Normally distributed X
+y = 2*x + np.random.normal(0, 5, 100)  # Linear relationship with noise
+
+# 1. Check Linearity
+plt.scatter(x, y)
+plt.title("Scatter Plot (Check Linearity)")
+plt.show()
+
+# 2. Check Normality
+print("Shapiro-Wilk test for X:", stats.shapiro(x).pvalue)
+print("Shapiro-Wilk test for Y:", stats.shapiro(y).pvalue)
+
+# 3. Check Homoscedasticity
+residuals = y - (2*x)
+print("Levene’s test for Homoscedasticity:", stats.levene(x, residuals).pvalue)
+
+# 4. Compute Pearson Correlation
+r, p_value = stats.pearsonr(x, y)
+print(f"Pearson correlation: {r}, p-value: {p_value}")
+# If p<0.05, reject  h0→ Correlation is statistically significant.
+
+#----ALSO WE HAVE PEARSON -----
+
+
+'''
+If the data is not linearly related, Pearson’s correlation won’t work. Instead, use Spearman or Kendall correlation.
+
+'''
+
+
+
+
+#---Spearman Correlation (Rank-Based)------
+#Monotonicity: The relationship should be increasing or decreasing but not necessarily linear.
+# No strict normality assumption (It works for skewed data).
+# Suitable for both continuous & ordinal data.
+
+
+# Generate non-linear data
+x = np.random.rand(100) * 10
+y = np.sin(x)  # Non-linear relationship
+
+# Compute Spearman correlation
+rho, p_value = stats.spearmanr(x, y)
+print(f"Spearman correlation: {rho}, p-value: {p_value}")
+# If p<0.05, reject  h0→ Correlation is statistically significant.
+
+
+
+#---Kendall’s Tau (Non-Parametric)------
+# If sample size is small (n<30).
+#If data contains many tied ranks.
+#When data is ordinal (e.g., survey ratings, Likert scale).
+
+tau, p_value = stats.kendalltau(x, y)
+print(f"Kendall’s Tau: {tau}, p-value: {p_value}")
+# If p<0.05, reject  h0→ Correlation is statistically significant.
+
+
+#-------THESE ARE ONLY FOR ONE - ONE---
+#-----FOR MULTIPEL AND DRAWING GRAPHS---
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Generate random dataset (10 variables, 100 samples)
+np.random.seed(42)
+data = pd.DataFrame(np.random.rand(100, 10), columns=[f'Var{i+1}' for i in range(10)])
+# Compute Pearson correlation matrix
+corr_matrix = data.corr(method='pearson')
+# Print correlation matrix
+print(corr_matrix)
+
+
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+plt.title("Pearson Correlation Heatmap")
+plt.show()
+
+
+#--non linear------
+# Compute Spearman correlation matrix
+spearman_corr = data.corr(method='spearman')
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(spearman_corr, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+plt.title("Spearman Correlation Heatmap (Non-Linear)")
+plt.show()
+
+
+
+#----Pairwise Scatter Plots (Non-Linear Check)----
+sns.pairplot(data)
+plt.show()
+
+
+
+
+#For detecting non-linear dependencies beyond Spearman/Kendall, use Mutual Information (MI).
+from sklearn.feature_selection import mutual_info_regression
+
+# Compute mutual information scores
+mi_scores = mutual_info_regression(data.iloc[:, :-1], data.iloc[:, -1])
+
+# Plot MI scores
+plt.figure(figsize=(8, 5))
+sns.barplot(x=data.columns[:-1], y=mi_scores, palette="viridis")
+plt.title("Mutual Information Scores (Non-Linear Dependency)")
+plt.xlabel("Features")
+plt.ylabel("MI Score")
+plt.show()
+
+
+#Higher MI scores mean stronger non-linear dependency.
 
 
 
 
 
+#===================================
+#===================================
+#===================================
+'''            ANOVA             '''
+#===================================
+#===================================
+#===================================
 
 
 
