@@ -897,8 +897,140 @@ plt.show()
 #===================================
 #===================================
 
+'''
+
+ANOVA is a statistical test used to compare the means of three 
+or more independent groups to determine if there are significant differences between them.
 
 
+One-Way ANOVA → Compares means of one independent variable across multiple groups.
+Two-Way ANOVA → Compares means across two independent variables (factors).
+Repeated Measures ANOVA → Used when the same subjects are tested multiple times.
+
+
+
+-----Assumptions of ANOVA-----
+
+ Normality (Residuals follow normal distribution)    / Use Kruskal-Wallis Test (non-parametric ANOVA alternative)
+ Homogeneity of Variances (Homoskedasticity) (Equal variance across groups) / Use Welch’s ANOVA (handles unequal variances)
+ Independence (Observations are independent)
+No Outliers (Outliers can distort results) / remove outliers
+
+
+  
+
+
+'''
+
+
+
+
+
+#-----One-Way ANOVA------
+import numpy as np
+import pandas as pd
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Generate random data for 3 groups
+np.random.seed(42)
+group1 = np.random.normal(50, 10, 30)
+group2 = np.random.normal(55, 10, 30)
+group3 = np.random.normal(60, 10, 30)
+
+# Perform One-Way ANOVA
+f_stat, p_value = stats.f_oneway(group1, group2, group3)
+
+print(f"F-statistic: {f_stat:.3f}")
+print(f"P-value: {p_value:.3f}")
+
+# Interpretation
+if p_value < 0.05:
+    print("Reject Null Hypothesis: At least one group is significantly different.")
+else:
+    print("Fail to Reject Null: No significant difference between groups.")
+
+#if p<0.5 --> reject null --> no difference---> so it means it has effect
+
+
+#one-way ---> stats.f_oneway()
+#Welch ---> stats.ttest_ind(equal_var=False)
+#Krusicall ---> stats.kruskal()
+#statsmodels.stats.anova_lm()
+
+
+
+
+
+
+
+
+
+
+
+
+#---Non-Parametric Alternative (Kruskal-Wallis)-----
+stat, p = stats.kruskal(group1, group2, group3)
+print(f"Kruskal-Wallis Test: p-value = {p:.3f}")
+
+# If p < 0.05, at least one group is significantly different.
+
+
+
+import numpy as np
+import pandas as pd
+import scipy.stats as stats
+import seaborn as sns
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+import matplotlib.pyplot as plt
+
+# Sample Data
+np.random.seed(42)
+df = pd.DataFrame({
+    'Fertilizer': np.repeat(['Organic', 'Chemical'], 15),
+    'Sunlight': np.tile(['Low', 'Medium', 'High'], 10),
+    'Growth': np.random.normal(20, 5, 30) + 
+              (np.repeat([2, 5], 15)) +  # Fertilizer effect
+              (np.tile([1, 3, 6], 10))   # Sunlight effect
+})
+
+# Display First 5 Rows
+print(df.head())
+
+
+
+# Fit Two-Way ANOVA Model
+model = ols('Growth ~ C(Fertilizer) + C(Sunlight) + C(Fertilizer):C(Sunlight)', data=df).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+
+# Show ANOVA Table
+print(anova_table)
+
+
+
+
+
+
+
+#----Friedman Test (Non-Parametric Two-Way ANOVA)----
+stat, p = stats.friedmanchisquare(
+    df[df['Sunlight'] == 'Low']['Growth'],
+    df[df['Sunlight'] == 'Medium']['Growth'],
+    df[df['Sunlight'] == 'High']['Growth']
+)
+print(f"Friedman Test p-value: {p:.3f}")
+
+
+
+
+#---normal but not equal vairanc e--> Welch’s Two-Way ANOVA
+stats.ttest_ind(equal_var=False)
+
+
+#--nomnormal---- fridman test
+stats.friedmanchisquare()
 
 
 
