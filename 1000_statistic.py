@@ -390,9 +390,32 @@ D’Agostino’s K² → Skewness & kurtosis
 #======================================
 #----WHAT CAN WE DO IF TEH DATA IS NOT NORMALL????
 #======================================
+#If the data is skewed (not normal), we can apply transformations to make it normal.
+
+
+#---transfrom to Log-------
+import numpy as np
+data_log = np.log(data)  # Apply log transformation
 
 
 
+#-------Square Root Transformation-------
+data_sqrt = np.sqrt(data)
+
+
+#-------Box-Cox Transformation-------
+from scipy.stats import boxcox
+data_boxcox, lambda_value = boxcox(data + 1)  # Adding 1 to avoid zero issues
+print("Lambda:", lambda_value)  # Determines best transformation
+
+
+
+
+#-------Yeo-Johnson Transformation-------
+from sklearn.preprocessing import PowerTransformer
+
+pt = PowerTransformer(method='yeo-johnson')
+data_yeo = pt.fit_transform(data.reshape(-1, 1))
 
 
 
@@ -420,6 +443,7 @@ Z = 0 → The value is exactly at the mean.
 Z = 1 → The value is 1 standard deviation above the mean.
 Z = -1 → The value is 1 standard deviation below the mean.
 Z = 2 → The value is 2 standard deviations above the mean.
+
 
 '''
 import scipy.stats as stats
@@ -519,9 +543,27 @@ Compare p-value with α:
 ​	
 '''
 
+
+
+#=======================
+#--------Z TEST----------
+#=======================
+
 #A Z-test is used when:
 #The population standard deviation (σ) is known.
 #The sample size is large (n≥30).
+'''
+Assumptions before that:
+Normality: The population follows a normal distribution.
+Independence: Observations must be independent.
+Known Population Variance 
+Random Sampling: The sample must be randomly selected.
+
+
+#if sampel is less than 30 or unknown --> t test
+
+'''
+
 
 
 #One-Sample Z-Test
@@ -554,9 +596,26 @@ print("P-Value:", p_value)
 
 
 
+
+
+#=======================
 #------T test------------
+#=======================
+
 #The population standard deviation (σ) is unknown.
 #The sample size is small (n<30).
+'''
+assumption
+Normality: The data should be approximately normal (for small samples).
+independence: Observations must be independent.
+Unknown Population Variance
+Equal Variances (for two-sample t-tests):
+
+'''
+
+
+
+
 
 #one sample
 from scipy.stats import ttest_1samp
@@ -580,6 +639,8 @@ print("P-Value:", p_value)
 
 
 
+
+
 #----------------- Comparison variances------
 #To compare two variances, we use an F-Test
 # f = SIGMA1 **2 / SIGMA2 **2
@@ -596,6 +657,111 @@ print("F-Statistic:", F_stat)
 print("P-Value:", p_value)
 
 #If p < 0.05, reject  H0(variances are significantly different).
+
+
+
+#----------------------------------
+
+'''
+Checking Equal Variance (Homogeneity of Variance)
+
+Levene’s Test (Less sensitive to non-normality)
+Bartlett’s Test (More powerful, but requires normality)
+
+'''
+
+#Levene’s Test------
+from scipy.stats import levene
+
+group1 = np.random.normal(50, 10, 100)  # Mean=50, Std=10, n=100
+group2 = np.random.normal(55, 15, 100)  # Mean=55, Std=15, n=100
+
+stat, p_value = levene(group1, group2)
+print(f"Levene’s Test: Statistic={stat}, P-Value={p_value}")
+
+#If p>0.05 → Equal variances (assumption holds).
+#if p<0.05 → Unequal variances (use Welch’s t-test instead).
+
+
+
+
+#Bartlett’s Test (If Data is Normal)
+from scipy.stats import bartlett
+
+stat, p_value = bartlett(group1, group2)
+print(f"Bartlett’s Test: Statistic={stat}, P-Value={p_value}")
+
+#If p>0.05 → Equal variances (assumption holds).
+#if p<0.05 → Unequal variances (use Welch’s t-test instead).
+
+
+
+
+#Welch’s t-test (does not assume equal variance).-------
+from scipy.stats import ttest_ind
+
+t_stat, p_value = ttest_ind(group1, group2, equal_var=False)
+print(f"Welch’s t-test: T-Statistic={t_stat}, P-Value={p_value}")
+
+
+
+#for z or increase the data size or non parametric tests
+
+#----------- if 1 sample Z test not nromal ---> non parametrik
+#on-parametric test (Wilcoxon signed-rank test)
+
+
+#------2 sampel Z test------>non parametric
+#non-parametric test (Mann-Whitney U test)
+
+
+
+#-----1 t test-------
+#Use a non-parametric test (Wilcoxon signed-rank test)
+
+
+from scipy.stats import wilcoxon
+
+data = [50, 52, 48, 47, 53, 51, 49]  # Example data
+stat, p_value = wilcoxon(data - 50)  # Test against population mean 50
+print(f"Wilcoxon Test Statistic: {stat}, P-Value: {p_value}")
+#If p<0.05, reject H0 (data is significantly different from 50).
+
+
+#----- 2  t test------
+#Use Mann-Whitney U test or Permutation test
+from scipy.stats import mannwhitneyu
+
+group1 = [5, 7, 6, 9, 8, 10]
+group2 = [11, 15, 14, 13, 16, 12]
+
+stat, p_value = mannwhitneyu(group1, group2)
+print(f"Mann-Whitney U Test: Statistic={stat}, P-Value={p_value}")
+
+
+#so even if non-parametrci is nto enough you can go for boostraping resampling ***
+
+
+
+#==================================
+#==================================
+#==================================
+#==================================
+#==================================
+#==================================
+#==================================
+#==================================
+
+
+
+
+
+
+
+
+
+
+
 
 
 
