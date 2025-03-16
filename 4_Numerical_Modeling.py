@@ -145,6 +145,88 @@ sol = solve(eq,x)
 print(sol) #-1/2
 
 
+#some notes on sympy
+#n SymPy we need to create symbols for the variables we want to work with. We can create a new symbol using the Symbol class
+x = Symbol('x')
+# alternative way of defining symbols
+a, b, c = symbols("a, b, c")
+
+#or also assumption
+x = Symbol('x', real=True)
+x.is_imaginary
+x = Symbol('x', positive=True)
+1+1*I
+
+#There are three different numerical types in SymPy: Real, Rational, Integer:
+r1 = Rational(4,5)
+
+
+#we have also Numerical evaluation
+pi.evalf(n=50)
+
+#or
+y = (x + pi)**2
+N(y, 5) # same as evalf
+
+
+#Use the function lambdify to "compile" a Sympy expression into a function that is much more efficient to evaluate numerically
+f = lambdify([x], (x + pi)**2, 'numpy')  # the first argument is a list of variables that
+                                         # f will be a function of: in this case only x -> f(x)
+y_vec = f(x_vec)  # now we can directly pass a numpy array and f(x) is efficiently evaluated
+
+
+
+#Expand ------
+expand((x+1)*(x+2)*(x+3))
+#x**3 + 3**x*2 + .....
+
+
+
+sin(a+b)
+expand(sin(a+b), trig=True)
+
+
+
+#Simplify-----
+simplify((x+1)*(x+2)*(x+3))
+
+simplify(sin(a)**2 + cos(a)**2)
+
+simplify(cos(x)/sin(x))
+
+#aprt and together
+f1 = 1/((a+1)*(a+2))
+apart(f1)
+
+f2 = 1/(a+2) + 1/(a+3)
+together(f2)
+
+
+#Sums and products
+n = Symbol("n")
+#sigma
+Sum(1/n**2, (n, 1, 10))
+
+#or
+Sum(1/n**2, (n,1, 10)).evalf()
+
+#or
+Sum(1/n**2, (n, 1, oo)).evalf()
+
+#product
+Product(n, (n, 1, 10)) # 10!
+
+
+#limit---
+limit(sin(x)/x, x, 0)
+
+
+
+
+
+
+
+
 
 #===========================================
 '''   2- Non-Linear Algebric Equations   '''
