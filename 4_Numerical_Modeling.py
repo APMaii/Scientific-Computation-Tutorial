@@ -67,6 +67,418 @@ We write the conservation laws for element region.
 Element is the biggest region that dependent variable (y) is consistent. This element can be system or control volume. 
 
 
+System (sys)  mass is constant. From borders it can transfer Energy and momentum.
+Control volume (cv) has open borders it can transfer Mass, Energy and momentum.
+
+For writing the conservation laws we have two aspects integral (Lumped) and differential(distributive)
+
+In integral (lumped) method, averages of parameter in element is considered and we ignore distribution of that parameter on place.
+In differential (distributive) method, we can not ignore the distribution and we can not use average of parameter in element and we must consider the distribution of that on place.
+
+2- empirical (Experimental) approach:
+We used experiments to measure some variables  fit curving
+
+3-semi empirical (semi experimental) approach:
+With considering theory we use one model and then we achieve the models parameter with data and curve fitting.
+
+4-likehood two different plan that has same mechanism
+
+
+#-----------
+Modeling Steps:
+
+In modeling we have two phase first phase is model development and second phase is model solution (simulation).
+
+1-Goal definition  determination of properties and numerical variables, determination of dependent variable and independent variable, determination of accuracy
+
+2-data preparing  process diagram, assumptions, data , element selection
+
+3-formulation conservation law, constitutive equations, governing equations
+
+……….
+
+4-Determination of solution: analytical , numerical , graphical approach
+
+5-analysis of results  analysis sensitivity and interaction and relationship between variables
+
+6-model validity (validation)  comparison with experimental results or more complicated models.
+
+
+In summary  first determination of goal and variables, element region, conservation laws and numerical, analytical and then analysis and comparison.
+
+
+
+
+Flashback 
+In integral (lumped) method, averages of parameter in element is considered and we ignore distribution
+of that parameter on place.
+
+In differential (distributive) method, we can not ignore the distribution and we can not use average of
+parameter in element and we must consider the distribution of that on place.
+
 
 
 ''''
+
+
+
+
+
+
+
+#===========================================
+'''   1- Linear Algebric Equations      '''
+#===========================================
+#something like ax+b=0
+
+
+
+'''
+Analytical
+'''
+#solution--> analythical ax=-b , x=-b/a
+from sympy import symbols , solve
+
+x= symbols('x')
+eq=8*x + 4
+sol = solve(eq,x)
+print(sol) #-1/2
+
+
+
+#===========================================
+'''   2- Non-Linear Algebric Equations   '''
+#===========================================
+'''
+it can be quadtatic ax**2 + bx + c =0
+cubic --> ax**3 + bx**2 + cx + d=0
+exponential : e**x - 4 =0
+trigonometric : sin(x) = 0l.5
+
+'''
+
+
+'''
+------------Analytical---------
+--> Factoring using algebric identities
+x2-5x+6=0
+(x-2)(x-3)=0
+
+quadratic formula --> x = -b +- radical / 2**a
+
+
+'''
+#we can use sympy for this -->
+
+from sympy import symbols , solve
+
+x= symbols('x')
+eq=x**2 - 8*x + 4
+sol = solve(eq,x)
+print(sol) #[4 - 2*sqrt(3), 2*sqrt(3) + 4]
+
+x= symbols('x')
+eq=x**2+1 
+sol = solve(eq,x)
+print(sol) #[-I, I]
+
+
+x= symbols('x')
+eq=x**2 - 4*x + 4
+sol = solve(eq,x)
+print(sol) #..........
+
+
+
+x= symbols('x')
+eq=x**3 - 8*x + 4
+sol = solve(eq,x)
+print(sol) #........
+
+
+x = symbols('x')
+eq = sin(x) - 0.5
+sol = solve(eq, x)
+print(sol)  # Uses trig simplifications internally
+
+
+
+x, y = symbols('x y')
+expr = log(x*y**2)
+expanded = expand_log(expr, force=True)
+print(expanded)  # Outputs: log(x) + 2*log(y)
+
+
+'''
+SYMPY
+
+
+linsolve()	Analytical	Solves linear systems using matrices.
+nonlinsolve()	Analytical	Solves nonlinear systems symbolically.
+solve_linear_system()	Analytical	Solves a linear system in augmented matrix form.
+solve_univariate_inequality()	Analytical	Solves inequalities for a single variable.
+dsolve()	Analytical	Solves differential equations.
+pdsolve()	Analytical	Solves partial differential equations.
+diophantine()	Analytical	Solves Diophantine equations (integer solutions).
+
+
+
+nsolve()	Numerical	Finds numerical solutions using Newton’s method.
+'''
+
+
+
+'''
+------------Graphical---------
+we can get in the f(x) =0 --> and draw that
+and see at which poin we habve th cross teh y=0
+
+
+'''
+
+
+
+
+
+
+#===========================================
+'''  3- Linear Algebric system Equations '''
+#===========================================
+'''
+A system of linear equations consists of two or more linear equations with the same set of variables. The general form for two variables is:
+
+Before that we must know some introduction of matrices
+We have scaler and vector and tensors.
+Matrices are arrays of numbers. It can helpo us to compact the equations and fast calculation.
+
+
+analytically Substitution --> one to anotheer one
+ Elimination --> minus between two things
+ 
+Cramer’s rule  --> X = | | / | | --> not efficient
+Gussian Elimination ---> Can have numerical instability
+Gauss Jordan 
+Matrix Inversion:--->Ax=B  A-1 Ax=A-1 b  Ix=x=A-1b
+LU Decomposition
+Cholesky Decomposition
+
+'''
+
+#Gaussian Elimination / Substitution
+from sympy import symbols, Eq, solve
+# Define variables
+x, y = symbols('x y')
+# Define equations
+eq1 = Eq(2*x + 3*y, 7)
+eq2 = Eq(4*x - y, 5)
+# Solve the system
+solution = solve((eq1, eq2), (x, y))
+print(solution)  # {x: 2, y: 1}
+
+
+
+#Matrix Row Reduction (RREF) , like Gussian but in matrix form
+#or if you have matrix based-------
+from sympy import Matrix, symbols, linsolve
+# Define variables
+x, y = symbols('x y')
+# Define coefficient matrix and right-hand side
+A = Matrix([[2, 3], [4, -1]])  # Coefficients
+b = Matrix([7, 5])  # Right-hand side
+# Solve system
+solution = linsolve((A, b), x, y)
+print(solution)  # {(2, 1)}
+
+
+
+
+#for augmented matrices------
+from sympy import solve_linear_system
+# Augmented matrix
+system = Matrix([[2, 3, 7], [4, -1, 5]])
+# Solve system
+solution = solve_linear_system(system, x, y)
+print(solution)  # {x: 2, y: 1}
+
+
+#***For large systems, linsolve() is recommended because it is optimized for matrix computations.
+
+
+#Only gussian elimination
+from sympy import Matrix
+# Augmented matrix [A|B]
+system = Matrix([[2, 3, 7], [4, -1, 5]])
+# Perform row reduction
+system_rref = system.rref()  # Reduced Row Echelon Form
+print(system_rref)  # (Matrix([[1, 0, 2], [0, 1, 1]]), (0, 1))
+
+
+#LU Decomposition (Lower-Upper Factorization)
+# Use Case: Efficient for large systems and iterative methods.
+from sympy import lu
+# LU Decomposition
+L, U, _ = A.LUdecomposition()
+# Solve LY = B (Forward substitution)
+Y = L.solve(B)
+# Solve UX = Y (Backward substitution)
+X = U.solve(Y)
+print(X)  # Matrix([[2], [1]])
+
+
+#Cholesky Decomposition (For Symmetric Positive Definite Matrices)
+# Use Case: Only for symmetric, positive-definite matrices.
+from sympy import cholesky
+# Define a symmetric positive definite matrix
+A_cholesky = Matrix([[4, 2], [2, 3]])
+# Compute Cholesky decomposition (A = LL^T)
+L = cholesky(A_cholesky)
+print(L)  # Lower triangular matrix
+
+
+
+
+#matrix inversion
+#Use Case: Only works when A is invertible (det(A) ≠ 0).
+#Expensive for large systems
+A_inv = A.inv()  # Compute inverse
+X = A_inv * B  # Compute solution
+print(X)  # Matrix([[2], [1]])
+
+
+
+
+
+
+#===========================================
+''' 4-Non-Linear Algebric system Equations '''
+#===========================================
+
+
+#Substitution
+#but fail for highly non linear
+
+from sympy import symbols, Eq
+
+x, y = symbols('x y')
+eq1 = Eq(x**2 + y**2, 4)
+eq2 = Eq(x + y, 2)
+
+solutions = solve((eq1, eq2), (x, y))
+print(solutions)
+
+
+
+#Uses Gröbner basis, algebraic manipulation, and radicals.
+from sympy import nonlinsolve
+solutions = nonlinsolve([x**2 + y**2 - 4, x**3 - y - 1], (x, y))
+print(solutions)
+
+
+#recommended
+#reduce_system() (Simplifies Before Solving)
+from sympy.solvers.solveset import reduce_system
+reduced_system = reduce_system([x**2 + y**2 - 4, x + y - 2], (x, y))
+print(reduced_system)
+
+
+
+
+#===========================================
+''' 5-Differential Equations '''
+#===========================================
+
+
+#First-Order ODE: Separable Equation
+#dy/dx=xy
+from sympy import symbols, Function, Eq, dsolve
+
+x = symbols('x')
+y = Function('y')(x)
+
+ode = Eq(y.diff(x), x * y)
+solution = dsolve(ode, y)
+print(solution)
+
+
+
+#Linear First-Order ODE
+#dy/dx + y =x
+ode = Eq(y.diff(x) + y, x)
+solution = dsolve(ode, y)
+print(solution)
+
+
+#Second-Order ODE (Homogeneous)
+#y'' + 'y + 2y=0
+x = symbols('x')
+y = Function('y')(x)
+ode = Eq(y.diff(x, x) + 3*y.diff(x) + 2*y, 0)
+solution = dsolve(ode, y)
+print(solution)
+
+
+# Non-Homogeneous ODE
+#y'' + y' = sinx
+ode = Eq(y.diff(x, x) + y, symbols('sin')(x))
+solution = dsolve(ode, y)
+print(solution)
+
+
+
+#Solving PDEs Analytically (Wave Equation)
+from sympy import Function, Derivative
+t, x, c = symbols('t x c')
+u = Function('u')(x, t)
+wave_eq = Eq(Derivative(u, t, t), c**2 * Derivative(u, x, x))
+print(wave_eq)
+
+
+
+'''
+drawback of analytical solution
+
+
+
+ Limited to Simple Equations
+
+ Difficulty with Nonlinear Equations
+
+ Computational Complexity
+
+ 
+Use of Special Functions: Some analytical solutions may require special functions 
+(e.g., Bessel functions, Gamma functions, or Airy functions) that are not always 
+easily understood or applicable to real-world systems. Additionally, the existence
+of these special functions can make the solution less interpretable.
+
+
+
+
+
+When to Use Numerical Methods Instead
+Given these drawbacks, numerical methods are often preferred in the following situations:
+
+When the equation is too complex or nonlinear for analytical methods.
+When working with large systems of equations that cannot be easily solved analytically.
+When approximations are acceptable, and you are interested in observing the behavior of the solution over time or across various conditions.
+In real-world scenarios where data or initial conditions are noisy or uncertain.
+
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
