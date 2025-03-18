@@ -13,6 +13,199 @@ Numerical Modeling
 
 '''
 
+#=======================================================
+#=======================================================
+#=======================================================
+#=======================================================
+#-----------------------Differentiation-----------------
+#=======================================================
+#=======================================================
+#=======================================================
+#=======================================================
+
+
+import sympy as sp
+# Define the symbol
+x = sp.symbols('x')
+# Define the function
+f = sp.sin(x) * sp.exp(x)
+# Compute the derivative
+dfdx = sp.diff(f, x)
+print(f"Derivative: {dfdx}")
+
+
+#also higehr order differentiation
+d2fdx2 = sp.diff(f, x, 2)  # Second derivative
+print(d2fdx2)
+
+
+#at specific point
+value = dfdx.subs(x, 2)  # Evaluate at x = 2
+print(value)
+
+
+#consider we have y
+diff(y**2, x)
+
+#higher order
+diff(y**2, x, x)
+#or
+diff(y**2, x, 2) # same as above
+
+
+
+
+#To calculate the derivative of a multivariate expression, we can do:-----
+x, y, z = symbols("x,y,z")
+f = sin(x*y) + cos(y*z)
+#d3f / dx d2y
+diff(f, x, 1, y, 2)
+
+
+
+
+
+
+#_--ALSO YOU Can go for numerical----
+#when the symbolic is not available or you want to go for numerical
+
+import numpy as np
+from scipy.misc import derivative
+
+# Define the function
+def f(x):
+    return np.sin(x) * np.exp(x)
+
+# Compute the derivative at x = 2
+dfdx_numeric = derivative(f, 2.0, dx=1e-5)
+print(f"Numerical Derivative at x=2: {dfdx_numeric}")
+
+
+#he dx parameter defines the step size for the finite difference approximation.
+#This method is useful when you don’t have a symbolic representation of the function.
+
+
+
+#----with numpoy if you have points not the functions
+import numpy as np
+# Define discrete x values
+x = np.linspace(0, 10, 100)
+y = np.sin(x) * np.exp(x)  # Function values
+# Compute numerical derivative
+dy_dx = np.gradient(y, x)
+print(dy_dx[:5])  # Print first 5 derivatives
+#his method is useful when you have discrete data points instead of an analytical function.
+
+
+
+
+
+
+
+
+
+#=======================================================
+#=======================================================
+#=======================================================
+#=======================================================
+#-----------------------Integration---------------------
+#=======================================================
+#=======================================================
+#=======================================================
+#=======================================================
+
+#f
+integrate(f, x)
+
+#also you can specify the limti 
+integrate(f, (x, -1, 1))
+
+integrate(exp(-x**2), (x, -oo, oo))
+
+#oo for sympy means infinity
+
+
+
+#----Numerical integration: quadrature----
+'''
+is called numerical quadrature, or simply quadature. SciPy provides a series
+of functions for different kind of quadrature, for example the quad, dblquad
+and tplquad for single, double and triple integrals, respectively.
+
+'''
+from scipy.integrate import quad, dblquad, tplquad
+# define a simple function for the integrand
+def f(x):
+    return x
+
+
+x_lower = 0 # the lower limit of x
+x_upper = 1 # the upper limit of x
+
+val, abserr = quad(f, x_lower, x_upper)
+
+print("integral value =", val, ", absolute error =", abserr) 
+#	integral value = 0.5 , absolute error = 5.55111512313e-15
+
+
+
+#also we have args-------
+def integrand(x, n):
+    """
+    Bessel function of first kind and order n. 
+    """
+    return jn(n, x)
+
+x_lower = 0  # the lower limit of x
+x_upper = 10 # the upper limit of x
+
+val, abserr = quad(integrand, x_lower, x_upper, args=(3,))
+print(val, abserr) 
+#0.736675137081 9.3891268825e-13
+
+
+
+
+#for mor simple fucntion we can use lambda
+val, abserr = quad(lambda x: exp(-x ** 2), -Inf, Inf)
+
+print("numerical  =", val, abserr)
+
+analytical = sqrt(pi)
+print("analytical =", analytical)
+#numerical  = 1.77245385091 1.42026367809e-08
+#analytical = 1.77245385091
+
+#for scipy inf -inf
+#for sympy --> 00 -00
+
+
+
+
+#High dimentional integration----
+def integrand(x, y):
+    return exp(-x**2-y**2)
+
+x_lower = 0  
+x_upper = 10
+y_lower = 0
+y_upper = 10
+
+val, abserr = dblquad(integrand, x_lower, x_upper, lambda x : y_lower, lambda x: y_upper)
+
+print(val, abserr) 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 '''
@@ -124,14 +317,10 @@ parameter in element and we must consider the distribution of that on place.
 
 
 
-
-
 #===========================================
 '''   1- Linear Algebric Equations      '''
 #===========================================
 #something like ax+b=0
-
-
 
 '''
 Analytical
@@ -219,6 +408,59 @@ Product(n, (n, 1, 10)) # 10!
 
 #limit---
 limit(sin(x)/x, x, 0)
+
+
+#series-----
+#Series expansion is also one of the most useful features of a CAS
+series(exp(x), x)
+#1 + x + x**2 /2 + x**3/6 + .....
+#by default it is around x=0
+
+#if you want to change that
+series(exp(x), x, 1)
+
+#if you want to say untill which order
+series(exp(x), x, 1, 10)
+
+#also for approximation
+s1 = cos(x).series(x, 0, 5)
+s2 = sin(x).series(x, 0, 2)
+expand(s1 * s2)
+
+
+
+#also we have special from scipy
+from scipy.special import jn, yn, jn_zeros, yn_zeros
+n = 0    # order
+x = 0.0
+# Bessel function of first kind
+print("J_%d(%f) = %f" % (n, x, jn(n, x)))
+x = 1.0
+# Bessel function of second kind
+print("Y_%d(%f) = %f" % (n, x, yn(n, x)))
+
+
+
+
+
+x = linspace(0, 10, 100)
+
+fig, ax = plt.subplots()
+for n in range(4):
+    ax.plot(x, jn(n, x), label=r"$J_%d(x)$" % n)
+ax.legend();
+
+
+
+
+# zeros of Bessel functions
+n = 0 # order
+m = 4 # number of roots to compute
+jn_zeros(n, m)
+
+
+
+
 
 
 
