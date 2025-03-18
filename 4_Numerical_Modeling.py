@@ -563,6 +563,158 @@ and see at which poin we habve th cross teh y=0
 
 
 
+#-------NUMERICAL-------
+#for moth non-linear equation we use nuemrical methods
+
+'''
+we have different techniques
+
+iteration methods---> g(x) = x with intiial guess and .....
+
+wegeshtain method ---> more speed up because we have x1=g(x0) so
+x m+1 = xm-1 g(x) .....
+
+
+Newton Method --> first we have initial guess (x0) and then we havederivatiev f'(x0) and 
+we must know each cross y=0 at which point and this is our new x and .......
+f'(x0) = f(x0) / x0 - x1
+X m+1 = xm - f(xm)/f'(xm)
+
+secant method --> instead of f'() we use the approixmated of that 
+
+
+Bisection method --> f(a) and f(b) must be non same sign and ..
+c= a+b/2 --> f(c) and then ....
+
+
+'''
+
+
+#---bisection method----
+from scipy.optimize import bisect
+
+def f(x):
+    return x**3 - x - 2  # Example function
+
+root = bisect(f, 1, 2)  # Bracketing between 1 and 2
+print(root)
+#slow
+
+
+
+#---Newton’s Method------
+from scipy.optimize import newton
+
+def f(x):
+    return x**3 - x - 2
+
+def df(x):  # Derivative
+    return 3*x**2 - 1
+
+root = newton(f, x0=1.5, fprime=df)  # Starts at x0=1.5
+print(root)
+
+#if initila guess bad or thederivative go to zero is bad
+
+
+#sympy is more for exact and analytival but it has nsolve for enwton 
+#urpose: Solves nonlinear equations numerically using Newton’s method.
+#🔹 Uses: Newton-Raphson method (iterative)
+from sympy import symbols, Eq, nsolve
+
+x = symbols('x')
+eq = Eq(x**3 - x - 2, 0)
+
+root = nsolve(eq, x, 1.5)  # Initial guess = 1.5
+print(root)  # Output: 1.52137970680457
+
+#also for system----
+from sympy import symbols, nsolve
+
+x, y = symbols('x y')
+
+eq1 = x**2 + y**2 - 4
+eq2 = x - y - 1
+
+solution = nsolve((eq1, eq2), (x, y), (1, 1))  # Initial guesses
+print(solution)  # Output: (1.622, 0.622)
+
+
+
+
+
+
+
+
+#----alternatiev( Secant Method (Newton's Without Derivative))
+root = newton(f, x0=1.5, x1=2.0)  # Uses two initial guesses
+print(root)
+##No derivative needed
+# Slower than Newton’s method
+
+
+#---Fixed-Point Iteration-----
+from scipy.optimize import fixed_point
+
+def g(x):
+    return (x + 2/x)**0.5  # Example transformation
+
+root = fixed_point(g, x0=1.5)
+print(root)
+
+
+
+
+#-----(ROOT) ---> GENERAL FOR ALL the equation or system of non-linear
+#Uses various numerical solvers (Newton, Broyden, Hybr, LM, etc.).
+
+from scipy.optimize import root
+
+result = root(fun, x0, method='method_name', jac=jacobian)
+
+
+from scipy.optimize import root
+
+def f(x):
+    return x**3 - x - 2
+
+x0 = 1.5  # Initial guess
+
+sol = root(f, x0, method='hybr')  # Hybrid method (default)
+print(sol.x)  # Root found
+
+
+
+'''
+
+hybr	Trust Region	General Problems (Default)
+lm (Levenberg-Marquardt)	Trust Region	Nonlinear Least Squares
+broyden1	Quasi-Newton	Large Sparse Problems
+broyden2	Quasi-Newton	Large Sparse Problems
+anderson	Iterative	Fixed-Point Problems
+krylov	Iterative	Large Systems
+diagbroyden	Quasi-Newton	Diagonal Jacobians
+excitingmixing	Iterative	Physics & Engineering
+linearmixing	Iterative	Fixed-Point Equations
+
+
+
+
+
+****
+For a single nonlinear equation, use simpler functions like newton().
+For systems of equations, root() is the best choice.
+
+'''
+
+
+
+
+
+
+
+
+
 
 
 
@@ -747,16 +899,6 @@ print(x)
 
 
 
-
-
-
-
-
-
-
-
-
-
 #===========================================
 ''' 4-Non-Linear Algebric system Equations '''
 #===========================================
@@ -787,6 +929,55 @@ print(solutions)
 from sympy.solvers.solveset import reduce_system
 reduced_system = reduce_system([x**2 + y**2 - 4, x + y - 2], (x, y))
 print(reduced_system)
+
+
+
+#-----(ROOT) ---> GENERAL FOR ALL the equation or system of non-linear
+#Uses various numerical solvers (Newton, Broyden, Hybr, LM, etc.).
+
+from scipy.optimize import root
+
+result = root(fun, x0, method='method_name', jac=jacobian)
+
+
+from scipy.optimize import root
+
+def f(x):
+    return x**3 - x - 2
+
+x0 = 1.5  # Initial guess
+
+sol = root(f, x0, method='hybr')  # Hybrid method (default)
+print(sol.x)  # Root found
+
+
+
+'''
+
+hybr	Trust Region	General Problems (Default)
+lm (Levenberg-Marquardt)	Trust Region	Nonlinear Least Squares
+broyden1	Quasi-Newton	Large Sparse Problems
+broyden2	Quasi-Newton	Large Sparse Problems
+anderson	Iterative	Fixed-Point Problems
+krylov	Iterative	Large Systems
+diagbroyden	Quasi-Newton	Diagonal Jacobians
+excitingmixing	Iterative	Physics & Engineering
+linearmixing	Iterative	Fixed-Point Equations
+
+
+
+
+
+****
+For a single nonlinear equation, use simpler functions like newton().
+For systems of equations, root() is the best choice.
+
+'''
+
+
+
+
+
 
 
 
@@ -873,6 +1064,29 @@ In real-world scenarios where data or initial conditions are noisy or uncertain.
 
 
 '''
+
+
+
+
+#===============================================
+#===============================================
+#===============================================
+#===============================================
+#===============================================
+#===============================================
+#===============================================
+
+'''   MORE ON DIFFERENTIAL EQUATIONS     '''
+
+
+
+#===============================================
+#===============================================
+#===============================================
+#===============================================
+#===============================================
+#===============================================
+#===============================================
 
 
 
