@@ -1039,6 +1039,48 @@ Second Order --> ro2 u / ro2 x + c * ro2 u / ro2 t =0
 
 #======================================
 #-----ANALYTHICALLY--------------
+'''
+analytical way for ODE Equatio
+
+
+First order
+seperation of variables --> dy/dx = g(x)h(y)
+linear Integrating factor ---> dy/dx + P(x)y = Q(x)
+Exact --> M(x,y)dx + N(x,y)dy =0 --> check if roM/roy = roN/ rox
+Bernulli --> dy/dx + P(x)y = Q(x)y**n , substition v=y**1-n
+
+
+
+
+second order
+Homogenious y'' + py' + qy=0
+Non Homogenious y'' + p(x)y' + q(x)y= f(x)
+
+Higher-Order ODEs
+Solved using reduction of order, Laplace transforms, or series solutions.
+
+for isntance
+Homogeneous Linear Higher-Order ODEs
+we can assume the answer is y=e**x
+and finally we have different r 
+y1=C1 + C2 + ....
+
+Non-homogenious--> work with simpler F(x) or variation in parameters
+
+
+
+
+In all of them we must analysis all of them and then
+we can go for numericals
+
+
+sympy for analytical
+
+
+Analytical methods give exact solutions but are limited to simpler equations.
+
+'''
+
 
 #---Separation of Variables:-----
 #-----Integrating Factor Method --> DY/DX + p(x)y = q(x)
@@ -1084,20 +1126,200 @@ print(solution)
 
 
 
-
-
-
 #======================================
 #-----Numerical--------------
+'''
+Euler’s Method (First-Order ODEs)
+
+Basic idea: Approximate y(x) using small steps h
+
+
+'''
+import numpy as np
+import matplotlib.pyplot as plt
+def euler(f, x0, y0, x_end, h):
+    x = np.arange(x0, x_end + h, h)
+    y = np.zeros(len(x))
+    y[0] = y0
+    for i in range(1, len(x)):
+        y[i] = y[i-1] + h * f(x[i-1], y[i-1])
+    return x, y
+# Define ODE: y' = y - x^2 + 1
+f = lambda x, y: y - x**2 + 1
+# Solve using Euler's method
+x, y = euler(f, 0, 0.5, 2, 0.1)
+# Plot results
+plt.plot(x, y, 'bo-', label="Euler Approximation")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.show()
 
 
 
+'''
+Improved Euler (Heun’s Method)
+More accurate than Euler. / Uses the average slope:
+'''
+
+
+'''
+Runge-Kutta Methods (RK)
+Most commonly used!
+Fourth-order Runge-Kutta (RK4):
+'''
+from scipy.integrate import solve_ivp
+
+def ode_system(t, y):
+    return y - t**2 + 1
+
+sol = solve_ivp(ode_system, (0, 2), [0.5], method='RK45', t_eval=np.linspace(0, 2, 20))
+
+plt.plot(sol.t, sol.y[0], 'ro-', label="RK4 Approximation")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.show()
 
 
 
+#----------------------------------------
+#Solving Higher-Order ODEs Numerically
+
+#Convert to a System of First-Order ODEs
+#y'' + y =0.  --> define y1=y , y2=y' . y1'=y2.  y2'=-y1
+def system(t, Y):
+    y1, y2 = Y
+    return [y2, -y1]  # dy1/dt = y2, dy2/dt = -y1
+
+t_eval = np.linspace(0, 10, 100)
+sol = solve_ivp(system, (0, 10), [1, 0], t_eval=t_eval, method='RK45')
+
+plt.plot(sol.t, sol.y[0], label="y(t)")
+plt.plot(sol.t, sol.y[1], label="y'(t)")
+plt.legend()
+plt.show()
+
+
+#Boundary Value Problems (BVPs)
+#y'' +y =0 with y(0) , y(pi/2)=1
+
+from scipy.integrate import solve_bvp
+
+def bvp_func(x, y):
+    return np.vstack([y[1], -y[0]])
+
+def boundary(ya, yb):
+    return np.array([ya[0], yb[0] - 1])
+
+x = np.linspace(0, np.pi/2, 10)
+y_init = np.zeros((2, x.size))
+sol = solve_bvp(bvp_func, boundary, x, y_init)
+
+plt.plot(sol.x, sol.y[0], 'b-', label="BVP Solution")
+plt.legend()
+plt.show()
 
 
 
+#non linear ODE-------
+
+
+'''
+SOLVING SYSTEM OF ODE
+
+
+
+ANALYTICAL--------
+(A) Direct Integration (Separable Equations)
+(B) Matrix Exponential Method (For Linear Systems)
+(C) Laplace Transform: 
+Convert the system into algebraic equations, solve, and take the inverse Laplace transform.
+Useful for linear systems with constant coefficients.
+Laplace Transform (only for linear systems)
+
+'''
+import sympy as sp
+
+t = sp.Symbol('t')
+X = sp.Matrix(sp.symbols('x y')).T
+A = sp.Matrix([[2, 1], [3, 2]])
+
+# Compute the matrix exponential e^(At)
+sol = sp.exp(A*t) * sp.Matrix([1, 0])  # Assuming initial condition X(0) = [1,0]
+sol.simplify()
+print(sol)
+
+
+
+#------
+s = sp.Symbol('s')
+X_s = sp.Matrix(sp.symbols('X Y')).T
+eqs = (s*X_s - sp.Matrix([1, 0])) - A * X_s
+sol_s = sp.solve(eqs, X_s)  # Solve in Laplace domain
+sol_t = [sp.inverse_laplace_transform(sol, s, t) for sol in sol_s.values()]
+print(sol_t)
+
+
+'''
+Numerical Methods
+'''
+
+'''
+(A) Euler’s Method (First-Order Approximation)
+LIKE ONE ODE
+'''
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(t, X):
+    x, y = X
+    return np.array([2*x + y, 3*x + 2*y])  # dx/dt, dy/dt
+
+t0, tf, h = 0, 2, 0.1
+t_values = np.arange(t0, tf+h, h)
+X_values = np.zeros((len(t_values), 2))
+X_values[0] = [1, 0]  # Initial condition
+
+for i in range(1, len(t_values)):
+    X_values[i] = X_values[i-1] + h * f(t_values[i-1], X_values[i-1])
+
+plt.plot(t_values, X_values[:, 0], 'r-', label='x(t)')
+plt.plot(t_values, X_values[:, 1], 'b-', label='y(t)')
+plt.legend()
+plt.show()
+
+
+
+'''
+B) (B) Runge-Kutta Methods (RK4)
+most common like ode
+'''
+from scipy.integrate import solve_ivp
+
+def system(t, X):
+    x, y = X
+    return [2*x + y, 3*x + 2*y]
+
+sol = solve_ivp(system, (0, 2), [1, 0], t_eval=np.linspace(0, 2, 50), method='RK45')
+
+plt.plot(sol.t, sol.y[0], 'r-', label="x(t)")
+plt.plot(sol.t, sol.y[1], 'b-', label="y(t)")
+plt.legend()
+plt.show()
+
+
+
+'''
+C) (C) Implicit Methods (Backward Euler, BDF)
+'''
+
+sol = solve_ivp(system, (0, 2), [1, 0], method='BDF')
+
+plt.plot(sol.t, sol
+
+
+         
 
 
 
@@ -1109,12 +1331,166 @@ print(solution)
 #===============================================
 
 
+
 #Solving PDEs Analytically (Wave Equation)
 from sympy import Function, Derivative
 t, x, c = symbols('t x c')
 u = Function('u')(x, t)
 wave_eq = Eq(Derivative(u, t, t), c**2 * Derivative(u, x, x))
 print(wave_eq)
+
+
+
+#---------------------------------------------
+'''
+(A) Separation of Variables
+Used for linear PDEs where variables can be separated.
+Converts a PDE into ordinary differential equations (ODEs).
+
+
+'''
+import sympy as sp
+
+x, t = sp.symbols('x t')
+X = sp.Function('X')(x)
+T = sp.Function('T')(t)
+alpha, lambd = sp.symbols('alpha lambda')
+
+eq1 = sp.Eq(T.diff(t), -lambd * alpha * T)  # Time equation
+eq2 = sp.Eq(X.diff(x, 2), -lambd * X)      # Space equation
+
+sol_T = sp.dsolve(eq1, T)  # Solve ODE in time
+sol_X = sp.dsolve(eq2, X)  # Solve ODE in space
+
+print(sol_T, sol_X)
+
+
+
+'''
+(B) Fourier Series & Transform Methods
+'''
+from sympy.integrals.transforms import fourier_transform
+
+u = sp.Function('u')(x)
+F = fourier_transform(u, x, sp.Symbol('k'))
+print(F)  # Fourier transform of u(x)
+
+
+'''
+(C) Laplace Transform
+Used for initial/boundary value problems.
+Converts PDEs into algebraic equations in the Laplace domain.
+
+'''
+from sympy.integrals.transforms import laplace_transform
+
+f = sp.Function('f')(t)
+F = laplace_transform(f, t, sp.Symbol('s'))  # Laplace transform of f(t)
+print(F)
+
+
+
+#=========================
+#=========================
+#------NUMERICAL-----------
+
+#(A) Finite Difference Method (FDM)
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+L, T = 1.0, 0.2  # Length and time
+Nx, Nt = 20, 100  # Grid points
+dx, dt = L/Nx, T/Nt
+alpha = 0.01  # Diffusion coefficient
+r = alpha * dt / dx**2  # Stability condition
+
+# Initialize solution
+u = np.zeros((Nx+1, Nt+1))
+x = np.linspace(0, L, Nx+1)
+u[:, 0] = np.sin(np.pi * x)  # Initial condition
+
+# Time-stepping loop
+for n in range(0, Nt):
+    for i in range(1, Nx):
+        u[i, n+1] = u[i, n] + r * (u[i+1, n] - 2*u[i, n] + u[i-1, n])
+
+# Plot result
+plt.imshow(u, extent=[0, T, 0, L], aspect='auto', origin='lower', cmap='hot')
+plt.colorbar(label='Temperature')
+plt.xlabel('Time')
+plt.ylabel('Position')
+plt.show()
+
+
+
+
+#(B) Finite Element Method (FEM)
+#Divides the domain into small elements.
+#Used for complex geometrie
+
+
+from fenics import *
+
+# Define domain and mesh
+mesh = UnitIntervalMesh(10)
+V = FunctionSpace(mesh, "P", 1)
+
+# Define boundary conditions
+u_D = Expression("sin(pi*x[0])", degree=2)
+bc = DirichletBC(V, u_D, "on_boundary")
+
+# Define problem
+u = TrialFunction(V)
+v = TestFunction(V)
+f = Constant(0)
+a = dot(grad(u), grad(v)) * dx
+L = f * v * dx
+
+# Solve
+u = Function(V)
+solve(a == L, u, bc)
+
+# Plot solution
+import matplotlib.pyplot as plt
+plot(u)
+plt.show()
+
+
+
+
+
+#(C) Finite Volume Method (FVM)
+#Used in computational fluid dynamics (CFD).
+## Install OpenFOAM and run CFD simulations
+
+
+#(D) Method of Lines (MOL)
+#Converts PDEs into ODEs and solves using solve_ivp().
+from scipy.integrate import solve_ivp
+
+def heat_eq(t, u, alpha, dx):
+    dudx2 = (np.roll(u, -1) - 2*u + np.roll(u, 1)) / dx**2
+    dudx2[0] = dudx2[-1] = 0  # Boundary conditions
+    return alpha * dudx2
+
+Nx, L, alpha = 20, 1, 0.01
+x = np.linspace(0, L, Nx)
+u0 = np.sin(np.pi * x)
+
+sol = solve_ivp(heat_eq, (0, 0.2), u0, args=(alpha, x[1] - x[0]))
+
+plt.imshow(sol.y, aspect='auto', origin='lower', cmap='hot')
+plt.colorbar(label='Temperature')
+plt.xlabel('Time Steps')
+plt.ylabel('Position')
+plt.show()
+
+
+
+
+
+
 
 
 
