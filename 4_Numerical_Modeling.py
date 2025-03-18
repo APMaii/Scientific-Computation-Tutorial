@@ -460,7 +460,7 @@ jn_zeros(n, m)
 
 
 
-
+#it doesnt need numerical *** becauae it is easy and we can only use sympy 
 
 
 
@@ -559,6 +559,14 @@ and see at which poin we habve th cross teh y=0
 
 
 '''
+
+
+
+
+
+
+
+
 
 
 
@@ -667,6 +675,82 @@ print(L)  # Lower triangular matrix
 A_inv = A.inv()  # Compute inverse
 X = A_inv * B  # Compute solution
 print(X)  # Matrix([[2], [1]])
+
+
+
+
+
+
+
+#-------We can use LU decomposition for linear equations with SCIPY
+#here we dont have the equation sysmbolic so we must sue something else like 
+#coefficient matrix from numpy array
+
+#-------Analytical (LU Decomposition methods)------------ 
+#useful for large-scale or ill-conditioned systems 
+
+from scipy.linalg import solve
+
+A = np.array([[3, 2], [1, 4]])
+b = np.array([5, 6])
+
+x = solve(A, b)  # Gaussian Elimination internally
+print(x)
+
+
+
+#For large or ill-conditioned systems, iterative numerical methods are better.------
+
+'''
+Jacobi Method
+Iteratively updates values based on the previous iteration.
+Good for diagonally dominant matrices.
+
+
+Gauss-Seidel Method
+Faster than Jacobi because it updates values immediately instead of waiting for the next iteration.
+
+Conjugate Gradient (CG)
+Used for sparse and large systems.
+Common in machine learning and physics simulations.
+
+
+'''
+#iterative method----Best for Large Sparse Systems
+from scipy.sparse.linalg import cg
+
+A = np.array([[4, 1], [1, 3]])
+b = np.array([1, 2])
+
+x, info = cg(A, b)
+print(x)
+
+#Only works for symmetric positive definite matrices
+
+
+
+
+#Generalized Minimal Residual Method (GMRES)
+from scipy.sparse.linalg import gmres
+
+A = np.array([[3, 2], [1, 4]])
+b = np.array([5, 6])
+
+x, info = gmres(A, b)  # Iterative GMRES solver
+print(x)
+#Can be slow if the system is not well-conditioned
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
