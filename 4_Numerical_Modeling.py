@@ -986,14 +986,71 @@ For systems of equations, root() is the best choice.
 ''' 5-Differential Equations '''
 #===========================================
 
+'''
 
+Differential equations are mathematical equations that relate a function to its derivatives.
+They play a critical role in modeling various physical, biological, and engineering systems,
+as they describe how quantities change with respect to one another. Understanding the types
+of differential equations and their applications is fundamental for solving real-world problems
+in fields like fluid mechanics, heat transfer, and molecular dynamics.
+
+
+
+Differential equations are fundamental in modeling various physical phenomena in engineering, physics, biology,
+economics, and more. They describe the relationships involving rates of change and are classified into ordinary
+differential equations (ODEs) and partial differential equations (PDEs). Solving these equations can be approached 
+through two primary methods: analytical methods and numerical methods.
+•	Analytical Methods provide exact solutions to differential equations, yielding formulas that describe 
+the behavior of the system.
+•	Numerical Methods, on the other hand, offer approximate solutions, which are especially useful when
+analytical solutions are difficult or impossible to obtain.
+
+
+
+ORDINARY DIFFERENTIAL EQUATION (ODE)
+
+
+F(x,y,y',y'',...)=0
+
+first order --> dy/dx + y =0 
+second order --> d2y/d2x + dy/dx + 2y=0
+
+
+
+PARTIAL DIFFERENTIAL EQUATION (PDE)
+Multiple independent variables and their partial derivative
+
+F(x1,x2,y, dy/dx1 , dy/dx2 ,...) =0
+
+First Order --> ro u / ro x + c * ro u / ro t =0
+Second Order --> ro2 u / ro2 x + c * ro2 u / ro2 t =0
+
+
+'''
+
+
+
+#===============================================
+#===============================================
+
+'''                  ODE                      '''
+#===============================================
+#===============================================
+
+#======================================
+#-----ANALYTHICALLY--------------
+
+#---Separation of Variables:-----
+#-----Integrating Factor Method --> DY/DX + p(x)y = q(x)
+#Homogeneous and Non-Homogeneous Linear Equations:---
+#----y'' + p(x)y' + q(x)y=0
+#-----y'' + p(x)y' + q(x)y= f(x)
+#Series Solutions (Power Series):
 #First-Order ODE: Separable Equation
 #dy/dx=xy
 from sympy import symbols, Function, Eq, dsolve
-
 x = symbols('x')
 y = Function('y')(x)
-
 ode = Eq(y.diff(x), x * y)
 solution = dsolve(ode, y)
 print(solution)
@@ -1024,12 +1081,43 @@ print(solution)
 
 
 
+
+
+
+
+
+
+#======================================
+#-----Numerical--------------
+
+
+
+
+
+
+
+
+
+
+
+
+#===============================================
+#===============================================
+
+'''                  PDE                      '''
+#===============================================
+#===============================================
+
+
 #Solving PDEs Analytically (Wave Equation)
 from sympy import Function, Derivative
 t, x, c = symbols('t x c')
 u = Function('u')(x, t)
 wave_eq = Eq(Derivative(u, t, t), c**2 * Derivative(u, x, x))
 print(wave_eq)
+
+
+
 
 
 
@@ -1064,43 +1152,5 @@ In real-world scenarios where data or initial conditions are noisy or uncertain.
 
 
 '''
-
-
-
-
-#===============================================
-#===============================================
-#===============================================
-#===============================================
-#===============================================
-#===============================================
-#===============================================
-
-'''   MORE ON DIFFERENTIAL EQUATIONS     '''
-
-
-
-#===============================================
-#===============================================
-#===============================================
-#===============================================
-#===============================================
-#===============================================
-#===============================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
