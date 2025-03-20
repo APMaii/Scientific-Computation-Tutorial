@@ -114,7 +114,19 @@ for key,value in mydict.item():
 
 
 
+#==================================
+#-------COLLECTIONS------------------
+#==================================
 
+
+'''
+These are the most commonly used built-in collections in Python
+
+ A list is a mutable, ordered collection of elements, which can be of any data type.
+A tuple is an immutable, ordered collection of elements.
+A set is an unordered collection of unique elements. It automatically removes duplicates.
+A dictionary is a collection of key-value pairs where each key must be unique.
+'''
 
 
 #------------------
@@ -132,7 +144,10 @@ for key,value in mydict.item():
 #---Tuple---
 #unchangable 
 #a[0]=.. not
+#print(my_tuple.count(2))  # 1
 
+# Find index of element
+#print(my_tuple.index(3))  # 2
 
 #--Dictionary---
 #instead of index --> key and value
@@ -140,6 +155,12 @@ for key,value in mydict.item():
 #a.values()
 #a.keys()
 #a['new']='new_value'
+
+my_dict.pop('name')
+
+# Keys, values, items
+print(my_dict.keys())   # dict_keys(['age'])
+print(my_dict.values()) # dict_values([30])
 
 
 
@@ -225,18 +246,161 @@ print(B.issuperset(A))  # Output: True
 
 
 
-
-#==================================
-#-------COLLECTIONS------------------
-#==================================
+#-----Advanced Python Collections (from collections module)-----------
 
 
 
+#---------
+# defaultdict
+#----------
+from collections import defaultdict
+# Create a defaultdict with list as the default factory
+d = defaultdict(list)
+# Append values to a key
+d['fruit'].append('apple')
+d['fruit'].append('banana')
+# No key error, it will create an empty list by default
+print(d['fruit'])  # ['apple', 'banana']
+print(d['vegetable'])  # []
 
 
 
 
 
+#--------
+#OrderedDict: Dictionary with Order Guarantee
+#---------
+#An OrderedDict maintains the order of key insertion.
+from collections import OrderedDict
+od = OrderedDict()
+od["a"] = 1
+od["b"] = 2
+od["c"] = 3
+print(od)  # OrderedDict([('a', 1), ('b', 2), ('c', 3)])
+
+
+#reordering
+od.move_to_end("a")  # Moves 'a' to the end
+print(od)  # OrderedDict([('b', 2), ('c', 3), ('a', 1)])
+
+od.move_to_end("c", last=False)  # Moves 'c' to the beginning
+print(od)  # OrderedDict([('c', 3), ('b', 2), ('a', 1)])
+
+
+
+
+
+
+#-----------
+#Counter: Counting Hashable Objects
+#------------
+from collections import Counter
+items = ["apple", "banana", "apple", "orange", "banana", "apple"]
+counter = Counter(items)
+print(counter)  
+# Output: Counter({'apple': 3, 'banana': 2, 'orange': 1})
+
+
+
+print(counter.most_common(1))  # [('apple', 3)]
+print(counter["banana"])  # 2 (returns 0 if key is missing)
+counter.update(["apple", "apple"])
+print(counter)  
+# Output: Counter({'apple': 5, 'banana': 2, 'orange': 1})
+
+
+counter1 = Counter("aabbcc")
+counter2 = Counter("abc")
+print(counter1 + counter2)  # Counter({'a': 3, 'b': 3, 'c': 3})
+print(counter1 - counter2)  # Counter({'a': 1, 'b': 1, 'c': 1})
+
+
+#or it is a type
+from collections import Counter
+# Create a Counter from a list
+count = Counter(['apple', 'orange', 'apple', 'apple', 'orange', 'banana'])
+# Access counts of elements
+print(count['apple'])  # 3
+print(count['orange'])  # 2
+# Most common elements
+print(count.most_common(1))  # [('apple', 3)]
+
+
+
+#-----------
+#A deque (double-ended queue) is a list-like container optimized for fast appends and pops from both ends.
+#-------
+from collections import deque
+
+# Create a deque
+d = deque([1, 2, 3])
+# Append to the right
+d.append(4)
+# Append to the left
+d.appendleft(0)
+# Pop from the right
+d.pop()
+# Pop from the left
+d.popleft()
+print(d)  # deque([1, 2, 3])
+
+
+#--rotate and extent
+dq.rotate(1)  # Shift elements right
+print(dq)  # deque(['c', 'a', 'b'])
+
+dq.rotate(-1)  # Shift elements left
+print(dq)  # deque(['a', 'b', 'c'])
+
+
+
+#-------
+#A namedtuple is a subclass of tuple with named fields for better readability and access.
+#--------
+from collections import namedtuple
+
+# Define a namedtuple for a point in 2D space
+Point = namedtuple('Point', ['x', 'y'])
+
+# Create a Point object
+p = Point(10, 20)
+
+# Access by field name
+print(p.x, p.y)  # 10 20
+
+# Access by index
+print(p[0], p[1])  # 10 20
+
+
+
+
+#------
+#specialized : ChainMap
+#-------
+#A ChainMap groups multiple dictionaries together to create a single view.
+
+from collections import ChainMap
+
+# Create multiple dictionaries
+dict1 = {'x': 1, 'y': 2}
+dict2 = {'y': 3, 'z': 4}
+
+# Create a ChainMap
+chain = ChainMap(dict1, dict2)
+
+# Access values (looks in dict1 first, then dict2)
+print(chain['y'])  # 2 (from dict1)
+print(chain['z'])  # 4 (from dict2)
+
+
+
+
+
+
+
+
+
+#=========================================================
 #========ADVANCE PYTHON BUILT IN FUCNTION================
 
 all([True,True,True,True]) #True
