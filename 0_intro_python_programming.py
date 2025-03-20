@@ -813,9 +813,147 @@ with open("new_document.pdf", "wb") as new_file:
 #----------------------
 #-------TIME----------
 #----------------------
+'''
+time – Deals with timestamps and time-related operations.
+datetime – Provides more sophisticated date and time handling, including formatting, arithmetic, and time zones.
+'''
+
+# Getting the Current Time
+import time
+timestamp = time.time()
+print(timestamp)  # 1711034354.502318
+#The time.time() function returns the current time as a floating-point number representing seconds since the epoch (January 1, 1970).
+
+#onverting Timestamp to Readable Time
+print(time.ctime(time.time()))  # "Wed Mar 20 15:39:14 2025"
+
+
+#Using time.sleep() for Delays
+print("Start")
+time.sleep(2)  # Waits for 2 seconds
+print("End")
+
+
+#Getting the Current Local Time (time.localtime())
+local_time = time.localtime()
+print(local_time)  # time.struct_time(tm_year=2025, tm_mon=3, tm_mday=20, ...)
+
+#Formatting Time (time.strftime())
+formatted_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+print(formatted_time)  # "2025-03-20 15:45:10"
+
+#Parsing a Time String (time.strptime())
+parsed_time = time.strptime("2025-03-20 15:45:10", "%Y-%m-%d %H:%M:%S")
+print(parsed_time.tm_year)  # 2025
+
+
+# Measuring Execution Time (time.perf_counter())
+start = time.perf_counter()
+time.sleep(1.5)
+end = time.perf_counter()
+print(f"Execution Time: {end - start:.2f} seconds")  # "Execution Time: 1.50 seconds"
 
 
 
+
+
+
+
+
+#=====
+#datetime Module
+#======
+from datetime import datetime
+
+now = datetime.now()
+print(now)  # "2025-03-20 15:50:30.123456"
+
+
+
+print(now.year)   # 2025
+print(now.month)  # 3
+print(now.day)    # 20
+print(now.hour)   # 15
+print(now.minute) # 50
+print(now.second) # 30
+
+
+
+#--creatng specific time
+custom_date = datetime(2025, 3, 20, 14, 30, 0)
+print(custom_date)  # "2025-03-20 14:30:00"
+
+
+
+#----formatting
+formatted_date = now.strftime("%Y-%m-%d %H:%M:%S")
+print(formatted_date)  # "2025-03-20 15:50:30"
+
+
+#parsing 
+parsed_date = datetime.strptime("2025-03-20 15:50:30", "%Y-%m-%d %H:%M:%S")
+print(parsed_date)  # "2025-03-20 15:50:30"
+
+
+
+#--difference---
+from datetime import timedelta
+
+# Add 7 days
+future_date = now + timedelta(days=7)
+print(future_date)  # "2025-03-27 15:50:30"
+
+# Subtract 1 hour
+past_date = now - timedelta(hours=1)
+print(past_date)  # "2025-03-20 14:50:30"
+
+
+
+#----------getting difference
+date1 = datetime(2025, 3, 20)
+date2 = datetime(2025, 4, 5)
+difference = date2 - date1
+print(difference.days)  # 16
+
+
+
+
+#----workign with tiemzone
+from datetime import datetime
+import pytz
+
+# Get UTC time
+utc_now = datetime.now(pytz.utc)
+print(utc_now)  # "2025-03-20 15:50:30+00:00"
+
+# Convert UTC to another timezone
+tehran_tz = pytz.timezone("Asia/Tehran")
+tehran_time = utc_now.astimezone(tehran_tz)
+print(tehran_time)  # "2025-03-20 19:20:30+03:30"
+
+
+
+timestamp = 1711034354  # Example timestamp
+readable_time = datetime.fromtimestamp(timestamp)
+print(readable_time)  # "2025-03-20 15:50:30"
+
+
+
+
+#excutation----
+import timeit
+execution_time = timeit.timeit("sum(range(1000))", number=10000)
+print(f"Execution Time: {execution_time:.5f} seconds")
+
+
+
+
+
+
+
+#======================================
+#-----------Notes On functions---------------
+#======================================
 
 
 
