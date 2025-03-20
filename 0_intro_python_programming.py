@@ -376,7 +376,96 @@ except:
     print('nothing happend')
 
 
+try:
+    x = 5 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero!")  
 
+
+
+#Occurs when a function receives an argument of the right type but an inappropriate value.
+try:
+    num = int("hello")  # Cannot convert "hello" to an integer
+except ValueError:
+    print("Invalid input! Expected a number.")
+
+
+#Occurs when an operation is applied to an object of an inappropriate type.
+try:
+    result = "5" + 2  # Cannot add string and integer
+except TypeError:
+    print("Type mismatch error!")
+
+
+try:
+    print(xyz)  # 'xyz' is not defined
+except NameError:
+    print("Variable not defined!")
+
+
+
+try:
+    lst = [1, 2, 3]
+    print(lst[5])  # Index 5 does not exist
+except IndexError:
+    print("Index out of range!")
+
+
+try:
+    d = {"name": "Alice"}
+    print(d["age"])  # 'age' key does not exist
+except KeyError:
+    print("Key not found in dictionary!")
+
+
+try:
+    f = open("nonexistent.txt", "r")
+except FileNotFoundError:
+    print("File not found!")
+
+
+try:
+    num = 10
+    num.append(5)  # Integers do not have an `append` method
+except AttributeError:
+    print("Invalid attribute usage!")
+
+
+try:
+    import non_existing_module
+except ModuleNotFoundError:
+    print("Module not found!")
+
+
+try:
+    from math import unknown_function
+except ImportError:
+    print("Function does not exist in module!")
+
+
+#---or multiple error
+#--one option----
+try:
+    from math import unknown_function
+except ImportError:
+    print("Function does not exist in module!")
+except ModuleNotFoundError:
+    print("Module not found!")
+else:
+  print('other things')
+  
+
+
+#----or--------
+try:
+    x = int("hello")  # This raises a ValueError
+except (ValueError, TypeError, ZeroDivisionError) as e:
+    print(f"Error occurred: {e}")
+
+
+
+
+#-----or unknown error-------
 try:
     new=[]
     for i in a :
@@ -388,10 +477,13 @@ except Exception as e:
   print(f'man barename ro nakahbodam ama erroret hast : {e}')
 
 
+#also else and finally we have
 
 
 
 
+
+#-----or custome raise------
 if float(a)<100:
     raise ValueError('Lotfan adade bozorg tar az 100 ro vared konid')
 
@@ -409,6 +501,155 @@ sys.stderr--> to show the error to users
 
 
 '''
+
+with open("example.txt", "r") as file:
+    content = file.read()
+    print(content)  # Reads the file content
+
+
+#in the open() you have mode
+'''
+"r"	Read mode (default) - File must exist
+"w"	Write mode - Overwrites existing file or creates new one
+"a"	Append mode - Adds data to the file if it exists
+"x"	Exclusive creation - Fails if the file already exists
+"b"	Binary mode - Used for non-text files like images/PDFs
+"t"	Text mode (default) - Used for text files
+"r+"	Read and write mode (file must exist)
+"w+"	Write and read (overwrites file)
+"a+"	Append and read (adds new content without removing existing data)
+
+'''
+
+
+
+#after opening as object we have the read() or write()
+# Write Mode ("w") - Overwrites the file
+with open("example.txt", "w") as file:
+    file.write("Hello, world!")
+
+# Append Mode ("a") - Adds new content
+with open("example.txt", "a") as file:
+    file.write("\nThis is a new line.")
+
+# Read and Write Mode ("r+")
+with open("example.txt", "r+") as file:
+    print(file.read())  # Read existing content
+    file.write("\nNew content added.")  # Adds new content
+
+
+
+
+#-----------------
+#-----CSV----------
+#-----------------
+import csv
+#reading------
+with open("data.csv", "r") as file:
+    reader = csv.reader(file)
+    for row in reader:
+        print(row)  # Prints each row as a list
+
+
+#writing-----
+with open("data.csv", "w", newline="") as file:
+    writer = csv.writer(file)
+    writer.writerow(["Name", "Age", "City"])
+    writer.writerow(["Alice", 25, "New York"])
+    writer.writerow(["Bob", 30, "London"])
+
+
+#reasding csv as dictionary ---------
+with open("data.csv", "r") as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        print(row["Name"], row["Age"])  # Accessing columns by header name
+
+
+#writing csv as dictionary ---------
+with open("data.csv", "w", newline="") as file:
+    fieldnames = ["Name", "Age", "City"]
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerow({"Name": "Charlie", "Age": 22, "City": "Paris"})
+
+
+
+
+
+#-----------------
+#-----JASON----------
+#-----------------
+#Writing to a JSON File
+import json
+
+data = {"name": "Alice", "age": 25, "city": "New York"}
+
+with open("data.json", "w") as file:
+    json.dump(data, file, indent=4)  # Writes JSON data with indentation
+
+
+
+
+#reading
+with open("data.json", "r") as file:
+    data = json.load(file)
+    print(data)  # Outputs a dictionary
+
+
+
+#--------
+#---Working with Image Files (PIL Module)
+#---------
+
+from PIL import Image
+with Image.open("image.jpg") as img:
+    img.show()  # Opens the image using the default viewer
+
+
+
+with Image.open("image.jpg") as img:
+    img_resized = img.resize((200, 200))
+    img_resized.save("resized_image.jpg")
+
+
+
+
+#-------
+#Working with PDF Files (PyPDF2 Module)
+#--------
+#reading PDF FILE
+import PyPDF2
+
+with open("document.pdf", "rb") as file:
+    reader = PyPDF2.PdfReader(file)
+    for page in reader.pages:
+        print(page.extract_text())  # Extracts text from each page
+
+
+
+
+#writing PDF---
+from PyPDF2 import PdfWriter
+
+writer = PdfWriter()
+with open("document.pdf", "rb") as file:
+    reader = PyPDF2.PdfReader(file)
+    writer.add_page(reader.pages[0])  # Add first page to a new PDF
+
+with open("new_document.pdf", "wb") as new_file:
+    writer.write(new_file)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
