@@ -955,6 +955,156 @@ print(f"Execution Time: {execution_time:.5f} seconds")
 #-----------Notes On functions---------------
 #======================================
 
+#---type hints----
+def add(a: int, b: int) -> int:
+    return a + b
+
+result = add(5, 3)  # Output: 8
+
+
+def greet(name: str) -> str:
+    return f"Hello, {name}!"
+
+def divide(a: float, b: float) -> float:
+    return a / b
+
+print(greet("Ali"))  # Output: Hello, Ali!
+print(divide(5.0, 2.0))  # Output: 2.5
+
+def process_numbers(numbers: list[int]) -> list[int]:
+    return [num * 2 for num in numbers]
+
+print(process_numbers([1, 2, 3]))  # Output: [2, 4, 6]
+
+
+
+def get_user_info() -> tuple[str, int]:
+    return ("Ali", 25)
+
+def user_data(data: dict[str, int]) -> None:
+    print(data)
+
+print(get_user_info())  # Output: ('Ali', 25)
+user_data({"age": 30, "score": 100})  # Output: {'age': 30, 'score': 100}
+
+
+
+
+
+
+
+#-----ptional and Union Types------
+from typing import Optional, Union
+
+def get_age(age: Optional[int] = None) -> Optional[int]:
+    return age
+
+print(get_age())  # Output: None
+print(get_age(25))  # Output: 25
+
+
+
+
+def square(value: Union[int, float]) -> Union[int, float]:
+    return value * value
+print(square(5))  # Output: 25
+print(square(2.5))  # Output: 6.25
+
+
+
+
+
+#Closures (Functions Inside Functions)----------
+def outer_function(text: str):
+    def inner_function():
+        print(text)  # The inner function remembers 'text'
+    return inner_function
+
+closure = outer_function("Hello, Closure!")
+closure()  # Output: Hello, Closure!
+
+
+
+
+
+#-----args kwargs------
+def sum_all(*args: int) -> int:
+    return sum(args)
+
+print(sum_all(1, 2, 3, 4))  # Output: 10
+
+
+
+
+#as dictionary
+def print_info(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_info(name="Ali", age=25, city="Tehran")
+# Output:
+# name: Ali
+# age: 25
+# city: Tehran
+
+
+
+
+
+#-----decorators----
+def decorator(func):
+    def wrapper():
+        print("Before function")
+        func()
+        print("After function")
+    return wrapper
+
+@decorator
+def say_hello():
+    print("Hello!")
+
+say_hello()
+# Output:
+# Before function
+# Hello!
+# After function
+
+
+
+
+#----decorators with args----
+def repeat(n: int):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for _ in range(n):
+                func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@repeat(3)
+def greet(name: str):
+    print(f"Hello, {name}!")
+
+greet("Ali")
+# Output:
+# Hello, Ali!
+# Hello, Ali!
+# Hello, Ali!
+
+
+
+
+
+#_---generators-----
+def counter():
+    n = 0
+    while n < 5:
+        yield n
+        n += 1
+
+gen = counter()
+print(next(gen))  # Output: 0
+print(next(gen))  # Output: 1
 
 
 
