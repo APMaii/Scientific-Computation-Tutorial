@@ -1116,6 +1116,279 @@ print(next(gen))  # Output: 1
 #-----------------------------------
 #======================================
 
+'''
+
+Object Oriented Programming (OOP_
+
+You can download the [ackages from github, bitbucket, sourceforge.net
+you can downlaod and isntall from pip and conda 
+we have base class or siperclass
+and also we have drived class or subclass
+
+also we have polymorphism
+
+for creation of object from oen class we need
+constructure expression
+
+we have class header --> class name:
+also with semi columns we can have the description of the class (documentation)
+
+
+
+'''
+
+
+
+
+#--------------------------------------------------------
+#-----------------    __INIT__  -------------------------
+#--------------------------------------------------------
+
+
+
+'''
+initial assinment with __init__ methods
+this method must return None (liek all function that ahs no none return) if not it get us Typeerror
+it must has self --> to have connections  betweeen functions
+any functions that has __ and __ --> we said special method
+
+
+
+This is initiator --> it just get the values you can save them in self.
+also you can save another thigns in another things (or anythign that doesn get from the user)
+
+you can also have default --> . Default Values in __init__
+def __init__(self, name="Unknown", age=18):
+
+
+You can define private attributes inside __init__ using a double underscore (__).
+def __init__(self, owner, balance):
+        self.owner = owner
+        self.__balance = balance  # Private attribute
+
+# print(account.__balance)  # ❌ AttributeError: 'BankAccount' object has no attribute '__balance'
+
+but you can get the access
+
+def get_balance(self):
+        return self.__balance
+
+
+
+or alos you can have
+class Dog:
+    species = "Canine"  # Class attribute
+
+    def __init__(self, name):
+        self.name = name  # Instance attribute
+
+**Class attributes belong to the class itself and are shared across instances.
+Instance attributes are unique to each object.
+
+
+
+
+__init__ with Type Hints
+class Employee:
+    def __init__(self, name: str, age: int, salary: float):
+        self.name = name
+        self.age = age
+        self.salary = salary
+
+
+#or using auomticlaly
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    name: str
+    age: int
+
+p = Person("Alice", 25)
+
+
+
+
+# __init__ with Variable Arguments (*args, **kwargs)
+class Car:
+    def __init__(self, *args, **kwargs):
+        self.brand = kwargs.get("brand", "Unknown")
+        self.year = kwargs.get("year", 2020)
+
+car1 = Car(brand="Toyota", year=2023)
+print(car1.brand, car1.year)  # Output: Toyota 2023
+
+
+
+
+'''
+
+
+
+
+#--------------------------------------------------------
+#-----------------    Encapsulation  -------------------------
+#--------------------------------------------------------
+'''
+Acdtually we have public data and private data
+'''
+
+#Public data
+#Can be accessed and modified freely from anywhere.
+#No leading underscore in variable names.
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name  # Public attribute
+        self.age = age  # Public attribute
+
+p = Person("Alice", 30)
+
+print(p.name)  # ✅ Accessible: Alice
+p.name = "Bob"  # ✅ Modifiable
+print(p.name)  # ✅ Updated: Bob
+
+
+
+#private data
+#Cannot be accessed directly from outside the class.
+#Prefixed with double underscores (__).
+#Python uses name mangling (_ClassName__attribute) to prevent direct access.
+class BankAccount:
+    def __init__(self, owner, balance):
+        self.owner = owner  # Public
+        self.__balance = balance  # Private
+
+account = BankAccount("John", 1000)
+
+print(account.owner)  # ✅ Accessible: John
+# print(account.__balance)  # ❌ AttributeError: 'BankAccount' object has no attribute '__balance'
+
+
+
+
+#Accessing Private Data (Workarounds)
+class BankAccount:
+    def __init__(self, owner, balance):
+        self.__balance = balance  # Private
+
+    def get_balance(self):  # Getter method
+        return self.__balance
+
+account = BankAccount("John", 1000)
+print(account.get_balance())  # ✅ Output: 1000
+
+
+
+
+
+# @property and @setter (Encapsulation in Python)--------------
+#Python provides @property and @setter decorators for controlled attribute access.
+
+'''
+Why Use @property?
+Allows getter methods to be called like attributes.
+Provides read-only access without exposing private attributes.
+Helps enforce data validation.
+'''
+
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.__salary = salary  # Private
+
+    @property
+    def salary(self):
+        return self.__salary  # Getter method
+
+emp = Employee("Alice", 5000)
+
+print(emp.salary)  # ✅ Accesses private variable as an attribute
+# emp.salary = 6000  # ❌ AttributeError: Can't set attribute
+
+
+#Salary is read-only because no @salary.setter is defined.
+
+#----------------------------------
+#----------------------------------
+#----------------------------------
+
+#Using @setter (Allowing Modification)
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.__salary = salary  # Private
+
+    @property
+    def salary(self):
+        return self.__salary  # Getter
+
+    @salary.setter
+    def salary(self, new_salary):
+        if new_salary < 0:
+            raise ValueError("Salary cannot be negative!")
+        self.__salary = new_salary  # Setter
+
+emp = Employee("Bob", 5000)
+print(emp.salary)  # ✅ 5000
+
+emp.salary = 6000  # ✅ Updates salary
+print(emp.salary)  # ✅ 6000
+
+# emp.salary = -500  # ❌ ValueError: Salary cannot be negative!
+
+
+
+
+
+
+#------------------------
+#__repr__ vs. __str__ (Object Representation)
+#--------------------------
+#Python provides __repr__ and __str__ methods for defining string representations of objects.
+
+'''
+__repr__ (Official String Representation)
+
+Goal: Return an unambiguous string representation.
+Used for debugging and development.
+Should return a string that could be used to recreate the object.
+'''
+
+class Car:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+
+    def __repr__(self):
+        return f"Car('{self.brand}', '{self.model}')"
+
+car = Car("Toyota", "Corolla")
+print(repr(car))  # ✅ Output: Car('Toyota', 'Corolla')
+
+
+'''
+__str__ (User-Friendly String Representation)
+Goal: Return a human-readable string.
+Used for display (print()).
+'''
+class Car:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+
+    def __str__(self):
+        return f"{self.brand} {self.model}"
+
+car = Car("Toyota", "Corolla")
+
+print(str(car))  # ✅ Output: Toyota Corolla
+print(car)  # ✅ Output: Toyota Corolla (calls __str__ automatically)
+
+#If __str__ is not defined, Python falls back to __repr__.
+
+
+
 
 
 
