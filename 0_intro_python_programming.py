@@ -1392,6 +1392,158 @@ print(car)  # ✅ Output: Toyota Corolla (calls __str__ automatically)
 
 
 
+#@staticmethod – Independent Utility Methods---
+#Does not require self (instance).
+#Used when a function doesn’t depend on the instance or class.
+
+class MathOperations:
+    @staticmethod
+    def add(x, y):
+        return x + y
+
+print(MathOperations.add(5, 3))  # ✅ Output: 8
+
+
+
+
+#@classmethod – Operating on the Class Itself
+#akes cls as the first parameter instead of self.
+
+class Counter:
+    count = 0  # Class variable
+
+    @classmethod
+    def increment(cls):
+        cls.count += 1
+
+Counter.increment()  # ✅ Works without an instance
+print(Counter.count)  # ✅ Output: 1
+
+
+class Counter:
+    count = 0  # Class variable (shared among all instances)
+
+    @classmethod
+    def increment(cls):
+        """Modifies the class-level variable."""
+        cls.count += 1
+
+# Calling the method without an instance
+Counter.increment()
+print(Counter.count)  # ✅ Output: 1
+
+# Creating instances and calling the method
+c1 = Counter()
+c2 = Counter()
+c1.increment()
+print(Counter.count)  # ✅ Output: 2
+
+
+
+#-----------------
+#----Inherents----
+#-----------------
+class Animal:
+    def speak(self):
+        return "I make a sound"
+
+class Dog(Animal):
+    
+    def new(self):
+        return 'hi inherent'
+
+
+a1=Animal()
+a1.speak() #'I make a sound'
+
+a2=Dog()
+a2.speak() # 'I make a sound'
+a2.new() # 'hi inherent'
+
+
+
+
+
+
+#---MULTI LEVEL INHERENT----
+class Grandparent:
+    def greet(self):
+        return "Hello from Grandparent"
+
+class Parent(Grandparent):
+    pass
+
+class Child(Parent):
+    pass
+
+c = Child()
+print(c.greet())  # ✅ Output: Hello from Grandparent
+
+
+
+
+
+
+
+#-------------
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return "Some sound"
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)  # Calls parent constructor
+        self.breed = breed
+
+    def speak(self):
+        return super().speak() + " but Woof!"  # Calls parent method
+
+dog = Dog("Buddy", "Golden Retriever")
+print(dog.name)   # ✅ Output: Buddy
+print(dog.speak())  # ✅ Output: Some sound but Woof!
+
+
+
+
+
+#--------
+#override-----
+class Animal:
+    def speak(self):
+        return "I make a sound"
+
+class Dog(Animal):
+    def speak(self):
+        return "Woof!"
+
+d = Dog()
+print(d.speak())  # ✅ Output: Woof!
+
+
+
+#--------------
+#all classes inherent must have this abstract method
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def speak(self):
+        pass  # Must be implemented in child class
+
+class Dog(Animal):
+    def speak(self):
+        return "Woof!"
+
+d = Dog()
+print(d.speak())  # ✅ Output: Woof!
+
+
+
+
+#---------
 
 
 
