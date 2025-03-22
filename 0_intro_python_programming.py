@@ -1544,6 +1544,65 @@ print(d.speak())  # ✅ Output: Woof!
 
 
 #---------
+#---------
+#---------
+#-----------------------------
+#-----------------------------
+'''   DATACLASS      '''
+#-----------------------------
+#-----------------------------
+#---------
+#---------
+#---------
+
+'''
+The @dataclass decorator (introduced in Python 3.7) is used to create immutable or 
+mutable objects with less boilerplate code. It automatically generates methods like:
+
+__init__
+__repr__
+__eq__
+__hash__
+
+'''
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __repr__(self):
+        return f"Person(name={self.name}, age={self.age})"
+
+p = Person("Alice", 30)
+print(p)  # ✅ Output: Person(name=Alice, age=30)
+
+#withd dataclass you can create automatically
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    name: str
+    age: int
+
+p = Person("Alice", 30)
+print(p)  # ✅ Output: Person(name='Alice', age=30)
+
+
+
+
+#---------------------------------
+#---------------------------------
+#with default values
+@dataclass
+class Employee:
+    name: str
+    salary: float = 50000  # Default salary
+
+e1 = Employee("Bob")
+e2 = Employee("John", 70000)
+
+print(e1)  # ✅ Output: Employee(name='Bob', salary=50000)
+print(e2)  # ✅ Output: Employee(name='John', salary=70000)
 
 
 
@@ -1553,13 +1612,108 @@ print(d.speak())  # ✅ Output: Woof!
 
 
 
+#---------------------------------
+#---------------------------------
+#frozne --> immutable
+@dataclass(frozen=True)
+class Book:
+    title: str
+    price: float
+
+b = Book("Python 101", 29.99)
+print(b.title)  # ✅ Output: Python 101
+
+b.price = 39.99  # ❌ ERROR: FrozenInstanceError: cannot assign to field 'price'
+#Use case: Prevent accidental modification of objects.
+
+
+
+#---------------------------------
+#---------------------------------
+#filed() with advanced control
+#metadata is useful for additional info like currency, measurement units, etc.
+
+from dataclasses import field
+
+@dataclass
+class Product:
+    name: str
+    price: float = field(default=0.0, metadata={"unit": "USD"})  # Metadata can store extra info
+
+p = Product("Laptop", 999.99)
+print(p)  # ✅ Output: Product(name='Laptop', price=999.99)
+
+
+
+
+#or also for default 
+@dataclass
+class Student:
+    name: str
+    subjects: list = []  # ❌ Bad practice! This list is shared across instances.
+
+s1 = Student("Alice")
+s1.subjects.append("Math")
+
+s2 = Student("Bob")
+print(s2.subjects)  # ❌ Unexpected output: ['Math']
+
+
+@dataclass
+class Student:
+    name: str
+    subjects: list = field(default_factory=list)  # ✅ Creates a new list per instance
+
+s1 = Student("Alice")
+s1.subjects.append("Math")
+
+s2 = Student("Bob")
+print(s2.subjects)  # ✅ Output: []
 
 
 
 
 
+#---------------------------------
+#---------------------------------
+#Dataclasses don’t support ordering (<, >, <=, >=) by default. To enable it:
+@dataclass(order=True)
+class Player:
+    score: int
+
+p1 = Player(10)
+p2 = Player(20)
+
+print(p1 < p2)  # ✅ Output: True
 
 
 
 
+
+#---------------------------------
+#---------------------------------
+# Useful for serialization (e.g., saving as JSON).
+#convert to dict
+from dataclasses import asdict, astuple
+
+@dataclass
+class User:
+    username: str
+    email: str
+
+u = User("john_doe", "john@example.com")
+
+print(asdict(u))  # ✅ Output: {'username': 'john_doe', 'email': 'john@example.com'}
+print(astuple(u))  # ✅ Output: ('john_doe', 'john@example.com')
+
+
+import json
+
+json_data = json.dumps(asdict(p))  # ✅ {'name': 'Laptop', 'price': 1200.99}
+print(json_data)
+
+# Convert back to object
+p_dict = json.loads(json_data)
+p_obj = Product(**p_dict)
+print(p_obj)  # ✅ Output: Product(name='Laptop', price=1200.99)
 
