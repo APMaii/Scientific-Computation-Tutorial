@@ -443,7 +443,53 @@ plt.plot(x, y, 'o', color='black')
 #instead you can use this --->
 
 
+
+plt.scatter(x,y)
+
 plt.scatter(x, y, marker='o')
+
+plt.scatter(x1,y1,color='r')
+
+#------------------------------
+liste_colors=['r','r','g','g']
+#bejaye 'r' list ro bzae
+plt.scatter(x1,y1,color=liste_colors)
+
+
+#or
+colour_inten=[10,20,30,40]
+plt.scatter(x1,y1,c=colour_inten,cmap='viridis')
+
+
+
+colour_inten=[10,20,30,40]
+plt.scatter(x1,y1,c=colour_inten,cmap='inferno')
+plt.colorbar() 
+
+
+
+#--size--
+plt.scatter(x1,y1,color='r',s=60)
+
+
+liste_size=[10,20,30,70]
+#bejaye 60
+plt.scatter(x1,y1,color='r',s=liste_size)
+
+
+
+
+plt.scatter(x1,y1,color='r',s=liste_size,alpha=0.2)
+
+alpha_list=[0.1,1,0.5,0.6]
+plt.scatter(x1,y1,color='r',s=liste_size,alpha=alpha_list)
+
+
+
+
+
+#so it has color, s and alpha --> they can get the only one option
+#or list
 
 
 
@@ -464,6 +510,134 @@ plt.errorbar(x, y, yerr=dy, fmt='.k')
 #also another things is this
 plt.fill_between(xfit, yfit - dyfit, yfit + dyfit,
 color='gray', alpha=0.2)
+
+
+
+#--------------------------
+#--------------------------
+''' Pie Chart '''
+#--------------------------
+#--------------------------
+lab=['apple','banana','cher','daa']
+size=[50,30,10,10]
+plt.pie(size,labels=lab)
+plt.show()
+
+
+
+lab=['apple','banana','cher','daa']
+size=np.array([50,30,10,10])
+myc=['green','red','blue','black']
+plt.pie(size,labels=lab,colors=myc)
+plt.show()
+
+
+
+
+lab=['apple','banana','cher','daa']
+size=np.array([50,30,10,10])
+myc=['green','red','blue','black']
+ex=[0,0,0.2,0]
+plt.pie(size,labels=lab,colors=myc,explode=ex)
+plt.show()
+
+
+
+
+
+
+
+
+#--------------------------
+#--------------------------
+'''       HISTOGRAMS      '''
+#--------------------------
+#--------------------------
+#----BAR------
+x=['A','B','C','D'] #LIST, ARRAY
+y=np.array([3,8,1,10])
+plt.bar(x,y)
+plt.show()
+
+
+x=['A','B','C','D'] #LIST, ARRAY
+y=np.array([3,8,1,10])
+plt.bar(x,y)
+plt.title('NEMODARE ZIBAYE MAN',fontdict=title_font)
+plt.xlabel('case ha')
+plt.ylabel('jamiat')
+plt.show()
+
+
+#COLOUR
+x=['A','B','C','D'] #LIST, ARRAY
+y=np.array([3,8,1,10])
+plt.bar(x,y,color='r')
+plt.show()
+
+
+#andaze
+x=['A','B','C','D'] #LIST, ARRAY
+y=np.array([3,8,1,10])
+plt.bar(x,y,color='r',width=0.1)
+plt.show()
+
+
+
+
+
+
+
+
+#----HISTOGRAM----
+data = np.random.randn(1000)
+plt.hist(data)
+
+
+
+x = np.random.normal(170, 10, 250)
+plt.hist(x)
+
+
+
+
+#IT HAS A LOT OF OPTIONS
+plt.hist(data, bins=30, normed=True, alpha=0.5,
+histtype='stepfilled', color='steelblue',
+edgecolor='none');
+
+
+
+#---also you can use this for all of them----
+x1 = np.random.normal(0, 0.8, 1000)
+x2 = np.random.normal(-2, 1, 1000)
+x3 = np.random.normal(3, 2, 1000)
+kwargs = dict(histtype='stepfilled', alpha=0.3, normed=True, bins=40)
+plt.hist(x1, **kwargs)
+plt.hist(x2, **kwargs)
+plt.hist(x3, **kwargs);
+
+
+
+
+
+
+#Two-Dimensional Histograms and Binnings------
+mean = [0, 0]
+cov = [[1, 1], [1, 2]]
+x, y = np.random.multivariate_normal(mean, cov, 10000).T
+
+
+
+
+plt.hist2d(x, y, bins=30, cmap='Blues')
+cb = plt.colorbar()
+cb.set_label('counts in bin')
+
+
+#also something like hexagonal
+plt.hexbin(x, y, gridsize=30, cmap='Blues')
+cb = plt.colorbar(label='count in bin')
 
 
 
@@ -522,79 +696,6 @@ plt.clim(-1, 1)
 
 
 
-
-
-#--------------------------
-#--------------------------
-'''       HISTOGRAMS      '''
-#--------------------------
-#--------------------------
-
-data = np.random.randn(1000)
-plt.hist(data)
-
-
-
-#IT HAS A LOT OF OPTIONS
-plt.hist(data, bins=30, normed=True, alpha=0.5,
-histtype='stepfilled', color='steelblue',
-edgecolor='none');
-
-
-
-#---also you can use this for all of them----
-x1 = np.random.normal(0, 0.8, 1000)
-x2 = np.random.normal(-2, 1, 1000)
-x3 = np.random.normal(3, 2, 1000)
-kwargs = dict(histtype='stepfilled', alpha=0.3, normed=True, bins=40)
-plt.hist(x1, **kwargs)
-plt.hist(x2, **kwargs)
-plt.hist(x3, **kwargs);
-
-
-
-
-
-
-#Two-Dimensional Histograms and Binnings------
-mean = [0, 0]
-cov = [[1, 1], [1, 2]]
-x, y = np.random.multivariate_normal(mean, cov, 10000).T
-
-
-
-
-plt.hist2d(x, y, bins=30, cmap='Blues')
-cb = plt.colorbar()
-cb.set_label('counts in bin')
-
-
-#also something like hexagonal
-plt.hexbin(x, y, gridsize=30, cmap='Blues')
-cb = plt.colorbar(label='count in bin')
-
-
-
-
-
-
-
-
-
-
-#--------------------------
-#--------------------------
-'''   PIE CHART         '''
-#--------------------------
-#--------------------------
-
-
-
-#--------------------------
-#--------------------------
-'''            '''
-#--------------------------
-#--------------------------
 
 
 
@@ -761,6 +862,15 @@ plt.show()
 
 
 
+plt.title('Nemoodaram',fontdict=font_title ,loc='left',pad=40)
+
+
+
+
+#---grid---
+plt.grid()
+#more options
+plt.grid(color='green',linestyle='--',linewidth=0.5)
 
 
 
