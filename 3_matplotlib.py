@@ -252,6 +252,133 @@ instances.
 #--------------------------
 #WHEN YOU have the x and y --> for ploting
 
+x=np.array([1,2])
+y=np.array([5,10])
+plt.plot(x,y)
+
+
+
+#even it can create itself ...
+#x=[0,1,2,3,4,5,6]
+plt.plot(y)
+
+
+#=================
+#---Just points----
+plt.plot(x,y,'o')
+plt.plot(x,y,'*')
+plt.plot(x,y,'x')
+plt.plot(x,y,'H')
+
+
+
+
+#=================
+#---Point + Lines---
+plt.plot(x,y,marker='o')
+plt.plot(x,y,marker='*')
+
+
+#ms-->marker size
+plt.plot(x,y,marker='*',ms=30)
+plt.plot(x,y,marker='*',ms=50)
+plt.plot(x,y,marker='*',ms=2)
+
+#default--> Blue
+#around
+plt.plot(x,y,marker='o',ms=50,mec='r')
+
+#inside
+plt.plot(x,y,marker='o',ms=50,mfc='r')
+
+
+#change both
+plt.plot(x,y,marker='o',ms=50,mec='r',mfc='r')
+
+
+
+
+#=================
+#----Just line---
+plt.plot(x,y)
+
+#line style-->ls
+plt.plot(x,y,ls='-')
+plt.plot(x,y,ls='--')
+plt.plot(x,y,ls='-.')
+plt.plot(x,y,ls=':')
+
+
+#line color
+lt.plot(x,y,color='r')
+plt.plot(x,y,c='r')
+
+
+
+plt.plot(x,y,linewidth=20)
+
+
+#---- Shekle marker ha / marker style-----
+'''
+'o'	Circle	
+'*'	Star	
+'.'	Point	
+','	Pixel	
+'x'	X	
+'X'	X (filled)	
+'+'	Plus	
+'P'	Plus (filled)	
+'s'	Square	
+'D'	Diamond	
+'d'	Diamond (thin)	
+'p'	Pentagon	
+'H'	Hexagon	
+'h'	Hexagon	
+'v'	Triangle Down	
+'^'	Triangle Up	
+'<'	Triangle Left	
+'>'	Triangle Right	
+'1'	Tri Down	
+'2'	Tri Up	
+'3'	Tri Left	
+'4'	Tri Right	
+'|'	Vline	
+'_'	Hline
+
+
+'''
+
+
+#----ranh ha / color-------
+'''
+'r' - Red
+'g' - Green
+'b' - Blue
+'c' - Cyan
+'m' - Magenta
+'y' - Yellow
+'k' - Black
+'w' - White
+'''
+
+'''
+'solid' (default)	'-'	
+'dotted'	':'	
+'dashed'	'--'	
+'dashdot'	'-.'
+
+'''
+
+
+
+#all together
+plt.plot(x,y,marker='*',ms=20,mfc='r',linewidth=10,c='g') 
+
+
+
+#https://matplotlib.org/stable/gallery/color/colormap_reference.html
+#https://matplotlib.org/stable/gallery/color/named_colors.html
+
 
 
 
@@ -265,8 +392,6 @@ plt.plot(x, np.sin(x - 4), color=(1.0,0.2,0.3)) # RGB tuple, values 0 and 1
 plt.plot(x, np.sin(x - 5), color='chartreuse') # all HTML color names supported
 
 
-
-
 plt.plot(x, x + 0, linestyle='solid')
 plt.plot(x, x + 1, linestyle='dashed')
 plt.plot(x, x + 2, linestyle='dashdot')
@@ -278,15 +403,11 @@ plt.plot(x, x + 6, linestyle='-.') # dashdot
 plt.plot(x, x + 7, linestyle=':') # dotted
 
 
-
-
 #------easy-------
 plt.plot(x, x + 0, '-g') # solid green
 plt.plot(x, x + 1, '--c') # dashed cyan
 plt.plot(x, x + 2, '-.k') # dashdot black
 plt.plot(x, x + 3, ':r') # dotted red
-
-
 
 
 plt.plot(x, y, '-p', color='gray',
@@ -617,6 +738,31 @@ plt.plot(x, np.sin(x))
 plt.title("A Sine Curve")
 plt.xlabel("x")
 plt.ylabel("sin(x)")
+
+
+
+#or with fonts----
+title_font={ 'family': 'serif'   ,
+        'color':  'red'  ,
+        'size':  20   }
+
+xy_font={ 'family': 'serif'   ,
+        'color':  'green'  ,
+        'size':  10  }
+
+
+
+plt.plot(x,y,marker='*',mec='r',mfc='g',ms=20,ls='-.',linewidth=13,c='y')
+plt.title('nemoodare man',fontdict=title_font)
+plt.xlabel('salam paeen',fontdict=xy_font)
+plt.ylabel('salam chap',fontdict=xy_font)
+plt.show()
+
+
+
+
+
+
 
 
 
