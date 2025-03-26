@@ -171,18 +171,6 @@ plt.legend()  # Show legend
 plt.show()
 
 
-
-
-
-
-
-
-
-#---------------------------------------------------------
-#---------------------------------------------------------
-#--------Two Interfaces for the Price of One-------------
-#---------------------------------------------------------
-#---------------------------------------------------------
 #---MATLAB-style interface
 plt.figure() # create a plot figure
 # create the first of two panels and set current axis
@@ -240,6 +228,36 @@ up our visualization. Throughout this book, we’ll commonly use the variable na
 fig to refer to a figure instance, and ax to refer to an axes instance or group of axes
 instances.
 '''
+
+
+
+#---also you can go very easy
+x = np.linspace(-1.4, 1.4, 30)
+plt.subplot(2, 2, 1)  # 2 rows, 2 columns, 1st subplot = top left
+plt.plot(x, x)
+plt.subplot(2, 2, 2)  # 2 rows, 2 columns, 2nd subplot = top right
+plt.plot(x, x**2)
+plt.subplot(2, 2, 3)  # 2 rows, 2 columns, 3rd subplot = bottow left
+plt.plot(x, x**3)
+plt.subplot(2, 2, 4)  # 2 rows, 2 columns, 4th subplot = bottom right
+plt.plot(x, x**4)
+plt.show()
+
+
+
+
+
+#----with size----
+plt.subplot2grid((3,3), (0, 0), rowspan=2, colspan=2)
+plt.plot(x, x**2)
+plt.subplot2grid((3,3), (0, 2))
+plt.plot(x, x**3)
+plt.subplot2grid((3,3), (1, 2), rowspan=2)
+plt.plot(x, x**4)
+plt.subplot2grid((3,3), (2, 0), colspan=2)
+plt.plot(x, x**5)
+plt.show()
+
 
 
 
@@ -416,6 +434,43 @@ markerfacecolor='white',
 markeredgecolor='gray',
 markeredgewidth=2)
 plt.ylim(-1.2, 1.2)
+
+
+
+
+
+#----also two thing with each other---
+plt.plot([0, 100, 100, 0, 0], [0, 0, 100, 100, 0], "r-")
+plt.plot( [0, 100, 50, 0, 100], [0, 100, 130, 100, 0], "g--")
+plt.axis([-10, 110, -10, 140])
+plt.show()
+
+
+
+
+plt.plot([0, 100, 100, 0, 0], [0, 0, 100, 100, 0], "r-", [0, 100, 50, 0, 100], [0, 100, 130, 100, 0], "g--")
+plt.plot( [0, 100, 50, 0, 100], [0, 100, 130, 100, 0], "g--")
+plt.axis([-10, 110, -10, 140])
+plt.show()
+
+
+
+
+x = np.linspace(-1.4, 1.4, 30)
+plt.plot(x, x, 'g--', x, x**2, 'r:', x, x**3, 'b^')
+plt.show()
+
+
+
+
+
+x = np.linspace(-1.4, 1.4, 30)
+line1, line2, line3 = plt.plot(x, x, 'g--', x, x**2, 'r:', x, x**3, 'b^')
+line1.set_linewidth(3.0)
+line1.set_dash_capstyle("round")
+line3.set_alpha(0.2)
+plt.show()
+
 
 
 
@@ -601,6 +656,30 @@ plt.hist(x)
 
 
 
+
+data1 = np.random.randn(400)
+data2 = np.random.randn(500) + 3
+data3 = np.random.randn(450) + 6
+data4a = np.random.randn(200) + 9
+data4b = np.random.randn(100) + 10
+
+plt.hist(data1, bins=5, color='g', alpha=0.75, label='bar hist') # default histtype='bar'
+plt.hist(data2, color='b', alpha=0.65, histtype='stepfilled', label='stepfilled hist')
+plt.hist(data3, color='r', histtype='step', label='step hist')
+plt.hist((data4a, data4b), color=('r','m'), alpha=0.55, histtype='barstacked', label=('barstacked a', 'barstacked b'))
+
+plt.xlabel("Value")
+plt.ylabel("Frequency")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+
+
+
+
 #IT HAS A LOT OF OPTIONS
 plt.hist(data, bins=30, normed=True, alpha=0.5,
 histtype='stepfilled', color='steelblue',
@@ -638,6 +717,75 @@ cb.set_label('counts in bin')
 #also something like hexagonal
 plt.hexbin(x, y, gridsize=30, cmap='Blues')
 cb = plt.colorbar(label='count in bin')
+
+
+
+
+
+#--------------------------
+#--------------------------
+'''       IMAGE      '''
+#--------------------------
+#--------------------------
+import matplotlib.image as mpimg
+
+img = mpimg.imread('my_square_function.png')
+print(img.shape, img.dtype)
+plt.imshow(img)
+plt.show()
+
+
+
+
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+
+
+
+#--------------------------
+#--------------------------
+'''       Animation      '''
+#--------------------------
+#--------------------------
+x = np.linspace(-1, 1, 100)
+y = np.sin(x**2*25)
+data = np.array([x, y])
+
+fig = plt.figure()
+line, = plt.plot([], [], "r-") # start with an empty plot
+plt.axis([-1.1, 1.1, -1.1, 1.1])
+plt.plot([-0.5, 0.5], [0, 0], "b-", [0, 0], [-0.5, 0.5], "b-", 0, 0, "ro")
+plt.grid(True)
+plt.title("Marvelous animation")
+
+# this function will be called at every iteration
+def update_line(num, data, line):
+    line.set_data(data[..., :num] + np.random.rand(2, num) / 25)  # we only plot the first `num` data points.
+    return line,
+
+line_ani = animation.FuncAnimation(fig, update_line, frames=50, fargs=(data, line), interval=100)
+plt.close() # call close() to avoid displaying the static plot
+
+
+#saving animation----
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=1800)
+line_ani.save('my_wiggly_animation.mp4', writer=writer)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -797,6 +945,49 @@ cmap='viridis', edgecolor='none');
 '''     Thicks       '''
 #--------------------------
 #--------------------------
+'''
+The axes have little marks called "ticks". To be precise, "ticks" are the locations of
+the marks (eg. (-1, 0, 1)), "tick lines" are the small lines drawn at those locations,
+"tick labels" are the labels drawn next to the tick lines, and "tickers" are objects 
+that are capable of deciding where to place ticks. The default tickers typically do
+a pretty good job at placing ~5 to 8 ticks at a reasonable distance from one another.
+
+But sometimes you need more control (eg. there are too many tick labels on the logit
+graph above). Fortunately, matplotlib gives you full control over ticks. You can
+even activate minor ticks.
+
+'''
+
+x = np.linspace(-2, 2, 100)
+
+plt.figure(1, figsize=(15,10))
+plt.subplot(131)
+plt.plot(x, x**3)
+plt.grid(True)
+plt.title("Default ticks")
+
+ax = plt.subplot(132)
+plt.plot(x, x**3)
+ax.xaxis.set_ticks(np.arange(-2, 2, 1))
+plt.grid(True)
+plt.title("Manual ticks on the x-axis")
+
+ax = plt.subplot(133)
+plt.plot(x, x**3)
+plt.minorticks_on()
+ax.tick_params(axis='x', which='minor', bottom=False)
+ax.xaxis.set_ticks([-2, 0, 1, 2])
+ax.yaxis.set_ticks(np.arange(-5, 5, 1))
+ax.yaxis.set_ticklabels(["min", -4, -3, -2, -1, 0, 1, 2, 3, "max"])
+plt.title("Manual ticks and tick labels\n(plus minor ticks) on the y-axis")
+
+
+plt.grid(True)
+
+plt.show()
+
+
+
 
 
 
@@ -863,6 +1054,22 @@ plt.show()
 
 
 plt.title('Nemoodaram',fontdict=font_title ,loc='left',pad=40)
+
+
+#---yscale---
+plt.figure(3)
+plt.plot(x, y)
+plt.yscale('logit')
+plt.title('logit')
+plt.grid(True)
+
+plt.figure(4)
+plt.plot(x, y - y.mean())
+plt.yscale('symlog', linthreshy=0.05)
+plt.title('symlog')
+plt.grid(True)
+
+plt.show()
 
 
 
@@ -962,6 +1169,42 @@ plt.subplot(grid[1, 2])
 
 #----------------------------------
 #-------Text and Annotation---------
+
+x = np.linspace(-1.5, 1.5, 30)
+px = 0.8
+py = px**2
+plt.plot(x, x**2, "b-", px, py, "ro")
+plt.text(0, 1.5, "Square function\n$y = x^2$", fontsize=20, color='blue', horizontalalignment="center")
+plt.text(px - 0.08, py, "Beautiful point", ha="right", weight="heavy")
+plt.text(px, py, "x = %0.2f\ny = %0.2f"%(px, py), rotation=50, color='gray')
+plt.show()
+
+
+
+#--another--
+plt.plot(x, x**2, px, py, "ro")
+plt.annotate("Beautiful point", xy=(px, py), xytext=(px-1.3,py+0.5),
+                           color="green", weight="heavy", fontsize=14,
+                           arrowprops={"facecolor": "lightgreen"})
+plt.show()
+
+
+
+#----or-----
+plt.plot(x, x**2, px, py, "ro")
+
+bbox_props = dict(boxstyle="rarrow,pad=0.3", ec="b", lw=2, fc="lightblue")
+plt.text(px-0.2, py, "Beautiful point", bbox=bbox_props, ha="right")
+
+bbox_props = dict(boxstyle="round4,pad=1,rounding_size=0.2", ec="black", fc="#EEEEFF", lw=5)
+plt.text(0, 1.5, "Square function\n$y = x^2$", fontsize=20, color='black', ha="center", bbox=bbox_props)
+
+plt.show()
+
+
+
+
+#-----another example
 # Add labels to the plot
 style = dict(size=10, color='gray')
 ax.text('2012-1-1', 3950, "New Year's Day", **style)
@@ -970,6 +1213,31 @@ ax.text('2012-9-4', 4850, "Labor Day", ha='center', **style)
 ax.text('2012-10-31', 4600, "Halloween", ha='right', **style)
 ax.text('2012-11-25', 4450, "Thanksgiving", ha='center', **style)
 ax.text('2012-12-25', 3850, "Christmas ", ha='right', **style)
+
+
+
+
+
+#----hline and vline-----
+from numpy.random import randn
+
+def plot_line(axis, slope, intercept, **kargs):
+    xmin, xmax = axis.get_xlim()
+    plt.plot([xmin, xmax], [xmin*slope+intercept, xmax*slope+intercept], **kargs)
+
+x = randn(1000)
+y = 0.5*x + 5 + randn(1000)*2
+plt.axis([-2.5, 2.5, -5, 15])
+plt.scatter(x, y, alpha=0.2)
+plt.plot(1, 0, "ro")
+plt.vlines(1, -5, 0, color="red")
+plt.hlines(0, -2.5, 1, color="red")
+plot_line(axis=plt.gca(), slope=0.5, intercept=5, color="magenta")
+plt.grid(True)
+plt.show()
+
+
+
 
 
 
