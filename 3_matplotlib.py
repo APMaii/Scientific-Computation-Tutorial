@@ -113,8 +113,19 @@ Out[8]: {'eps': 'Encapsulated Postscript',
 '''
 
 
+#**********************************
+#**********************************
+'''
+---------------------------------------------
+Actually for very quick drawing graphs and plot you can use the plt 
+
+but if you want to go more advanced and more controll you can
+go for object orientetd graphs with figure ands fisure and ax
+but instead of figure.xlable or anything you can go for set
 
 
+
+'''
 
 
 #---ALSO YOIU can build multiple subplots
@@ -763,6 +774,71 @@ plt.rc('lines', linewidth=2)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 """
+
+rng = np.random.RandomState(0)
+x = np.linspace(0, 10, 500)
+y = np.cumsum(rng.randn(500, 6), 0)
+#before using searborn
+plt.plot(x, y)
+plt.legend('ABCDEF', ncol=2, loc='upper left')
+
+
+
+#----you can set seaborn and use the matplotlib
+import seaborn as sns
+sns.set()
+
+# same plotting code as above!
+plt.plot(x, y)
+plt.legend('ABCDEF', ncol=2, loc='upper left')
+
+
+
+
+#---histograms----
+data = np.random.multivariate_normal([0, 0], [[5, 2], [2, 2]], size=2000)
+data = pd.DataFrame(data, columns=['x', 'y'])
+for col in 'xy':
+  plt.hist(data[col], normed=True, alpha=0.5)
+
+
+
+
+for col in 'xy':
+  sns.kdeplot(data[col], shade=True)
+
+
+#also the pprobability and others
+sns.distplot(data['x'])
+sns.distplot(data['y'])
+
+
+
+
+#also it can be the pixels and histogram in axises
+with sns.axes_style('white'):
+  sns.jointplot("x", "y", data, kind='kde')
+
+
+#if you want real pixel
+with sns.axes_style('white'):
+  sns.jointplot("x", "y", data, kind='hex')
+
+
+#or you can import data directly
+tips = sns.load_dataset('tips')
+iris = sns.load_dataset("iris")
+
+
+
+#pair plots------
+sns.pairplot(iris, hue='species', size=2.5)
+
+
+
+
+
+
 
 
 
