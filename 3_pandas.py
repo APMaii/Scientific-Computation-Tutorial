@@ -195,6 +195,277 @@ Freq: H, dtype: float64
 '''
 
 
+#-----It has a lot of functions the series itself--------
+s2.abs()
+s2.add()
+s2.div()
+s2.divide() #similar
+s2.divmod() #integer
+s2.multiply() #*
+s2.mul()
+s2.pow()
+
+s2.pop() #remove
+s2.clip()  #thresholding
+
+
+s2.all()
+s2.any()
+s2.max()
+s2.min()
+s2.argmax()
+s2.argmin()
+s2.astype() #dtype
+s2.view()
+s2.copy()
+s2.keys()
+s2.items() #for i,j in 
+s2.apply()
+s2.filter()
+s2.isin()
+s2.isna()
+s2.isnull()
+s2.fillna()
+s2.drop()
+s2.drop_duplicates()
+s2.dropna()
+s2.ffill()
+s2.bfill()
+
+
+
+#==============================
+#==============================
+#==============================
+#======DataFrame objects=======
+#==============================
+#==============================
+#==============================
+'''
+A DataFrame object represents a spreadsheet, with cell values,
+column names and row index labels. You can define expressions 
+to compute columns based on other columns, create pivot-tables,
+group rows, draw graphs, etc. You can see DataFrames as dictionaries of Series.
+
+'''
+#now it is somethign like 2D numpy array that you can have name of rows (index) and name of columns
+
+#here 
+#Imagine you have the dictionary that 
+people_dict = {
+    "weight": pd.Series([68, 83, 112], index=["alice", "bob", "charles"]),
+    "birthyear": pd.Series([1984, 1985, 1992], index=["bob", "alice", "charles"], name="year"),
+    "children": pd.Series([0, 3], index=["charles", "bob"]),
+    "hobby": pd.Series(["Biking", "Dancing"], index=["alice", "bob"]),
+}
+
+
+#here you can say
+people_dict['weight'] #and it get you the 68, 83,112 that has 3 index
+
+#but the type is dictionary
+
+
+
+#so now you can convert to DatFrame
+people = pd.DataFrame(people_dict)
+people
+
+#nwo the same
+
+
+#accessing the columns
+people["birthyear"]
+
+#both columns
+people[["birthyear", "hobby"]]
+
+
+
+#----------
+#also you can create with numpy arrays
+#****
+values = [
+            [1985, np.nan, "Biking",   68],
+            [1984, 3,      "Dancing",  83],
+            [1992, 0,      np.nan,    112]
+         ]
+
+
+d3 = pd.DataFrame(
+        values,
+        columns=["birthyear", "children", "hobby", "weight"],
+        index=["alice", "bob", "charles"]
+     )
+
+
+
+
+
+#-----ADVNACED-----
+#-----Multi-indexing
+
+d5 = pd.DataFrame(
+  {
+    ("public", "birthyear"):
+        {("Paris","alice"):1985, ("Paris","bob"): 1984, ("London","charles"): 1992},
+    ("public", "hobby"):
+        {("Paris","alice"):"Biking", ("Paris","bob"): "Dancing"},
+    ("private", "weight"):
+        {("Paris","alice"):68, ("Paris","bob"): 83, ("London","charles"): 112},
+    ("private", "children"):
+        {("Paris", "alice"):np.nan, ("Paris","bob"): 3, ("London","charles"): 0}
+  }
+)
+d5
+
+
+#-----again
+values = [
+            [1985, np.nan, "Biking",   68],
+            [1984, 3,      "Dancing",  83],
+            [1992, 0,      np.nan,    112]
+         ]
+
+df = pd.DataFrame(
+        values,
+        columns=["birthyear", "children", "hobby", "weight"],
+        index=["alice", "bob", "charles"]
+     )
+
+
+#----Accessing the columns---------
+
+
+df['birthyear'] #---> it get back teh all rows ( in the type of serie)
+
+df[['weight','hobby']] #it get back both column -> as dataframe type
+
+
+
+df.loc["charles"] #--> it get back teh rows (all columns)
+df.loc[0] #error
+
+
+df.iloc[0] # it get back teh rows (all columns) but i s index
+df.iloc['charles'] #error
+df.iloc[1:3]
+
+
+#------filtering------------
+#filter the all people that its columns has some feature
+#also and , or 
+df[df["birthyear"] < 1990]
+
+
+
+#adding new column easy-----
+people["age"] = 2018 - people["birthyear"]  # adds a new column "age"
+people["over 30"] = people["age"] > 30      # adds another column "over 30"
+
+#remove----------
+birthyears = people.pop("birthyear")
+del people["children"]
+
+
+#by default when you add column it is like append , so you must use this for more order
+df.insert(1, "height", [172, 181, 185])
+
+
+
+#---also you can use assign to not apply just return new df
+df.assign(
+    body_mass_index = people["weight"] / (people["height"] / 100) ** 2,
+    has_pets = people["pets"] > 0
+)
+
+
+#---evaluating a expression
+df.eval("weight / (height/100) ** 2 > 25")
+'''
+alice      False
+bob         True
+charles     True
+dtype: bool
+
+'''
+
+
+#---it create new column--
+df.eval("body_mass_index = weight / (height/100) ** 2", inplace=True)
+
+
+
+#query() let you filter and get you back
+df.query("age > 30 and pets == 0")
+
+
+
+#---sorting----
+df.sort_index(ascending=False)
+
+
+#also you can sort the columns , instead of rows --> axis=1
+df.sort_index(axis=1)
+
+#----*******
+#all the functions return rew dataframe but if you wnat you can click on the inplace=True
+df.sort_index(axis=1, inplace=True)
+
+
+#or you can sort only by one column
+df.sort_values(by="age", inplace=True)
+
+
+
+
+
+#------Instead of using Plot and other things
+#----you can use nthe functions inside them
+
+#================================
+#================================
+#-----Plotting a DataFrame------
+#================================
+#================================
+people.plot(kind = "line", x = "body_mass_index", y = ["height", "weight"])
+plt.show()
+
+
+people.plot(kind = "scatter", x = "height", y = "weight", s=[40, 120, 200])
+plt.show()
+
+
+
+
+
+
+#----Operations on DataFrames---------
+grades_array = np.array([[8,8,9],[10,9,9],[4, 8, 2], [9, 10, 10]])
+grades = pd.DataFrame(grades_array, columns=["sep", "oct", "nov"], index=["alice","bob","charles","darwin"])
+
+
+
+#You can apply NumPy mathematical functions on a DataFrame: the function is applied to all values:------
+np.sqrt(grades)
+
+
+grades + 1
+grades >= 5
+
+grades.mean()
+(grades > 5).all()
+(grades > 5).all(axis = 1)
+(grades == 10).any(axis = 1)
+
+grades - grades.mean() 
+
+
+
+
+
+
+
 
 
 
