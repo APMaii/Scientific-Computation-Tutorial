@@ -467,6 +467,627 @@ grades - grades.mean()
 
 
 
+#========================================
+#========================================
+#--------------Data Cleaning-------------
+#========================================
+#========================================
+jadval=pd.DataFrame([[10,20,30,40],[50,60,70,80]],index=['a','b'],columns=['dama','feshar','time','output'])
+#ham indexash (radifahs) esm dre ham column ha soton ha esm dre
+
+#------accesss--- dastresssiiii
+#az numpyu  yadete vghty do bodi shodi 
+#hamrogeh gfotn acces bgi kdoom radif kdoom sotoon
+
+
+
+#--------row------ radif dasteresi peyda koni
+#b rdovomin radif
+#alan msihe radife b ya b soorat eghaidmi bgam radife 1
+jadval.loc['b'] #50,60,70,80
+jadval.iloc[1] # 50,60,70,80 radife 1 mikham kolesho
+
+#.loc --> ba esmesh
+#ag bkhay ba index seda koni ---> .iloc
+
+
+#----------column ---->yek sotoon
+jadval['dama']
+jadval['feshar']
+#doat sotoon
+jadval[['dama','feshar']]
+
+#pad masalan kahte 161 mige agha sootone feshar ro az jadval koelsho bde
+
+#ya yek element --->
+#-----element--- yani yk adad bkhay bkshi biron
+#msln 50 ro mikham
+jadval.loc['b','dama'] #Out[67]: 50
+#ag bkhay indexi bnhsh dastresi peyda koni?
+jadval.iloc[1,0] #Out[68]: 50
+
+jadval.loc[ : ,'dama'] #mese 160 fght yek jadval
+
+
+'''
+.doc .docx .txt   -->matne tooshoi dar bairi
+zarf=open('directory/ / / /khode_file.format')
+zarfe str--->
+
+
+.csv .xlsx
+#jadvale , str  , dataframe 
+a=pd.read_csv('directory/ / / /khode_file.csv')
+b=pd.read_excel('directory/ / / /khode_file.xlsx')
+
+
+.png .jpg .mp4
+open()
+
+ketabkhaneye opencv -->koli pardazeshe tasvir rule based
+AI (ML BASED)
+'''
+
+pd.read_csv('directory')
+
+data.max(axis=0)  #too har soton max ro mide
+data.max(axis=1) #too har radi max ro mide
+
+#hamchnin
+data['dama'].max() #Out[82]: 90
+
+#yani toye data , sotone dama maxz kodome
+#bishtar miran too ye sotoon va max ro mikhan
+
+#kole datat ro sort koni--------
+#tartib bedi
+data=pd.DataFrame([[10,20,30,100],[50,60,70,40],[90,100,110,30]],index=['a','b','c'],columns=['dama','feshar','time','output'])
+
+new_data=data.sort_values(by='output')
+
+
+#concat dota darfram join
+
+df1=pd.DataFrame([1,2])
+df2=pd.DataFrame([3,4])
+
+zarf=pd.concat([df1,df2])
+
+
+
+#_----REMOVE------
+a=np.random.uniform(0,10,size=(50,3))
+data=pd.DataFrame(a,columns=['Temp','Time','Modulus'])
+
+data2=data.drop(columns='Modulus')
+#return mide yani bayad brizi otoye ye zarfe dg
+#datae taghir nrkde ama data2 hazf shod
+
+#hamishe aksare tabe haye pandas replace=False
+#age nakhay dobare too zarfe jadid brizi va hamon
+#khode datat taghir kone -->true
+
+data.drop(columns='Modulus',inplace=True)
+#inpalce=tru yani agha taghirati k goftmno roohamini k dot xadam (data ) emal kon man zarfe jhadid nmikham
+
+zarf=data.drop(index=1) #radif ro hzzf krd
+data.drop(index=1,inplace=True)
+
+
+#yadet nare......
+data.reset_index(drop=True,inplace=True)
+
+
+
+
+print(df.info())
+print(df.describe())
+print(df.isnull().sum())  # check missing values
+print(df.duplicated().sum())  # check for duplicates
+
+
+
+#moshekle data chia mione bashe????
+'''
+1-empty cell   yek adad khali bashe (khataye ensani, khataye dastgah, import) NAN None
+2-wrong format    #asdad bashe str has
+3-wrong data  (dama ha hame balaye 0 , -10)
+4-duplicated (tekrari)
+
+
+dalilesh harchi mikahd bashe
+ama in 4 ta mroed -->moshekel data
+pas---> ag ina residgegi nashan
+momekne mdoele ma k data ro migire asan run nashe, moshekl dahste bashe , accuracy paen bashe va va va....
+
+'''
+
+
+
+#------1-EMPTY CELL----
+a=np.random.uniform(0,10,size=(50,3))
+data=pd.DataFrame(a,columns=['Temp','Time','Modulus'])
+data.loc[5,['Temp']]=None
+data.loc[17,['Temp']]=None
+data.loc[20,['Temp']]=None
+
+
+
+
+data.info()
+
+#1.1.tashkhis 
+#felan ba data.info()
+#empty cell haro tshkhis dadi
+
+#sade tarin akri k mitoni koni
+#bgei agha boro harjaaa harjaa empty cell has rmemoev kon oon radifo
+data.dropna(inplace=True)
+data.info()
+
+
+#sadettarin ine ye adad khdoet bzari
+data.fillna(10,inplace=True)
+
+#pishrafte tar
+#hey zarf misazam shoam inpalce=True
+
+mymean=data['Temp'].mean()
+
+new_data=data.fillna(mymean)
+
+new_data=data.fillna(method='ffill') #haraj khalie gjhablairo mizare
+
+new_data=data.fillna(method='bfill')
+
+new_data.info()
+
+
+
+
+
+#or fill teh one specific columns
+# For numerical columns
+df['age'].fillna(df['age'].mean(), inplace=True)
+
+# For categorical columns
+df['gender'].fillna(df['gender'].mode()[0], inplace=True)
+
+
+
+
+#2------wrong format gahlate
+
+#temp--.float ,int  str 
+
+
+data=pd.DataFrame([['1',2,3],['2',5,6]],columns=['temp','pressure','modulus'])
+
+data.info()
+
+
+
+data['temp']=pd.to_numeric(data['temp'])
+
+df['age'] = df['age'].astype(int)  # Convert to integer
+df['date'] = pd.to_datetime(df['date'])  # Convert to datetime
+
+
+
+
+
+
+
+#-----3-moshekle mantehi dre
+data=pd.DataFrame([[20,2,3],[50,5,6],
+                   [30,2,3],[70,5,6],
+                   [20,2,3],[80,5,6],
+                   [90,2,3],[100,5,6],
+                   [20,2,3],[24,5,6],
+                   [-10,2,3],[28,5,6],
+                   [22,2,3],[20,5,6],
+                   [20,2,3],[20,5,6]],columns=['temp','pressure','modulus'])
+
+#n az format na khalie na hcihi
+#khode data msohekel m,anteghi
+#hala b har dalili
+
+#aval tashkhis
+
+#for bzni bri too tmep ha va bbini
+count=0
+for x in data.index:
+    if data.loc[x,'temp']<0:
+        count=count+1
+
+print(count) # 12 doone damaye zxire sefrf vodjod dare
+
+import matplotlib.pyplot as plt
+y=data['temp']
+plt.plot(y,'o')
+
+
+#hazf
+for x in data.index:
+    if data.loc[x,'temp']<0:
+        data.drop(x,inplace=True)
+
+#jaygozin koni
+for x in data.index:
+    if data.loc[x,'temp']<0:
+        data.loc[x,'temp']=20 #y amiangine ...
+        
+
+#-------
+df[df['price'] > 100]
+
+#--for multiple
+df[(df['price'] > 100) & (df['stock'] > 0)]
+
+
+
+#_----
+#where3 price is <100 , is 100
+# Set discount to 0 where price is more than 100
+df.loc[df['price'] > 100, 'price'] = 0
+
+#or discount
+df.loc[df['price'] > 100, 'discount'] = 0
+
+
+#change two columns
+df.loc[df['price'] > 100, ['discount', 'status']] = [0, 'high price']
+
+
+# Fill NaN in 'discount' with 0 only where 'price' > 100
+df.loc[(df['price'] > 100) & (df['discount'].isna()), 'discount'] = 0
+
+
+#or said pric * 0.9
+df.loc[df['category'] == 'Clearance', 'price'] *= 0.9
+
+
+#or custome
+def adjust_price(row):
+    if row['category'] == 'Clearance' and row['price'] > 100:
+        return row['price'] * 0.8
+    return row['price']
+
+df['price'] = df.apply(adjust_price, axis=1)
+
+
+
+
+
+
+
+
+
+
+#4------Duplicated
+data.drop_duplicates(inplace=True)
+
+#--------BAD AZ DATA CLEANING-------
+#vaghty akret tamom shod
+data.reset_index(drop=True,inplace=True)
+
+
+
+
+#5-----encoding------
+#Option A: Label Encoding
+df['gender'] = df['gender'].map({'male': 0, 'female': 1})
+
+
+#one hot encoding
+df = pd.get_dummies(df, columns=['city'], drop_first=True)
+
+
+
+
+
+
+
+#finally
+data.reset_index(drop=True,inplace=True)
+
+
+print(df.info())
+print(df.head())
+
+'''
+PANDAS ---> SERIES (NP.ARRAY 1 BODY K MITONE INDEX NAME BZRI)
+DATAFRAME --> NP.ARRAY 2 BODY , COLUMN , INDEX ESM BZZARI
+
+VA .. MITONIE EXCELETO, CSVITO BNA ESTEFADE AZ TABEYE READ_CSV , REWAD_EXCEDL
+b soorate yek datafrasme too yek zarf brizi
+
+
+vaghty rikhti 
+ba info() mitoni info bgriii
+
+
+#step 0 ghabla z ahrkari bayuad shoam  chika --.data cleaning
+1-empty cell ---> info() , dropna() , fillna( mitoni adad bdi , mean, method='ffil','bbil')
+2-wrong format --> to_numeric() rooye oon soton anjam bdi
+3-worng data -->logical manteghi tashkhis--> for bzni (count) . plt.plot() / eghdam-->hazf koni drop() loc =
+4-duplicated ->datat kam bodo duplicated() true false / ag ziad bod agar mikhasti k hazf koni . drop_duplicated()
+ 
+va abd az tamiz krdne hameye ina
+az reset_index yadet nare estefade koni
+
+
+hala dateye to amade ye kar krdne
+
+np , list series--> ketabkhone h aestefade koni
+
+
+
+'''
+
+
+#------------------
+#==================
+'''
+
+request-->yek tabe benevisid k chanta application dahste bashe
+
+a=pd.read_excel('')
+dar a data fram dre
+
+
+def 
+
+
+
+
+
+'''
+
+
+
+data=pd.read_excel('/Users/apm/Desktop/MAIN/Hojjat Emami/Span network/Compact zip file/open that/experimental/f5.xlsx')
+
+
+#tdatash column stress , strain
+#---harchi
+
+
+'''
+
+def(data,application):
+    
+    if application=='calculation':
+        
+        
+    elif application=='plot':
+        
+    
+    
+
+
+
+
+
+'''
+
+tabeyeshoma(data,'plot')
+tabeyeshoma(data,'calcualtion')
+
+'''
+Tabe ee bayad besaziiid k dota vroodi bgire
+
+yeki data
+yeki oon kari k karbar donmableshe
+
+'''
+
+#hezaran data
+#stress strain
+#wave 
+#ftri 
+#
+
+data=pd.read_excel('/Users/apm/Desktop/MAIN/Hojjat Emami/Span network/Compact zip file/open that/experimental/f5.xlsx')
+
+
+
+def test(data,application):
+    if application=='plot':
+        x=data['Wavenumber  (cm -1)']
+        y=data['Transmitance (a.u.)']
+        plt.plot(x,y)
+        plt.show()     
+        
+    elif application=='calcualt':
+        print('salam')
+    
+    
+    
+
+
+
+
+data=pd.read_excel('/Users/apm/Desktop/MAIN/Hojjat Emami/Span network/Compact zip file/open that/experimental/f5.xlsx')
+data.columns
+
+test(data,'plot')
+
+test(data,'calcualt')
+
+
+
+'''
+
+def test(data,application):
+    
+    if applciation=='plot':
+        
+    elif applciation=='max':
+        yekare dg
+        
+    elif applciaation =='ssjdhn'
+    
+    
+sakhataaaaaarrrrr
+
+
+nesbat b rehste , alaghe , akri k mikahy anjam bdid
+dorooze dg bbande paym bdid va bgid dar ch zmain eee kar mikonid
+
+oon dastgahe mrotabety , dataye mortabete
+
+
+polymer, stress strain 
+dastgah 
+
+data --?
+data.csv
+
+soton --> stresss 10,20,30,40,50,60,...
+soton-->strain  1,2,3,4,5,6,7,8,9,......
+
+
+
+#rasmesh konim 
+rasmesh ch sheklie
+
+
+
+#max stress
+
+#max strain
+
+#....
+
+
+
+#-------B BESMELLA.....
+
+data= dataframe yek sootonm stress yek soton strain
+
+def Stress_Strain(data,application):
+    stress=np.array(data['stress'])
+    strain=np.array(data['strain'])
+    
+    if application=='plot':
+        plt.plot(strain,stress)
+        plt.title(-----)
+        ....
+        plt.show()
+        
+    elif application=='maxstress':
+        maxstress=stress.max()
+        return maxstress
+    
+    elif application=='maxstrain':
+        maxstrain=strain.max()
+        return maxstrain
+    
+    
+    elif application=='alipilehvar':
+        apm=maxstreeess+maxstrain
+        return apm
+    
+    applicatyion---- 
+    
+    
+dataee k entekhab krdiddd
+
+data=pd.read_
+Stress_Strain(data,'plot')
+    
+
+***naizi nsit too dle tabe dataframe baz 
+
+
+
+
+#aval bgi ch dataee mikhay akr koni????
+
+
+taraf ch dataee mitone b tabeye man bde
+
+
+az koja entkehab
+
+
+made nazare khdoet dare -->search bzn , ide bgir , ide rahnamaee
+agar chzii monaeb peyda nkrdi
+
+
+ai.2024.pilehvar@gmail.com 2 rooze
+
+
+FTIR
+
+shedate jaz
+toole moji 
+
+dota sotoon
+
+'''
+
+
+#entkehabe esme sootn
+
+def FTIR(data,application):
+    '''
+    data= .csv .excell
+    columns name=toolemoj , shedat
+    application:
+        plot --> drawng the wavelength on intensity
+        maxintens--> maximum ....
+        min....
+        constant -->
+        formula---->>
+        
+    
+    '''
+    x=np.array(data['toolemoj'])
+    y=np.array(data['shedat'])
+    
+    
+    
+    if application=='plot':
+        
+        plt.plot(x,y)
+        plt.title('----')
+        plt.grid()
+        plt.show()
+        
+    elif application=='max_attraction' :
+        maxatract=y.max()
+        return maxatract
+
+
+#------
+#telegram 
+#-------
+def Stress_Strain(data,application):
+    stress=np.array(data['stress'])
+    strain=np.array(data['strain'])
+    
+    if application=='plot':
+        plt.plot(strain,stress)
+        plt.title(-----)
+        ....
+        plt.show()
+        
+    elif application=='maxstress':
+        maxstress=stress.max()
+        return maxstress
+    
+    elif application=='maxstrain':
+        maxstrain=strain.max()
+        return maxstrain
+    
+    
+    elif application=='alipilehvar':
+        apm=maxstreeess+maxstrain
+
+
+
 
 
 
