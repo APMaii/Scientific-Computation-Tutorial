@@ -377,9 +377,49 @@ df['category'] = df['age'].apply(lambda x: 'Senior' if x > 30 else 'Young')
 
 
 
+#---or
+# Modify a column conditionally
+df['category'] = df['age'].apply(lambda x: 'Senior' if x > 30 else 'Young')
+
+# Using .loc to conditionally fill or update values
+df.loc[df['age'] > 30, 'status'] = 'experienced'
+df.loc[df['age'] <= 30, 'status'] = 'junior'
+
+# Fill NaNs in specific rows based on condition
+df.loc[df['age'] > 25, 'bonus'] = df.loc[df['age'] > 25, 'bonus'].fillna(0)
+
+
+
 #remove----------
 birthyears = people.pop("birthyear")
 del people["children"]
+
+
+#_----REMOVE------
+a=np.random.uniform(0,10,size=(50,3))
+data=pd.DataFrame(a,columns=['Temp','Time','Modulus'])
+
+data2=data.drop(columns='Modulus')
+#return mide yani bayad brizi otoye ye zarfe dg
+#datae taghir nrkde ama data2 hazf shod
+
+#hamishe aksare tabe haye pandas replace=False
+#age nakhay dobare too zarfe jadid brizi va hamon
+#khode datat taghir kone -->true
+
+data.drop(columns='Modulus',inplace=True)
+#inpalce=tru yani agha taghirati k goftmno roohamini k dot xadam (data ) emal kon man zarfe jhadid nmikham
+
+zarf=data.drop(index=1) #radif ro hzzf krd
+data.drop(index=1,inplace=True)
+
+
+#yadet nare......
+data.reset_index(drop=True,inplace=True)
+
+
+
+
 
 
 #by default when you add column it is like append , so you must use this for more order
@@ -557,6 +597,115 @@ data.max(axis=1) #too har radi max ro mide
 #hamchnin
 data['dama'].max() #Out[82]: 90
 
+
+import pandas as pd
+# Sample DataFrame
+df = pd.DataFrame({
+    'department': ['Sales', 'Sales', 'HR', 'HR', 'IT', 'IT'],
+    'employee': ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank'],
+    'salary': [50000, 55000, 48000, 52000, 60000, 62000]
+})
+
+# Group by department and get average salary
+df.groupby('department')['salary'].mean()
+'''
+.mean()	Average
+.sum()	Total sum
+.count()	Number of entries
+.min()	Minimum value
+.max()	Maximum value
+.median()	Median
+.std()	Standard deviation
+'''
+# Total and average salary per department
+df.groupby('department').agg({
+    'salary': ['sum', 'mean', 'max']
+})
+
+
+print(df.info())
+print(df.describe())
+print(df.isnull().sum())  # check missing values
+print(df.duplicated().sum())  # check for duplicates
+
+
+
+
+print(df.describe())
+
+#to include
+df.describe(include='all')
+
+
+df['price'].describe()
+
+
+'''
+Mean: df['price'].mean()
+Median: df['price'].median()
+Mode: df['price'].mode()
+Standard Deviation: df['price'].std()
+Variance: df['price'].var()
+Min / Max: df['price'].min() / df['price'].max()
+df['price'].skew()      # Skewness
+df['price'].kurtosis()  # Kurtosis
+df['price'].quantile(0.25)  # 25th percentile
+df['price'].quantile([0.25, 0.5, 0.75])  # Q1, Q2 (median), Q3
+
+Correlation Matrix: df.corr()
+
+
+'''
+
+
+df.corr()       # Pearson correlation between numeric columns
+#Use df.corr(method='spearman') or 'kendall' for other correlation types.
+
+df.cov()        # Covariance matrix
+
+
+#custom statistics
+df[['price', 'quantity']].apply(lambda x: x.max() - x.min())  # Range per column
+
+
+
+df['category'].unique()          # List of unique values
+df['category'].nunique()         # Count of unique values
+df['category'].value_counts()    # Frequency of each value
+
+
+
+(df['price'] > 100).sum()        # Count of entries where price > 100
+
+
+
+df.groupby('category')['price'].mean()
+df.groupby('category').agg({
+    'price': ['mean', 'min', 'max'],
+    'quantity': 'sum'
+})
+
+
+df.isnull().sum()          # Count of missing values per column
+df.isnull().mean()         # Proportion of missing values
+
+
+#_---visual----
+
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.histplot(df['price'])
+sns.boxplot(x='category', y='price', data=df)
+sns.pairplot(df)
+
+
+
+
+
+
+
 #yani toye data , sotone dama maxz kodome
 #bishtar miran too ye sotoon va max ro mikhan
 
@@ -601,10 +750,6 @@ data.reset_index(drop=True,inplace=True)
 
 
 
-print(df.info())
-print(df.describe())
-print(df.isnull().sum())  # check missing values
-print(df.duplicated().sum())  # check for duplicates
 
 
 
