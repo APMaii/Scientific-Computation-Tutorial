@@ -418,6 +418,9 @@ df.sort_index(axis=1, inplace=True)
 df.sort_values(by="age", inplace=True)
 
 
+df.sort_values('age', ascending=False)
+df['rank'] = df['age'].rank(ascending=False)
+
 
 
 
@@ -474,6 +477,11 @@ grades - grades.mean()
 #========================================
 jadval=pd.DataFrame([[10,20,30,40],[50,60,70,80]],index=['a','b'],columns=['dama','feshar','time','output'])
 #ham indexash (radifahs) esm dre ham column ha soton ha esm dre
+
+
+#or
+df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
+
 
 #------accesss--- dastresssiiii
 #az numpyu  yadete vghty do bodi shodi 
@@ -757,6 +765,15 @@ df['price'] = df.apply(adjust_price, axis=1)
 
 
 
+df[df['age'] > 30]
+df[(df['age'] > 25) & (df['name'] == 'Alice')]
+df[df['age'].isin([25, 35])]
+df[df['age'].between(26, 34)]
+
+
+#data manupulation
+df['age_plus_5'] = df['age'] + 5
+df['category'] = df['age'].apply(lambda x: 'Senior' if x > 30 else 'Young')
 
 
 
@@ -794,6 +811,14 @@ data.reset_index(drop=True,inplace=True)
 
 print(df.info())
 print(df.head())
+
+
+#-----finally save
+df.to_csv('cleaned_data.csv', index=False)
+df.to_excel('report.xlsx', index=False)
+df.to_json('data.json', orient='records')
+
+
 
 '''
 PANDAS ---> SERIES (NP.ARRAY 1 BODY K MITONE INDEX NAME BZRI)
