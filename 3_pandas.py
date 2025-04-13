@@ -364,6 +364,19 @@ df[df["birthyear"] < 1990]
 people["age"] = 2018 - people["birthyear"]  # adds a new column "age"
 people["over 30"] = people["age"] > 30      # adds another column "over 30"
 
+
+df[df['age'] > 30]
+df[(df['age'] > 25) & (df['name'] == 'Alice')]
+df[df['age'].isin([25, 35])]
+df[df['age'].between(26, 34)]
+
+
+#data manupulation
+df['age_plus_5'] = df['age'] + 5
+df['category'] = df['age'].apply(lambda x: 'Senior' if x > 30 else 'Young')
+
+
+
 #remove----------
 birthyears = people.pop("birthyear")
 del people["children"]
@@ -765,15 +778,6 @@ df['price'] = df.apply(adjust_price, axis=1)
 
 
 
-df[df['age'] > 30]
-df[(df['age'] > 25) & (df['name'] == 'Alice')]
-df[df['age'].isin([25, 35])]
-df[df['age'].between(26, 34)]
-
-
-#data manupulation
-df['age_plus_5'] = df['age'] + 5
-df['category'] = df['age'].apply(lambda x: 'Senior' if x > 30 else 'Young')
 
 
 
