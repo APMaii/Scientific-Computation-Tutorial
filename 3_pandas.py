@@ -4,15 +4,10 @@
 https://github.com/ageron/handson-ml2/blob/master/tools_pandas.ipynb
 '''
 Before Anything you must clean your data with Pandas
-
-
 What is Pandas?
 
 Actually something like numpy but not only the index for rows and index for columns
 instead of index, we need name for columns.
-
-
-
 '''
 
 #---------importing pandas-----------
