@@ -1,9 +1,5 @@
 #---------NOTHIGN YET
 
-
-
-
-
 #ipython console and Shel commands
 
 '''
