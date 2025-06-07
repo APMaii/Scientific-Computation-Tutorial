@@ -2,7 +2,6 @@
 
 Author : Ali Pilehvar Meibody
 
-
 Actualy in python , when you assign variables like int or float or ..
 it just write the name of variable and the value
 but in other low level programming languages liek C or Cpp you must write 
@@ -14,8 +13,6 @@ so it is really memory consuming and also object in the meemory.
 
 so for the list we have also more memory consumers liek a lot of eleemnts and its type and..
 so we need more efficient way
-
-
 '''
 
 
