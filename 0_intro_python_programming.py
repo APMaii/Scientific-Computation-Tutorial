@@ -521,6 +521,24 @@ lambda arguments: expression
 add = lambda x, y: x + y
 print(add(2, 3))  # Output: 5
 
+x= lambda a: a*10
+x(20) # 200
+zarb_dar_dah=lambda a: a*10
+zarb_dar_dah(20)
+
+def myfunc():
+    #bejaye return
+    yield 10
+    yield 20
+    yield 30
+    
+a=myfunc()
+print(a)
+
+for i in a:
+    print(i)
+
+
 #-----
 filter(function, iterable)
 
@@ -547,25 +565,6 @@ list(map(lambda x:x**2, filter(lambda x:x%2!=0,numbers)))
 
 
 
-x= lambda a: a*10
-x(20) # 200
-zarb_dar_dah=lambda a: a*10
-zarb_dar_dah(20)
-
-
-
-
-def myfunc():
-    #bejaye return
-    yield 10
-    yield 20
-    yield 30
-    
-a=myfunc()
-print(a)
-
-for i in a:
-    print(i)
 
 
 
@@ -865,7 +864,7 @@ timestamp = time.time()
 print(timestamp)  # 1711034354.502318
 #The time.time() function returns the current time as a floating-point number representing seconds since the epoch (January 1, 1970).
 
-#onverting Timestamp to Readable Time
+#Converting Timestamp to Readable Time
 print(time.ctime(time.time()))  # "Wed Mar 20 15:39:14 2025"
 
 
