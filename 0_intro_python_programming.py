@@ -685,6 +685,8 @@ except Exception as e:
 
 
 
+
+
 #-----or custome raise------
 if float(a)<100:
     raise ValueError('Lotfan adade bozorg tar az 100 ro vared konid')
