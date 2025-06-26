@@ -3,6 +3,24 @@
 #ipython console and Shel commands
 
 '''
+------------------ OVER VIEW --------------------------
+1- Collections
+2-built in functions
+3-read file , csv, pdf , ..
+4-time
+5- functions
+6- advanced class
+-------------------------------------------------------
+'''
+
+
+
+
+
+
+
+
+'''
 echo 'hello world''       #echo is lik epython's print function
 pwd                     #pwd= print working directory
 ls                     #list working diectory contents
