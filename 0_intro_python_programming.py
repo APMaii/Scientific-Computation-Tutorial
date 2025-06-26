@@ -257,8 +257,6 @@ print(B.issuperset(A))  # Output: True
 
 #-----Advanced Python Collections (from collections module)-----------
 
-
-
 #---------
 # defaultdict
 #----------
