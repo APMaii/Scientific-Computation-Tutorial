@@ -128,6 +128,17 @@ A dictionary is a collection of key-value pairs where each key must be unique.
 
 
 #------------------
+'''
+For multiple variables we can use iterations
+but eahc one has ddifferent thing
+
+str --> ucnhanged --> you can access by index buy you can not chnage that 
+list --> changable, ordered , allow duplicated --> so you can access by index and change and also ordereed
+tuple--> unchangable , ordered , allow duplicated --> you can acces by index but not changed --. for fdata base and .. ()
+set -> unchangable, unoirdered, not duplicated--> this is {} and unchangabel but no idnex and order and it can use when you want to remoev duplciated
+dictionary --> it is liek list but instead of index youc an use keys --> so in indexing youc an access wiuth tehem
+
+'''
 #----LIST--------
 #emali
 #.insert(index,elemnt)
