@@ -506,6 +506,38 @@ my_final={ i:j   for i,j in zip(myusers,current_balance)   }
 
 
 [item for item in numbers if is_odd(item)]
+
+
+
+
+
+
+
+
+
+
+lambda arguments: expression
+
+add = lambda x, y: x + y
+print(add(2, 3))  # Output: 5
+
+#-----
+filter(function, iterable)
+
+nums = [1, 2, 3, 4, 5, 6]
+even = filter(lambda x: x % 2 == 0, nums)
+print(list(even))  # Output: [2, 4, 6]
+
+
+#----
+map(function, iterable)
+nums = [1, 2, 3]
+squared = map(lambda x: x**2, nums)
+print(list(squared))  # Output: [1, 4, 9]
+
+
+
+
 list(filter(lambda x :x%2 !=0,numbers))
 list(map(lambda x:x**2,numbers))
 
@@ -672,6 +704,8 @@ sys.stderr--> to show the error to users
 
 
 '''
+
+#becuase we dont want to .close() or anythign we juyst get and then in variable and processing
 
 with open("example.txt", "r") as file:
     content = file.read()
