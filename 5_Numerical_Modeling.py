@@ -137,7 +137,6 @@ from scipy.integrate import quad, dblquad, tplquad
 def f(x):
     return x
 
-
 x_lower = 0 # the lower limit of x
 x_upper = 1 # the upper limit of x
 
@@ -161,8 +160,6 @@ x_upper = 10 # the upper limit of x
 val, abserr = quad(integrand, x_lower, x_upper, args=(3,))
 print(val, abserr) 
 #0.736675137081 9.3891268825e-13
-
-
 
 
 #for mor simple fucntion we can use lambda
@@ -193,15 +190,6 @@ y_upper = 10
 val, abserr = dblquad(integrand, x_lower, x_upper, lambda x : y_lower, lambda x: y_upper)
 
 print(val, abserr) 
-
-
-
-
-
-
-
-
-
 
 
 
