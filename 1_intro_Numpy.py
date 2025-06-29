@@ -147,6 +147,7 @@ complex128
 
 
 
+
 #-------------------------------------------------------
 #-------------------MAGIC FUNCTIONS-------------------
 #-------------------------------------------------------
@@ -244,6 +245,7 @@ if (M > 5).all():
 else:
     print("all elements in M are not larger than 5")
   
+
 
 
 
@@ -473,7 +475,6 @@ np.bitwise_no() #~
 
 
 
-
 #---Trigonometric functions
 theta = np.linspace(0, np.pi, 3)
 
@@ -563,6 +564,7 @@ np.add.accumulate(x)
 
 np.multiply.accumulate(x)
 #array([ 1, 2, 6, 24, 120])
+
 
 
 #========================
@@ -655,6 +657,9 @@ np.argsort() #it get back the index of that
 #laos row and others
 np.sort(X, axis=0)
 
+
+
+
 #**
 #Creating Structured Arrays
 
@@ -741,6 +746,7 @@ v.T * v
 
 
 
+
 #Above we have used the .T to transpose the matrix object v.
 #We could also have used the transpose function to accomplish the same thing.
 
@@ -781,9 +787,20 @@ np.linalg.det(C.I)
 
 
 
+'''
+Final notes:
 
+Always think that we have rows and columns and so we can have axis in all functions
+we have a lot of avriety functions
 
+first --> assignments ( from arange to random and ...) --> it needs shape first for generation 
+second--> access with row and columns [row,access]
+thrid--> some functions -->like astype , masking, sort , iteration from row, 
+forth -> we have joinng (concat, hstack ,..) and also splitting
+fifth--> we have a lot of operations from .add() ,. to comparison an d trigenometric fucntions and exp and.. and statistics (min,max,..,sum,,.)
+sixth--> matreix operatons--> from multiply, dot , conjugate , linalge.inv for inverse and also linalge.det --> for determinant
 
+'''
 
 
 
