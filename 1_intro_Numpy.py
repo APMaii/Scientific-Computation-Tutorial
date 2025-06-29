@@ -7,12 +7,11 @@ it just write the name of variable and the value
 but in other low level programming languages liek C or Cpp you must write 
 type name = value
 and it store only in byte or bytes 
-
 so but in python this is C object that store, for instance it must has the name , size, type and the value
 so it is really memory consuming and also object in the meemory.
-
 so for the list we have also more memory consumers liek a lot of eleemnts and its type and..
 so we need more efficient way
+
 '''
 
 
