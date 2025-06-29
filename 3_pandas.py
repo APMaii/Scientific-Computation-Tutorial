@@ -13,8 +13,6 @@ instead of index, we need name for columns.
 #---------importing pandas-----------
 
 import pandas as pd
-
-
 #-----Series objects--------
 #A Series object is 1D array, similar to a column in a spreadsheet (with a column name and row labels).
 s = pd.Series([2,-1,3,5])
