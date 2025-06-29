@@ -81,8 +81,6 @@ Image('my_figure.png')
 #or with from PIL import image
 #then from image we have plt.imshow
 
-
-
 '''
 fig.canvas.get_supported_filetypes()
 Out[8]: {'eps': 'Encapsulated Postscript',
