@@ -545,15 +545,66 @@ so we must has feature selection methods and we have 3 method
 1-Univariate Statistics
 '''
 
+'''
+we compute whether there is a statistically significant relationship
+between each feature and the target.Then the features that are related with the
+highest confidence are selected. -->Also it is known as ANOVA
 
+in skLEARN YOU NEED to choose a test, f_classif for classification or f_regression for
+regression. and method based on p-value which must selected . and higher p-value means
+unlikley to be related to tarhet.
 
+The method differen in how they compute this threshold. simplest one is
+SELECTKB select fixed amount numebr of feature
+SelectPrcentile which select a fixed percnetage of feature
 
+'''
+X_train, X_test, y_train, y_test = train_test_split(
+X_w_noise, cancer.target, random_state=0, test_size=.5)
+# use f_classif (the default) and SelectPercentile to select 50% of features
+select = SelectPercentile(percentile=50)
+select.fit(X_train, y_train)
+# transform training set
+X_train_selected = select.transform(X_train)
+
+#features was reduced from 80 to 40
+#also you can see
+mask = select.get_support()
+print(mask)
+[ True True True True True True True True True False True False
+True True True True True True False False True True True True
+True True True True True True False False False]
 
 
 
 '''
 2-Model-Based Feature Selection
 '''
+'''
+Model-based feature selection uses a supervised machine learning model to judge the
+importance of each feature, and keeps only the most important ones
+
+doesn’t need to be the same model that is used for the final supervised modeling.
+
+Decision trees and decision tree–based models provide a feature_importances
+Linear models have coefficients, which can also be used to capture feature importances by considering the
+absolute values.
+
+linear models with L1 penalty learn sparse
+coefficients, which only use a small subset of features
+
+
+
+'''
+from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import RandomForestClassifier
+select = SelectFromModel(
+RandomForestClassifier(n_estimators=100, random_state=42),
+threshold="median")
+
+mask = select.get_support()
+# visualize the mask -- black is True, white is False
+
 
 
 
@@ -565,18 +616,69 @@ so we must has feature selection methods and we have 3 method
 3-Iterative Feature Selection
 '''
 
+'''
+In iterative feature selection, a series of models are built, with varying numbers of features.
 
 
+There are two basic methods: 
+1-starting with no features and adding features one by one until some stopping criterion is reached, 
+or
+2-starting with all features and removing features one by one until some stopping criterion is reached.
 
+
+'''
+
+#for instance 
+#recursive feature elimination (RFE), start with all features and builds a model and discards the least
+#important feature according to the model. 
+
+
+from sklearn.feature_selection import RFE
+select = RFE(RandomForestClassifier(n_estimators=100, random_state=42),
+n_features_to_select=40)
+select.fit(X_train, y_train)
+# visualize the selected features:
+mask = select.get_support()
+plt.matshow(mask.reshape(1, -1), cmap='gray_r')
+plt.xlabel("Sample index")
+
+
+#------
+X_train_rfe= select.transform(X_train)
+X_test_rfe= select.transform(X_test)
+score = LogisticRegression().fit(X_train_rfe, y_train).score(X_test_rfe, y_test)
+print("Test score: {:.3f}".format(score))
+
+
+print("Test score: {:.3f}".format(select.score(X_test, y_test)))
+
+
+#sometimes we have automatically 
 
 #======================
 '''
 Utilizing (Incorporation) Expert Knowledge
 '''
 
+'''
+While the purpose of machine learning in many cases is to avoid having to create a set 
+of expert-designed rulesthat doesn’t mean that prior knowledge of the application or 
+domain should be discarded.
 
+Some important factors in Real world problem, however, cannot be learned.
 
+#---one example
+The task we want to solve is to predict for a given time and day how many people will 
+rent a bike in front of Andreas’s house—so he knows if any bikes will be left for him.
 
+Date                  rental
+2015-08-01 00:00:00   3.0
+2015-08-01 03:00:00   0.0
+2015-08-01 06:00:00   9.0
+2015-08-01 09:00:00   41.0
+2015-08-01 12:00:00   39.0
 
+the time of day and the day of the week and so must be considered.
 
+'''
 
