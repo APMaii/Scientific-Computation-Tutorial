@@ -1046,6 +1046,348 @@ stats.friedmanchisquare()
 
 
 
+#-------ADD FROM IBM---------
+#=========================================================================
+#=========================================================================
+#=========================================================================
+#Estimation
+
+
+'''
+Estimation: application of an algorithm. mean from sample data
+
+X bar = zigam xi/n
+
+inference: underetsand distribution of population (SDTDEV)
+zigma (xi-xbar)**2/n-1 ]*1/2
+                                             
+Machine learning and statsisticalk inference are silmilar.
+in both case we using sample data in order to infer qualitites  of actual population.
+
+
+
+ML focus on underestanding parameterrs and individual effects involve 
+more toolls from statistciak inference
+
+
+example: Customer churn (rizesh)
+feature: length of time, type of purcheste, other charcteristci(age)
+churn prediction-->score of individual estimate how mcuh can costumer go
+
+estimation of factor each factor in predicting churnm
+
+Inference--> determining wheter these measured impacts are satistcially significant?
+
+
+IBM datasets-->
+account tyope,customer characteristaate , estimate fo customer lifetime value
+
+
+'''
+
+sns.barplot(y='churn_value',x='payement',data=df_phone,ci=None)
+#churn rate -->y axis  x axis-->features 
+
+#----
+#for see ing the some continous value to some categoirial
+sns.barplot(y='churn_value',x=pd.cut(df_phone.months,bins=5),data=df_phone,ci=None)
+
+
+#---
+pairplot=df_phone[['month','gb_mon',...]]
+sns.pairplot(pairplot,hue='churn_value')
+
+#different linearship betwenn them
+
+
+
+#---
+#density
+sns.joinplot(x=df['months'],y=df['month'],kind='hex')
+
+
+'''
+
+statsitcial inference-->finding data generating pattern
+model-->possible distribution even regression
+
+parametric model-->statistcial model -->constrainr finit nmumebr of
+parametrr and made about distribution
+
+non-parametric mdoel--> estimations is not rely on mnay assumptions, 
+distribtuion-free inference
+
+
+
+#start form non-parametric inference --> creat dsitribuituion  of dtaa using histogram
+#CFD
+
+parametric--> set of distributions o r regressions , but they have 
+a finit nuymebr pof parmaeters .having some assumptions
+particuar-->normal distribution
+there is equation-->depend on set parmaetrs (mean, standard devaiation)
+
+assumption we used here -->normal
+
+
+
+back to customer life value--->estimate of costumer value of company
+
+the data contian: expected length of time , expected amount spend over time
+to estimate lifetimes value-->we mnake assumption for instance
+we said that lienar increae or decrease
+or nan parametric --> no assumption
+
+
+In parmateric modeling -->Maximum likelihood etsitmation (MLE).
+is related to probability and function of parametr of the model.
+
+L(teta)-->what is likelihood of eman sn stdev
+so we chosoe value of teta(parameter) maximize the likelihood function
+
+
+
+common distribution------------------------------------
+UNIFROM-->equal chance any value in our range
+
+Gussian/Normal-->around mean there is 3sigma spread
+lowe stdev is meaningh the mean
+
+Cental limit theory: 
+    if you tak averga evalue from bucnh of smaple value,
+    distribution of those averages is normal curve if you have enough value
+    
+Log nromal: log of varibale -->you have normal
+take skwerd and tehn with log transform-->normal
+**smaller stdev here -->more like mmean
+
+
+Exponential : landa -->when you and someone time that you watched
+
+
+Poisson: number of even happend during certain amount of time
+we have landa and varianc value
+how many people watch this vdieo in the next 10 minutes
+
+
+
+
+Frequentitistic , bayesian----------
+Frequentistis repeaded observation in the limit. 
+bussines example
+how work regard with querying. stdy of working line and how many
+match the size of that.
+number of sevrs or respond to all web responses.
+
+estimate probability in the limit like bayesian.
+think about poisson distribution.
+
+
+
+procees has true frequencies in true. but we wnt tomodel on many repeats.
+so we mst rely on poission and infrense
+
+Frequente approach: 
+    1-fix value of porbabilit. drive porbabilities property of procedure directly
+    from data with no external influence. how likely our size->more data we have
+    we are more confident
+    2-apply derived vale to observed data
+    
+bayesian-->
+parametrs themsev cn be probability distribution. more data ewe have
+tighter aroutn aprameter estiamte.
+before seing->prior distribution(based on experiemneterrs belief) is formulated.
+prior distribution is then updated after seingd ata. posterior dirstribution 
+
+
+we use same math.same formulas in both frequentis and bayesian.
+the element that differes is interpretation.
+
+
+
+
+'''
+
+#==============================================
+#==============================================
+#==============================================
+#==============================================
+
+'''
+before only we infrence but here we go for some comaprison
+
+
+hypothesis test-->statement baout population parameter.
+
+we creat two hypothesis
+-th e null hyprthssi
+-altrnative hypothesis.
+
+
+
+given a data:
+    - we can accept H0 or reject H0
+    
+**you can rject H0 but nevev accept H1-->doesnt matter
+
+in bayesian interpretation: we dont get a decision boudnary
+instead we get updated probabilities
+
+
+EXAMPLE:
+    -coin 1 70% coming up
+    -coin 2 has 50% coming up
+
+pick one coin without looking
+toss coin 10 times and record number.
+which one did you toss more?
+
+
+we can have table to counting that.
+we can calculate ratio
+
+
+suppose we saw 3 heads --
+
+probility of sseing coin 1 is 0.117/ coin2  is 0.009
+
+so coin 1 was 13 rtimes more likely to guve us 3 heads in coin 2
+this is likelihood and is something like null hypothesis .
+
+
+
+another example--> P(h1=1/2) p(h2)=1/2
+so we dont have see data
+we can imagine we puloing coin on public:Z
+
+
+priors P(h1)=1/2=p(h2)=1/2
+UPDATING OPRIORIS AFTER SEEN THE DTA 3 HEAD ( BAYES RULES):
+p(H1/X)= P(X|h1)P(H1)/P(x)
+
+
+
+
+P(H1|x)/ P(H2|x) = p(H1)*p(x|H1)/ p(h2)*p(x|h2)
+
+this is the ratio we saw
+
+this is how prior go to come.
+
+
+prior are multilplide by likelihood ratio. which idoesn ot dpeend on the priors
+
+
+likelihood aratio tells us how we should updat
+
+
+........
+TYP1 TYP2 Error
+
+
+neyman-pearson paradigm is non-bayesian
+
+Terminolegy
+
+true H0 accept h0 --> CORRECT
+TRUTH h1 reject H0 -->correct
+
+
+Truth H0-->reject H0 -_>Type 1 error
+truth H`1 -->accept h0--> type 2
+
+power of test= 1 - P(type || error)
+....
+The likelihood ratio is called a test statistic : we use it to decide whete
+ to accept/reject h0
+ 
+test statistic-->calculated from data
+
+reejection region-->set of value that lead to reject H0
+
+acceptance -->acceptance of h0
+
+null distribution: test statict distribution the null is true.
+
+.....
+Significandce level and P-Values-->
+we know distribution of null hypothesis.
+to get rejection region-->we have to caluclate test staistic.
+
+we will choose before testing that -->we must choose
+significance level->ow it is improtant to avoid type 1 and 2e errpr
+
+lower alpha--> extremely low
+
+
+alpha--> 0.01 or 0.05
+
+0.01 for medication
+
+
+P-VALUE:smalelst  probability of null hypothesis would be rejcted
+confident interval-->value of statistic we accept the null
+.....
+F-statsitic
+H0-->data can be modelet by setting all betas to zero
+adding featur ecna not help us-->imagine
+
+
+reject null if the p-value is small enough
+...
+
+Power and samplesize-->
+
+5% significna tets looking for isgnifant resul--> the chances of makinga t 
+least one type 1 error increase
+
+probability of at least one type1 error is approximately = 1- (1-0.05)**test
+
+
+fewer 10 --> 0.05 x (test)
+if you get 10 test--> you approximately 50% chance at least one type 1 error accicdentely
+the null that it was true.
+
+
+
+we use bonferroni correction-->choose p threhsould--> just prethsould
+accorind to test numbe
+
+p treshould = 0.05/test
+
+
+boneforruni correction allows the porbability of a Type 1 error to be controlled bu at 
+ cost of power.
+ 
+ effects need to be larger.
+ 
+ 
+'''
+from scipy import stats
+import math
+
+#conduct 100 coint and how can i say 75% of that
+
+#null--> i am not special. true raye is predition is 0.5
+
+#n=100 p is 0.5
+from scipy.stats import binom
+prob=1-binom.cdf(56,100,0.5)
+
+print(str(round(prob*100,1)) + '%')
+
+#9.7 %
+
+
+#=============================
+print(binom.ppf(0.95,100,0.5)+1)
+
+
+alpha=0.05
+t_val2, p_value2 = stats.ttest_ind(smoker_char, nonsmoker_char)
+p_value_onetail=p_value2/2
+print("t_value = {} , p_value ={} , p_value_onetail = {}".format(t_val2, p_value2, p_value_onetail))
+
 
 
 
