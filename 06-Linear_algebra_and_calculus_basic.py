@@ -277,7 +277,7 @@ array([[ 930, 1160, 1320, 1560],
 '''
 
 '''
-Matrix multiplication is not ommutative QR /= RQ
+Matrix multiplication is not commutative QR /= RQ
 is associative = Q(RES) = (QR)S
 
 is also distribute --> (Q+R)S = QS + RS
@@ -354,13 +354,108 @@ LA.det(M)
 #================================
 
 #https://github.com/ageron/handson-ml2/blob/master/math_differential_calculus.ipynb
+'''
+Calculus is the study of continuous change. It has two major subfields: differential calculus, which studies the rate 
+of change of functions, and integral calculus, which studies the area under the curve. In this notebook, we will discuss
+the former.
+
+
+
+When we have one straight line , between any point of A and B if we have rise (vertical)
+and run(hroizontal) --> 
+Slope = rise / run = delta y / delta x = yb-ya / xb - xa
+so we said slope.
+
+What ablout CURVE?
+for isntance we have y = f (x) = x**2
+so we know that from left if we move to 0 and then to rigth, the slope is different.
+so we don't have constant slope, but we have not constant slope, so for instance for 
+point A , so we have point B from left to A and the slope is change
+and when teh b is very close to A -> it is slope.
+it means it is = xa
+
+
+But note that --> Differentiability 
+the function must be differentiable. for instance f(x) = |x| 
+at x=0 --> in the left if B --> is -1 at that x=0 --> 0 , at rigth +
+so we say at x=0 is not differentiable , but at other is differntiable.
+
+'''
+
+#---
+'''
+we have some constraints
+1- functions must of course be defined as xa and so defined at xa=0
+2-it must be cotinious
+3-must not has breaking poiint
+4-not vertical (liek x**3)
+
+'''
+
+#------
+'''
+
+f'(xa) = lim f(xb)- f(xa) / xb-xa   xb--->xa
+so it is yb-ya/xb-xa and so
+but actually if we get lim for instance for x**2 -->
+we get 2*xa
+
+
+we have tehse rules
+
+lim c (x-->k) = c  constant
+lim x = k  x-->k  if x approches
+lim[f(x) + g(x) = limf(x) + lim g(x)
+lim|f(x) X g(x) | = lim f(x) X lim g(x)
+
+
+and also if we say that e = xa-b 
+we can also  write 
+
+f'(xa) = lim f(xa + e ) - f(xa) / e  when e-->0
+
+'''
+
+
+#-----god point
+'''
+f'=df/dx=d/dx f = Df = y.
+
+f' --> lagrangfe notation
+df/dx = leibniz notation
+y. --> newtonian notation
+Df --> Euler notation
+
+
+'''
+
+
+#-----Differentiation rules
+
+'''
+f(x) =c                 f'(x)=0
+f(x)=g(x) + h(x)        f'(x) = g'(x) + h'(x)
+f(x)=g(x)h(x)           f'(x)=g(x)h'(x) + h(x)g'(x)
+f(x)=g(x)/h(x)          f'(x) = g'(x)h(x) - g(x)h'(x)/h**2(x)
+f(x)=x**r               f'(x)=r*x**(r-1)
+f(x)=ln(x)              f'(x)=1/x
+f(x)=sin(x)             f'(x)=cos(x)
+f(x)=cos(x)             f'(x)=-sin(x)
+f(x)=tan(x)             f'(x)=1/cos(x)**2
+f(x)=g(h(x))            f'(x)=g'(h(x))h'(x)
+
+
+Also chain rule
+df/dx = df/dy * dy/dx
 
 
 
 
+'''
 
 
 
+#Derivatives and optimization
 
 
 
