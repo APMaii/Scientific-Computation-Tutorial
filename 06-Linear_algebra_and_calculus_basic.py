@@ -454,12 +454,191 @@ df/dx = df/dy * dy/dx
 '''
 
 
-
+#========================================
+#========================================
 #Derivatives and optimization
+#========================================
+#========================================
+'''
+when we try to optimize function f(x) and we look for the values of x that
+minimize (or maximize) the function.
+
+so it means taht at minimum or maximu the function must be derivatiev and derivation must
+be equal to zero. so one way is analytically find all values for which derivative is 0
+and then determine which of tehse values optimzie the function.
+
+Another option is perform Gradiant Descnt ( we will consider minimizng function , but process
+for maximizing is sam). start with random point x0 and then use
+function derivatiev to determien the slope at that point and move a little bit in the downward direction
+then repeat the process until  you reach a local minimum and hopefully global minimum.
+
+at each iteration, teh steo size is proportional to the slope, the process naturally slows down as it
+approaches a local minimum. each step is also proportional to learning rate (hypeparameter)
+There are many variants of Gradiant Descent algorithm. and they al rly on derivatiev of the cost
+function with regards to the model paameetr.
+
+
+
+'''
+
+#---hIGHER ORDER DERIVATIVES
+'''
+FIR J=KNOWING THE DIFFERENTIATE THE FUCNTION F'(X) we have
+f"(x) or d2f / dx2 also with repeating we have more than that. f"' or d3
+
+'''
+
+#---Partial Derivatives
+'''
+Up to now, we have only considered function with single variable (x). if
+we have f(x,y) like sin(x,y) what happen?
+so for inastance considder on surface and so at that point A 
+if you want tostand at point A--> walk a;long x axis toward right(increasing x)( , your path 
+woyld go 
+
+so now ythe singl enumber is no longer sufficient to describe slope of the function at
+that fiven point.
+so , to find slope along x axis , we called partial derivatiof oif f with regard to x
+ro f/ ro x 
+
+ro f / ro x = lim (e-->0) f(x+e,y) - f(x,y) / e
+so we consider uy constant.
+also we have the partial regard to y.
+
+
+so if at one point, all partial derivatives are defined and countious in neighhodd-> that fucntion
+is totally differentiable at that point. soi we can locally aproximately by plane PA ( 
+tangent plane to the surface at point A). 
+z = f(xa,ya) + (x-xa)rof (xa,ya)/rox + (y-ya)rof(xa,ya)//roy
+but in depplearning sometimes we can not go for thsat.
+
+
+'''
+
+
+#------Gradiants
+'''
+when we talk abotu single varibale function or two variables function
+what abotu function with n variables
+f(x1,x2,x3,....,xn) and so we say vector x -->
+X=[x1 x2 x3 x4 5 .... xn]
+
+now writng f(X) is easier than f(x1,x2,.....,xn)_
+the gradient of the function f(x) at some point xa is the bvector whodse
+compomnents are all the partial derivative of function at that point
+delta f(xA) 
+
+Delta f(Xa) = [ rof(XA)/ROX1   rof(xa)/rox2 ...... ro f(xa / roxn]
+
+assuming the function is totally differentiable at point xa, the surface it describes casn be
+approximated by plan at that point. so gradient vector is teh one that pojnts
+towards teh steepest slope on tyat plane.
+
+'''
+
+
+'''
+
+In deep learning --> gradient descent algorithm is absed on gradients, instead of derivatives
+it work but using vectors ijnstead of scalars.
+
+
+we start with vector x0 --> compute gradient of f at that point,. perfom small step
+in opposite direction and repeate untillconvergence.
+
+more precisely at each step t --> compute xt= xt-1 - neta deltaf(xt-1) 
+so teh neta is learnign rate and very small. 
+
+In deep learning x is input data which is feeded to neural network and get back a prediction
+y^ = f(x) . we can say y^ = fw(x). w reprsent mdoel parameter.
+
+so intraining, matrix X and vector y --> cinstan and w is bvariable --> try to minimize cost function
+l x,y(w) = g(fx(w,y)-->g is function thayt measure discrepancy betwen presiction fx(w) and the labels y).
+we minimize losss funcion with gradient descent (or variang of GD)--> we satrt with random model parameters w0 and
+then we compute gradient  l(w0) --> and gradient decent step and repate to convrgence . 
+
+'''
+
+
+#-----------
+'''
+Jacobians
+
+'''
+
+'''
+always we say that our output is single scalar, soemtimes it can be vector instead.
+for exampel --> classification neural network typically putputs one probability for each class,
+there are m classes, the neural network will output an d-dimensional vector for each input
+
+
+In deep learning we generally only need to diferntiate teh loss function which almost always
+outpus a singel scalar number. but suppose for secodn that you want to differntiate a function fz(x) 
+which outptus d-dimensional vector.
+
+
+The good news is that you can treat each output dimension independently of the others. This will give 
+you a partial derivative for each input dimension and each output dimension. If you put them all in 
+a single matrix, with one column per input dimension and one row per output dimension, you get the
+so-called Jacobian matrix.
 
 
 
 
+Jf (xa) =  [rof1(xA)/rox1 rof1(xA)/rox2 rof1(xA)/rox3  .... rof1(xA)/roxn ]
+           [rof2(xA)/rox1 rof2(xA)/rox2 rof2(xA)/rox3  .... rof2(xA)/roxn ]
+               ....           ....         .....               ......
+            [rofn(xA)/rox1 rofn(xA)/rox2 rof1(xA)/rox3  .... ron(xA)/roxn ]
+
+each row --> that fiunction (fxa) for all x input from x1 to xn at that point
+and each columns --> different partial on x1,x2 and..
+
+jacobian --> first order partial derivatiev of function f 
+
+
+'''
+
+
+
+#----------------
+'''
+Lets come back to fucntion f(x) with takes n-dimensioanl vector as input and outpus scaler
+if you have partial derivatiev of f with regards to xi (the ith componen of x) and then
+get new function X= ro f/roxi and then compute partial derivative of this fucntion with regars
+to xj --> (the jth component of x) -->< we said partial derivatiev of partial derivative -->
+scond order partial derivatives--> called Hessian.
+X : ro**2f/ ro xj xi if i/= --> mixed second order partial derivative
+
+f(x,y) = sin(x,y)
+
+first order partial derivatives
+rof/rox =y cos(xy)
+
+ro f/roy =xcos(xy)
+
+
+
+Now hessian ( derivatiev)
+
+ro2f/rox2 = another derivatiev of first [second order] i=j
+ro2f/roy2 = another derivatiev of first [second order] i=j
+
+
+ro2f /rox roy= rof/rox [rof/roy] = rof/rox [xcos(xy)] = cos(xy) - xysin(xy)
+ro2f /roy rox = rof/roy [rof/rox] = rof/roy [xcos(xy) = cos(xy) - xysin(xy)
+
+so note that ro2/roxroy= ro2/royrox
+
+The mateix containing al hesssiansis called Hessian matriix
+Hf(xa) =  [ ro2f/rox1**2 (XA)  ro2f/rox1rox2 (XA) ..... ro2f/rox1roxn (XA)]
+          [ ro2f/rox2**rox1 (XA)  ro2f/rox2**2 (XA) ..... ro2f/rox2roxn (XA)]
+          [ ro2f/roxn**rox1 (XA)  ro2f/roxn**rox2 (XA) ..... ro2f/roxn**2 (XA)]
+each row is second partial derivative of rof/rox to x1 only . but in each column the rof/rox change
+
+There are greate optimization algorithem with take advantage of teh hessians but in
+practuce deep learnign almost enevr uses them. indeed if funciton has n variable, there are
+n*&*2 hyessians. since neural netwrok hass millions of parametrs --> hessians would exceed serveal billions of parametr -->
+'''
 
 
 
