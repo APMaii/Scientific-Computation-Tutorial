@@ -957,7 +957,6 @@ df.to_excel('report.xlsx', index=False)
 df.to_json('data.json', orient='records')
 
 
-
 '''
 PANDAS ---> SERIES (NP.ARRAY 1 BODY K MITONE INDEX NAME BZRI)
 DATAFRAME --> NP.ARRAY 2 BODY , COLUMN , INDEX ESM BZZARI
@@ -987,8 +986,6 @@ np , list series--> ketabkhone h aestefade koni
 
 
 '''
-
-
 
 
 
