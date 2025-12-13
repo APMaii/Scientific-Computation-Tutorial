@@ -1344,22 +1344,3 @@ iris = sns.load_dataset("iris")
 #pair plots------
 sns.pairplot(iris, hue='species', size=2.5)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
