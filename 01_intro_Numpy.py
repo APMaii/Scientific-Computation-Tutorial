@@ -11,7 +11,6 @@ so but in python this is C object that store, for instance it must has the name 
 so it is really memory consuming and also object in the meemory.
 so for the list we have also more memory consumers liek a lot of eleemnts and its type and..
 so we need more efficient way
-
 '''
 
 
@@ -35,7 +34,6 @@ a.size #Out[55]: 1 yani ydone toosh
 a.shape #Out[61]: ()
 print("itemsize:", a.itemsize, "bytes")
 print("nbytes:", a.nbytes, "bytes")
-
 
 
 #----1D----> liste ye bodi ye  khate
@@ -810,12 +808,6 @@ sixth--> matreix operatons--> from multiply, dot , conjugate , linalge.inv for i
 #http://numpy.scipy.org
 #http://scipy.org/Tentative_NumPy_Tutorial
 #http://scipy.org/NumPy_for_Matlab_Users
-
-
-
-
-
-
 
 
 
