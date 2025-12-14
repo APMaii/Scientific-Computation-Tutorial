@@ -1,3 +1,6 @@
 '''
-Optimization Method
+Optimization Methods 
+
+from gradient descent
+revolutionary
 '''
