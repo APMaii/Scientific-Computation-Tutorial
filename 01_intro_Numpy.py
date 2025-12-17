@@ -12,8 +12,6 @@ so it is really memory consuming and also object in the meemory.
 so for the list we have also more memory consumers liek a lot of eleemnts and its type and..
 so we need more efficient way
 '''
-
-
 #-------------------------------------------------------
 #-------------------INTRODUCTION------------------------
 #-------------------------------------------------------
