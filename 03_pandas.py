@@ -11,7 +11,6 @@ instead of index, we need name for columns.
 '''
 
 #---------importing pandas-----------
-
 import pandas as pd
 #-----Series objects--------
 #A Series object is 1D array, similar to a column in a spreadsheet (with a column name and row labels).
@@ -909,11 +908,6 @@ def adjust_price(row):
     return row['price']
 
 df['price'] = df.apply(adjust_price, axis=1)
-
-
-
-
-
 
 
 
