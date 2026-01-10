@@ -1,7 +1,4 @@
-#---------NOTHIGN YET
-
 #ipython console and Shel commands
-
 '''
 ------------------ OVER VIEW --------------------------
 1- Collections
