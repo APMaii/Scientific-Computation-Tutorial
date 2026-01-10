@@ -4,7 +4,6 @@
 This is for statistics and we can use before Traditional ML
 '''
 
-
 '''
 
 Statistics is the study of data. It helps us analyze and interpret numbers. There are two main types:
