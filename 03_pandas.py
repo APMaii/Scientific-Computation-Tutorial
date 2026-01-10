@@ -9,7 +9,6 @@ What is Pandas?
 Actually something like numpy but not only the index for rows and index for columns
 instead of index, we need name for columns.
 '''
-
 #---------importing pandas-----------
 import pandas as pd
 #-----Series objects--------
