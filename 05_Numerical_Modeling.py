@@ -4,8 +4,6 @@ In The Name Of GOD
 
 Ali Pilehvar Meibody
 
-
-
 Table of Contents:
 
 Numerical Modeling
