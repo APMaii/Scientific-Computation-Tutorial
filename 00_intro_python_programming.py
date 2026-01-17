@@ -13,10 +13,6 @@
 
 
 
-
-
-
-
 '''
 echo 'hello world''       #echo is lik epython's print function
 pwd                     #pwd= print working directory
