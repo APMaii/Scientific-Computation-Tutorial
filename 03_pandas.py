@@ -1,7 +1,7 @@
 #from Book and our tutorials
 #also from book ML
 #AND ALSO
-https://github.com/ageron/handson-ml2/blob/master/tools_pandas.ipynb
+#https://github.com/ageron/handson-ml2/blob/master/tools_pandas.ipynb
 '''
 Before Anything you must clean your data with Pandas
 What is Pandas?
