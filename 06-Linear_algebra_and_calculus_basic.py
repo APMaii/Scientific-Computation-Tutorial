@@ -13,9 +13,6 @@ https://github.com/ageron/handson-ml2/blob/master/math_differential_calculus.ipy
 #================================
 #================================
 #================================
-
-
-
 '''
 Linear Algebra is the branch of mathematics that studies vector spaces and linear transformations between vector spaces, 
 such as rotating a shape, scaling it up or down, translating it (ie. moving it), etc.
