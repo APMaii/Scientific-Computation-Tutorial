@@ -1,6 +1,5 @@
 '''
 **using statistics and also the notes from class
-
 This is for statistics and we can use before Traditional ML
 '''
 
