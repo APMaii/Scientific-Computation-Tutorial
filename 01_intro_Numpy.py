@@ -1,5 +1,4 @@
 '''
-
 Author : Ali Pilehvar Meibody
 Actualy in python , when you assign variables like int or float or ..
 it just write the name of variable and the value
