@@ -12,10 +12,3 @@ two part
 2-Algorithm in details
 
 '''
-
-
-
-
-
-
-
