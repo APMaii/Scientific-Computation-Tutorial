@@ -1,5 +1,4 @@
 '''
-
 Before  going for Machine learning, Linear Algebra and calculus is important
 here is only overview and very very brief summary of tehse two references
 https://github.com/ageron/handson-ml2/blob/master/math_linear_algebra.ipynb
